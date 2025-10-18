@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import Navbar from "./Layouts/Header_Footer/Navbar";
-import Footer from "./Layouts/Header_Footer/Footer";
+import Navbar from "../Components/Layout/Navbar";
+import Footer from "../Components/Layout/Footer";
 
 const navigation = [
   { name: "Product", href: "#" },
