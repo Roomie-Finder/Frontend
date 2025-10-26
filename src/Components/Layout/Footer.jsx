@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <div className="grid m-10 gap-7 p-15 text-gray-500 bg-white/8 rounded-3xl mb-0">
+    <div className="grid m-10 gap-7 sm:p-15 text-gray-500 bg-white/8 rounded-3xl mb-0">
       <div className="grid gap-2">
         <img
           src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
@@ -27,7 +27,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="grid gap-2">
+          <div className="grid gap-4">
             <div className="font-medium">Solutions</div>
             <div className="-">Marketing</div>
             <div className="-">Analytics</div>

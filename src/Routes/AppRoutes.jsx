@@ -1,9 +1,10 @@
 import HomePage from "../Pages/HomePage";
 import Rooms from "../Pages/RoomPages/Rooms";
-import UpdateProfile from "../Pages/UserPages/UpdateProfile";
 import Userlogin from "../Pages/UserPages/Userlogin";
 import AppLayout from "../Components/Layout/AppLayout";
 import { createBrowserRouter } from "react-router-dom";
+import UserProfile from "../Pages/UserPages/UserProfile";
+import RoomInfo from "../Pages/RoomPages/RoomInfo";
 
 export const AppRoutes = createBrowserRouter([
   {
@@ -18,13 +19,12 @@ export const AppRoutes = createBrowserRouter([
         Component: Rooms,
       },
       {
-        path: "user",
-        children: [
-          {
-            path: "profile",
-            Component: UpdateProfile,
-          },
-        ],
+        path: "room/:roomid",
+        Component: RoomInfo,
+      },
+      {
+        path: "user/:userid",
+        Component: UserProfile,
       },
     ],
   },
