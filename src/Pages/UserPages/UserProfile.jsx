@@ -18,7 +18,7 @@ export default function UserProfile() {
     async function getuser() {
       try {
         let newuser = await axios.get(
-          "http://localhost:8080/user/68eeb8c033eece2d80fe7db3"
+          "http://localhost:8080/user/69090ae4b506cb384a77abf1"
         );
         setUser(newuser.data);
         console.log(newuser.data);
@@ -49,7 +49,7 @@ export default function UserProfile() {
     <div className="lg:px-30 flex flex-col gap-10">
       <div className="userinfo flex shadow-lg p-3 px-8 rounded-xl gap-5  relative items-center">
         <img
-          src="https://avatar.iran.liara.run/public"
+          src={`https://avatar.iran.liara.run/public/boy?username=${User.firsName}`}
           alt="image not found !   "
           className="rounded-full sm:h-35 h-20 shadow-lg p-1 aspect-square"
           loading="lazy"

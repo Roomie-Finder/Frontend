@@ -45,7 +45,7 @@ export default function HomePage() {
               Discover compatible people to share your home with.
             </h1>
             <p className="mt-8 text-lg font-medium text-pretty text-gray-400 sm:text-xl/8">
-              Forget endless scrolling and awkward interviews; we connect you
+              Forget endless scrolling and awkward interviews. we connect you
               based on lifestyle, habits, and values.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
@@ -87,9 +87,13 @@ export default function HomePage() {
               About Our Mission
             </h1>
             <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-              We are a passionate team dedicated to creating seamless and
-              beautiful digital experiences that empower users and businesses to
-              achieve their goals.
+              Our mission is to simplify the complex and often stressful process
+              of finding a roommate. We aim to move beyond simple property
+              listings, utilizing smart matching technology to connect
+              individuals who share not just an address, but a compatible
+              lifestyle and living expectations. We are dedicated to providing a
+              safe, reliable, and efficient platform that makes cohabitation a
+              positive experience from day one.
             </p>
           </div>
 
@@ -98,17 +102,20 @@ export default function HomePage() {
             <FeatureCard
               icon={<Heart size={24} />}
               title="Passion"
-              description="We love what we do, and we pour that passion into every project, ensuring the highest quality and attention to detail."
+              description="We are passionate about the importance of home. Our drive is to help people find respectful, compatible living environments where they feel safe, happy, and understood."
             />
             <FeatureCard
               icon={<Target size={24} />}
               title="Vision"
-              description="Our goal is to be at the forefront of innovation, constantly exploring new technologies to solve real-world problems."
+              description="To become the global standard for shared living, enabling millions of individuals to find not just a room, but a comfortable home and genuine connection."
             />
             <FeatureCard
               icon={<Users size={24} />}
               title="Community"
-              description="We believe in building strong relationships with our clients and users, fostering a community built on trust and collaboration."
+              description="A diverse network built on mutual respect and transparency. We foster a trusted ecosystem where members communicate openly to find reliable, verified housemates.
+
+
+"
             />
           </div>
 
@@ -117,39 +124,25 @@ export default function HomePage() {
             <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
               Meet the Team
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               <TeamMember
-                imgUrl="https://placehold.co/400x400/93C5FD/white?text=Jane"
-                name="Jane Doe"
-                role="Chief Executive Officer"
+                imgUrl="https://avatar.iran.liara.run/public/boy?username=Rushikesh"
+                name="Rushikesh Kalhale"
+                role="Leader"
               />
               <TeamMember
-                imgUrl="https://placehold.co/400x400/818CF8/white?text=John"
-                name="John Smith"
-                role="Lead Developer"
+                imgUrl="https://avatar.iran.liara.run/public/boy?username=Abhishek"
+                name="Abhishek Kumbhar"
+                role="Developer"
               />
               <TeamMember
-                imgUrl="https://placehold.co/400x400/F0ABFC/white?text=Alice"
-                name="Alice Johnson"
-                role="UX/UI Designer"
-              />
-              <TeamMember
-                imgUrl="https://placehold.co/400x400/A7F3D0/white?text=Mike"
-                name="Mike Brown"
-                role="Marketing Director"
+                imgUrl="https://avatar.iran.liara.run/public/boy?username=Yash"
+                name="Yash Yadav"
+                role="Designer"
               />
             </div>
           </div>
         </div>
-
-        {/* --- Footer --- */}
-        <footer className="bg-white border-t border-gray-200 mt-16">
-          <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-gray-500">
-            <p>
-              &copy; {new Date().getFullYear()} OurSite. All rights reserved.
-            </p>
-          </div>
-        </footer>
       </div>
       <Footer />
     </div>

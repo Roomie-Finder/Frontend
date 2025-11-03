@@ -1,10 +1,13 @@
+import phoenix from "../../assets/phoenix.svg";
 export default function Footer() {
   let footerLinks = [
     [
       { value: "About", key: 0 },
-      { value: "Terms & conditions", key: 1 },
+      { value: "company", key: 1 },
       { value: "Privacy policy ", key: 2 },
       { value: "Refund & cancel", key: 3 },
+      { value: "Terms & conditions", key: 4 },
+      { value: "license ", key: 5 },
     ],
     [
       { value: "Our services", key: 0 },
@@ -28,13 +31,11 @@ export default function Footer() {
   return (
     <div className="grid m-10 gap-7 sm:p-15 text-gray-500 bg-white/8 rounded-3xl mb-0">
       <div className="grid gap-2">
-        <img
-          src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-          className="h-8 w-auto"
-        />
+        <img src={phoenix} className="h-12 w-auto " />
         <div>
-          Making the world a better place through constructing elegant
-          hierarchies.
+          Roomie Finder connects you with compatible roommates <br /> and your
+          ideal living space, making the search for a new home simple, secure,
+          and stress-free.
         </div>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 pt-2 pb-2">
@@ -55,7 +56,10 @@ const Section = ({ links }) => {
     <>
       {links.map((link) => {
         return (
-          <div key={link.key} className="py-3">
+          <div
+            key={link.key}
+            className={`py-3 ${link.key == 0 ? "font-semibold text-xl" : ""}`}
+          >
             {link.value}
           </div>
         );
