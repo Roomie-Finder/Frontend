@@ -21,12 +21,10 @@ export default function UserProfile() {
           "http://localhost:8080/user/69090ae4b506cb384a77abf1"
         );
         setUser(newuser.data);
-        console.log(newuser.data);
       } catch (e) {
         console.error(e);
       } finally {
         setLoading(false);
-        console.log("loading ended");
       }
     }
 

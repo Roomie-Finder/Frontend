@@ -25,7 +25,7 @@ export default function Userlogin() {
         selectedIndex={selectedIndex}
         onChange={setSelectedIndex}
       >
-        <TabList className="flex flex-col justify-center xl:pe-12 rounded-s-xl bg-gray-200">
+        <TabList className="flex flex-col justify-center xl:pe-12 rounded-s-xl bg-pink-50">
           <Tab className="hover:cursor-pointer data-selected:border-l-10 data-selected:border-purple-700 p-4 data-selected:outline-none flex flex-col items-center">
             <ProfileIcon />
             Login
@@ -34,12 +34,16 @@ export default function Userlogin() {
             <RegisterIcon />
             <p>Sign up</p>
           </Tab>
+          <Tab className="hover:cursor-pointer data-selected:border-l-10 data-selected:border-indigo-700 p-4 data-selected:outline-none flex flex-col items-center">
+            <ProfileIcon />
+            <p>Admin</p>
+          </Tab>
           <Link to="/" className="flex flex-col items-center p-4">
             <HomeIcon /> Home
           </Link>
         </TabList>
         <TabPanels>
-          {/* login */}
+          {/* ********* login **********************************************/}
           <TabPanel className="xl:grid xl:grid-cols-2 grid-cols-1">
             <div>
               <img
@@ -63,10 +67,7 @@ export default function Userlogin() {
                     name="password"
                     type="password"
                   />
-                  <div className="w-full flex justify-between">
-                    <Link to="/adminlogin" className="">
-                      Admin Login
-                    </Link>
+                  <div className="w-full flex justify-end">
                     <Link to="/forgotpassword" className="">
                       Forgot password ?
                     </Link>
@@ -75,7 +76,7 @@ export default function Userlogin() {
 
                 <Button
                   type="submit"
-                  className="rounded-full bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 hover:bg-gradient-to-r hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 active:opacity-75 p-3 px-8 w-full shadow-xl/20"
+                  className="text-white rounded-full bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 hover:bg-gradient-to-r hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 active:opacity-75 p-3 px-8 w-full shadow-xl/20"
                 >
                   login
                 </Button>
@@ -88,14 +89,14 @@ export default function Userlogin() {
               </Field>
             </form>
           </TabPanel>
-          {/* signup */}
+          {/************** signup ******************************************/}
           <TabPanel className="grid grid-cols-1 xl:grid-cols-2 ">
             <img
               src={SignUpImage}
               alt=""
               className=" h-120 lg:rounded-xl lg:scale-120 lg:shadow-xl/30 border-x-3 border-gray-200 lg:border-none rounded-none xl:block hidden"
             />
-            <form className=" flex content-center justify-center ">
+            <form className=" flex content-center justify-center p-20 ">
               <Field className=" flex flex-col justify-center items-center gap-10 ">
                 <Input
                   placeholder="Enter your name"
@@ -128,6 +129,44 @@ export default function Userlogin() {
                     login
                   </button>
                 </div>
+              </Field>
+            </form>
+          </TabPanel>
+          {/************Admin login ***********************/}
+          <TabPanel className="grid grid-cols-1 xl:grid-cols-2 ">
+            <img
+              src={LoginImage}
+              alt=""
+              className=" h-120 lg:rounded-xl lg:scale-120 lg:shadow-xl/30 border-x-3 border-gray-200 lg:border-none rounded-none xl:block hidden"
+            />
+            <form className="flex flex-col items-center justify-center relative p-20">
+              <Field className=" flex flex-col justify-center items-center gap-10 ">
+                <Input
+                  placeholder="neon@gmail.com"
+                  type="email"
+                  className="rounded-full shadow-xl/10 border-1 border-gray-100 p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
+                  name="email"
+                />
+                <div className="w-full flex flex-col gap-4 ">
+                  <Input
+                    placeholder="password"
+                    className="rounded-full  shadow-xl/10 border-1 border-gray-100 p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
+                    name="password"
+                    type="password"
+                  />
+                  <div className="w-full flex justify-end">
+                    <Link to="/forgotpassword" className="">
+                      Forgot password ?
+                    </Link>
+                  </div>
+                </div>
+
+                <Button
+                  type="submit"
+                  className="text-white rounded-full bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 hover:bg-gradient-to-r hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 active:opacity-75 p-3 px-8 w-full shadow-xl/20"
+                >
+                  login
+                </Button>
               </Field>
             </form>
           </TabPanel>
