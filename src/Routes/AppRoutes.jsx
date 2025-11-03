@@ -5,6 +5,7 @@ import AppLayout from "../Components/Layout/AppLayout";
 import { createBrowserRouter } from "react-router-dom";
 import UserProfile from "../Pages/UserPages/UserProfile";
 import RoomInfo from "../Pages/RoomPages/RoomInfo";
+import PageNotFound from "../Pages/AdditionalPages/PageNotFound";
 
 export const AppRoutes = createBrowserRouter([
   {
@@ -31,5 +32,9 @@ export const AppRoutes = createBrowserRouter([
   {
     path: "login",
     Component: Userlogin,
+  },
+  {
+    path: "*",
+    Component: PageNotFound,
   },
 ]);

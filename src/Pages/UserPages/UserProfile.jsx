@@ -71,7 +71,7 @@ export default function UserProfile() {
           </p>
         </div>
         <div className="ms-auto">
-          <button className="text-white text-sm rounded-full sm:px-5 sm:p-3 px-2 p-1 bg-indigo-500 hover:bg-indigo-600 hover:-translate-y-1 ">
+          <button className="text-white text-sm rounded-full sm:px-5 sm:p-3 px-2 p-1 bg-linear-to-r from-indigo-500 via-purple-500  to-pink-500 hover:-translate-y-1 ">
             Message
           </button>
         </div>
@@ -160,22 +160,22 @@ export default function UserProfile() {
         <div className="flex flex-col gap-6 *:rounded-xl *:px-5 *:shadow-lg *:py-5">
           <div className="">
             <h2 className="text-xl font-semibold pb-3">Looking for</h2>
-            <div className="flex *:bg-orange-100 *:rounded-full w-max *:py-1 *:px-4 gap-2 ">
+            <div className="flex *:bg-green-100 *:rounded-full w-max *:py-1 *:px-4 gap-2 ">
               {User?.userProfile?.roomStatus?.lookingForRoom == true && (
-                <p className="text-orange-800 ">Room</p>
+                <p className="text-green-800 ">Room</p>
               )}
               {User.userProfile.roomStatus.lookingForRoommate == true && (
-                <p className="text-orange-800">Roommate </p>
+                <p className="text-green-800">Roommate </p>
               )}
             </div>
           </div>
           <div className=" *:my-2">
             <h2 className="text-xl font-semibold">LifeStyle</h2>
             <div className=" gap-2 flex flex-wrap">
-              {User.userProfile.lifeStyle.socialHabits.map((value) => {
+              {User.userProfile.lifeStyle.socialHabits.map((lifeStyle) => {
                 return (
-                  <div className="inline-block bg-violet-100 rounded-full py-1 px-4 text-violet-800 text-nowrap">
-                    {value}
+                  <div className="inline-block bg-purple-100 rounded-full py-1 px-4 text-purple-800 text-nowrap">
+                    {lifeStyle}
                   </div>
                 );
               })}

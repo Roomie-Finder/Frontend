@@ -75,7 +75,7 @@ export default function RoomInfo() {
         <div className="">
           <div className="flex relative w-full ">
             <h2 className="text-2xl">{room.roomName} </h2>
-            <p className="absolute right-2 rounded-full bg-green-500 px-2 text-white">
+            <p className="absolute right-2 rounded-full bg-green-500 px-2 text-white text-xs md:text-base">
               {" "}
               Availible
             </p>
