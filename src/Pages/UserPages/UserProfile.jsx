@@ -7,7 +7,6 @@ import {
   LangaugeIcon,
   WFHIcon,
 } from "../../Components/UI_Components/Icons/Icons";
-import profileImage from "../../assets/four.png";
 import axios from "axios";
 
 export default function UserProfile() {
@@ -50,7 +49,7 @@ export default function UserProfile() {
     <div className="lg:px-30 flex flex-col gap-10">
       <div className="userinfo flex shadow-lg p-3 px-8 rounded-xl gap-5  relative items-center">
         <img
-          src={profileImage}
+          src="https://avatar.iran.liara.run/public"
           alt="image not found !   "
           className="rounded-full sm:h-35 h-20 shadow-lg p-1 aspect-square"
           loading="lazy"
@@ -83,7 +82,7 @@ export default function UserProfile() {
             <hr className=" border border-gray-200 my-3 " />
             <p>{User.userProfile.personalInfo.aboutUser}</p>
           </div>
-          <div className=" grid grid-cols-2 gap-10 mt-3 *:hover:shadow-lg *:p-3 *:flex *:items-center *:gap-2">
+          <div className=" grid grid-cols-2 gap-10 mt-3 *:bg-blue-100 *:rounded-xl *:p-3 *:flex *:items-center *:gap-2">
             <div className="  ">
               <div className=" rounded-full p-2 shadow-lg">
                 <BriefCaseIcon className="text-gray-500 size-6" />

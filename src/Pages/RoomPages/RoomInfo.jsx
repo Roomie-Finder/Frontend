@@ -74,7 +74,7 @@ export default function RoomInfo() {
 
         <div className="">
           <div className="flex relative w-full ">
-            <h2 className="text-2xl">{room.roomName} </h2>
+            <h2 className="text-2xl">{room?.roomName} </h2>
             <p className="absolute right-2 rounded-full bg-green-500 px-2 text-white text-xs md:text-base">
               {" "}
               Availible
@@ -82,10 +82,10 @@ export default function RoomInfo() {
           </div>
           <div className="flex items-baseline gap-2 ">
             <LocationIcon />
-            <p className="text-gray-600">{room.address}</p>
+            <p className="text-gray-600">{room?.address}</p>
           </div>
           <div className="text-3xl flex items-baseline pt-2 gap-2 mt-1">
-            &#8377; {room.rent}
+            &#8377; {room?.rent}
             <p className="text-base text-gray-600">/month</p>
           </div>
         </div>
@@ -99,7 +99,7 @@ export default function RoomInfo() {
             </div>
             <div>
               <p className="text-gray-500 text-sm">Property Type</p>
-              <p>{room.propertyType}</p>
+              <p>{room?.propertyType}</p>
             </div>
           </div>
           <div className="">
@@ -110,7 +110,7 @@ export default function RoomInfo() {
             </div>
             <div>
               <p className="text-gray-500 text-sm">Looking for</p>
-              <p>{room.lookingFor}</p>
+              <p>{room?.lookingFor}</p>
             </div>
           </div>
           <div className="">
@@ -132,26 +132,24 @@ export default function RoomInfo() {
             </div>
             <div className="">
               <p className="text-gray-500 text-sm">Deposit</p>
-              <p>&#8377;{room.deposit}</p>
+              <p>&#8377;{room?.deposit}</p>
             </div>
           </div>
         </div>
 
         <div className="outline-1 outline-gray-200 p-5 rounded-xl">
           <h1 className="pb-5 text-lg font-semibold">About this room</h1>
-          <p className="text-gray-500">{room.aboutRoom}</p>
+          <p className="text-gray-500">{room?.aboutRoom}</p>
         </div>
         {/* Amenities */}
         <div className="outline-2 outline-gray-100 p-5 rounded-xl ">
           <h1 className=" pb-5">Amenities</h1>
           <div className="grid md:grid-cols-3 grid-cols-2 *:flex *:items-center gap-4 *:gap-3">
-            {room.amenities.map((amenity) => {
+            {room?.amenities.map((amenity) => {
               let Icon = amenityIcons[amenity];
               return (
                 <div className="">
-                  <div className="p-2 bg-gray-100 rounded-lg ">
-                    <Icon />
-                  </div>
+                  <div className="p-2 bg-gray-100 rounded-lg "></div>
                   <div className="text-nowrap">{amenity}</div>
                 </div>
               );
@@ -162,12 +160,12 @@ export default function RoomInfo() {
         {/* Roommates */}
         <div className="outline-2 outline-gray-100 p-5 rounded-xl flex flex-col gap-5">
           <h1 className="mb-2">Current Roommates</h1>
-          {room.members.map((member) => {
+          {room?.members?.map((member) => {
             return (
               <Link
-                to={`http://localhost:5173/user/${member.id}`}
+                to={`http://localhost:5173/user/${member?.id}`}
                 className="relative flex bg-gray-50 rounded-full p-3 items-center gap-5"
-                key={member.email}
+                key={member?.email}
               >
                 <img
                   src="abc.jpg"
@@ -176,7 +174,7 @@ export default function RoomInfo() {
                 />
                 <div>
                   <p>
-                    {member.firstName} {member.lastName} ,{" "}
+                    {member?.firstName} {member?.lastName} ,{" "}
                     {member?.userProfile?.personalInfo?.age}
                   </p>
                   <p className="font-light">
@@ -187,9 +185,9 @@ export default function RoomInfo() {
             );
           })}
           <div className="bg-blue-50 outline-1 outline-blue-100 p-3 rounded-xl *:flex *:text-sm *:font-light *:gap-3 ">
-            {room.roommatePreferences.map((value) => {
+            {room?.roommatePreferences.map((value) => {
               return (
-                <div className="">
+                <div className="" key={value}>
                   <div className="text-blue-700  ">
                     <CheckIcon />
                   </div>
@@ -211,7 +209,7 @@ export default function RoomInfo() {
           <p className="py-3 text-lg">Location</p>
           <iframe
             loading="lazy"
-            src={`https://www.google.com/maps?q=${room.address}&output=embed`}
+            src={`https://www.google.com/maps?q=${room?.address}&output=embed`}
             className="w-full rounded-xl h-100"
           ></iframe>
         </div>

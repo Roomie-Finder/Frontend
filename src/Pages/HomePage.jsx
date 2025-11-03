@@ -2,6 +2,8 @@
 
 import Navbar from "../Components/Layout/Navbar";
 import Footer from "../Components/Layout/Footer";
+import { Link } from "react-router";
+import { Heart, Target, Users } from "lucide-react";
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -14,6 +16,7 @@ export default function HomePage() {
   return (
     <div className="bg-gray-900 bg-white">
       <Navbar />
+      {/* hero section */}
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div
           aria-hidden="true"
@@ -52,9 +55,12 @@ export default function HomePage() {
               >
                 Get started
               </a>
-              <a href="#" className="text-sm/6 font-semibold text-indigo-500">
-                Learn more <span aria-hidden="true">→</span>
-              </a>
+              <Link
+                to="/AboutUs"
+                className="text-sm/6 font-semibold text-indigo-500"
+              >
+                About Us
+              </Link>
             </div>
           </div>
         </div>
@@ -71,7 +77,106 @@ export default function HomePage() {
           />
         </div>
       </div>
+      {/* aboutus section */}
+      <div className="min-h-screen bg-gray-100 text-gray-900">
+        {/* --- Page Content --- */}
+        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+          {/* --- Hero Section --- */}
+          <div className="bg-white shadow-xl rounded-2xl overflow-hidden p-8 md:p-16 mb-16 text-center">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
+              About Our Mission
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+              We are a passionate team dedicated to creating seamless and
+              beautiful digital experiences that empower users and businesses to
+              achieve their goals.
+            </p>
+          </div>
+
+          {/* --- Features/Values Section --- */}
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <FeatureCard
+              icon={<Heart size={24} />}
+              title="Passion"
+              description="We love what we do, and we pour that passion into every project, ensuring the highest quality and attention to detail."
+            />
+            <FeatureCard
+              icon={<Target size={24} />}
+              title="Vision"
+              description="Our goal is to be at the forefront of innovation, constantly exploring new technologies to solve real-world problems."
+            />
+            <FeatureCard
+              icon={<Users size={24} />}
+              title="Community"
+              description="We believe in building strong relationships with our clients and users, fostering a community built on trust and collaboration."
+            />
+          </div>
+
+          {/* --- Meet the Team Section --- */}
+          <div>
+            <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+              Meet the Team
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              <TeamMember
+                imgUrl="https://placehold.co/400x400/93C5FD/white?text=Jane"
+                name="Jane Doe"
+                role="Chief Executive Officer"
+              />
+              <TeamMember
+                imgUrl="https://placehold.co/400x400/818CF8/white?text=John"
+                name="John Smith"
+                role="Lead Developer"
+              />
+              <TeamMember
+                imgUrl="https://placehold.co/400x400/F0ABFC/white?text=Alice"
+                name="Alice Johnson"
+                role="UX/UI Designer"
+              />
+              <TeamMember
+                imgUrl="https://placehold.co/400x400/A7F3D0/white?text=Mike"
+                name="Mike Brown"
+                role="Marketing Director"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* --- Footer --- */}
+        <footer className="bg-white border-t border-gray-200 mt-16">
+          <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+            <p>
+              &copy; {new Date().getFullYear()} OurSite. All rights reserved.
+            </p>
+          </div>
+        </footer>
+      </div>
       <Footer />
     </div>
   );
 }
+
+const FeatureCard = ({ icon, title, description }) => (
+  <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-100">
+    <div className="text-blue-500 bg-blue-100 p-3 rounded-full mb-4 w-12 h-12 flex items-center justify-center">
+      {icon}
+    </div>
+    <h3 className="text-2xl font-semibold text-gray-900 mb-2">{title}</h3>
+    <p className="text-gray-600">{description}</p>
+  </div>
+);
+
+const TeamMember = ({ imgUrl, name, role }) => (
+  <div className="bg-white rounded-lg shadow-md p-6 text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+    <img
+      className="w-32 h-32 rounded-full mx-auto mb-4 object-cover ring-4 ring-blue-100"
+      src={imgUrl}
+      alt={name}
+      onError={(e) => {
+        e.target.src = "https://placehold.co/400x400/CCCCCC/white?text=Image";
+      }}
+    />
+    <h4 className="text-xl font-semibold text-gray-900">{name}</h4>
+    <p className="text-blue-600 font-medium">{role}</p>
+  </div>
+);

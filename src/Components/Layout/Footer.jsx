@@ -1,4 +1,30 @@
 export default function Footer() {
+  let footerLinks = [
+    [
+      { value: "About", key: 0 },
+      { value: "Terms & conditions", key: 1 },
+      { value: "Privacy policy ", key: 2 },
+      { value: "Refund & cancel", key: 3 },
+    ],
+    [
+      { value: "Our services", key: 0 },
+      { value: "rent agreement", key: 1 },
+      { value: "manage your flat", key: 2 },
+      { value: "rent receipt", key: 3 },
+    ],
+    [
+      { value: "Support", key: 0 },
+      { value: "Submit ticket", key: 1 },
+      { value: "guides", key: 2 },
+      { value: "press", key: 3 },
+    ],
+    [
+      { value: "Solutions", key: 0 },
+      { value: "Marketing", key: 1 },
+      { value: "Analytics", key: 2 },
+      { value: "Automation", key: 3 },
+    ],
+  ];
   return (
     <div className="grid m-10 gap-7 sm:p-15 text-gray-500 bg-white/8 rounded-3xl mb-0">
       <div className="grid gap-2">
@@ -11,35 +37,8 @@ export default function Footer() {
           hierarchies.
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-2 pt-2 pb-2">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className=" grid gap-4">
-            <div className="font-medium ">Solutions</div>
-            <div className="-">Marketing</div>
-            <div className="-">Analytics</div>
-            <div className="-">Automation</div>
-          </div>
-          <div className="grid gap-2">
-            <div className="font-medium">Solutions</div>
-            <div className="-">Marketing</div>
-            <div className="-">Analytics</div>
-            <div className="-">Automation</div>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="grid gap-4">
-            <div className="font-medium">Solutions</div>
-            <div className="-">Marketing</div>
-            <div className="-">Analytics</div>
-            <div className="-">Automation</div>
-          </div>
-          <div className="grid gap-2">
-            <div className="font-medium">Solutions</div>
-            <div className="-">Marketing</div>
-            <div className="-">Analytics</div>
-            <div className="-">Automation</div>
-          </div>
-        </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 pt-2 pb-2">
+        <LinkSection footerLinks={footerLinks}></LinkSection>
       </div>
       <div className="">
         <hr />
@@ -50,3 +49,31 @@ export default function Footer() {
     </div>
   );
 }
+
+const Section = ({ links }) => {
+  return (
+    <>
+      {links.map((link) => {
+        return (
+          <div key={link.key} className="py-3">
+            {link.value}
+          </div>
+        );
+      })}
+    </>
+  );
+};
+
+const LinkSection = ({ footerLinks }) => {
+  return (
+    <>
+      {footerLinks.map((links) => {
+        return (
+          <div className="gap-4">
+            <Section links={links}></Section>
+          </div>
+        );
+      })}
+    </>
+  );
+};

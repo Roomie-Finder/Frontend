@@ -6,6 +6,7 @@ import { createBrowserRouter } from "react-router-dom";
 import UserProfile from "../Pages/UserPages/UserProfile";
 import RoomInfo from "../Pages/RoomPages/RoomInfo";
 import PageNotFound from "../Pages/AdditionalPages/PageNotFound";
+import CreateRoom from "../Pages/RoomPages/CreateRoom";
 
 export const AppRoutes = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ export const AppRoutes = createBrowserRouter([
   {
     path: "login",
     Component: Userlogin,
+  },
+  {
+    path: "createRoom",
+    Component: CreateRoom,
   },
   {
     path: "*",

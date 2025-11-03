@@ -63,12 +63,14 @@ export default function Userlogin() {
                     name="password"
                     type="password"
                   />
-                  <Link
-                    to="/forgotpassword"
-                    className="w-full flex justify-end"
-                  >
-                    Forgot password ?
-                  </Link>
+                  <div className="w-full flex justify-between">
+                    <Link to="/adminlogin" className="">
+                      Admin Login
+                    </Link>
+                    <Link to="/forgotpassword" className="">
+                      Forgot password ?
+                    </Link>
+                  </div>
                 </div>
 
                 <Button
