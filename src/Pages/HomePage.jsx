@@ -128,17 +128,17 @@ export default function HomePage() {
               <TeamMember
                 imgUrl="https://avatar.iran.liara.run/public/boy?username=Rushikesh"
                 name="Rushikesh Kalhale"
-                role="Leader"
+                role="Member"
               />
               <TeamMember
                 imgUrl="https://avatar.iran.liara.run/public/boy?username=Abhishek"
                 name="Abhishek Kumbhar"
-                role="Developer"
+                role="Member"
               />
               <TeamMember
                 imgUrl="https://avatar.iran.liara.run/public/boy?username=Yash"
                 name="Yash Yadav"
-                role="Designer"
+                role="Member"
               />
             </div>
           </div>

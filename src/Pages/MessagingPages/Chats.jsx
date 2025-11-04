@@ -1,4 +1,8 @@
+// src/components/Chats.jsx
+
 import { useState } from "react";
+
+// --- Icon Components (from your code) ---
 
 const MessageIcon = () => (
   <svg
@@ -32,87 +36,158 @@ const CloseIcon = () => (
 const SendIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 20 20"
+    viewBox="0 0 24 24"
     fill="currentColor"
-    className="w-5 h-5"
+    className="size-6"
   >
-    <path
-      d="M3.105 3.105a.5.5 0 01.707 0L19.403 18.697a.5.5 0 01-.707.707L3.105 3.812a.5.5 0 010-.707z"
-      clipRule="evenodd"
-    />
-    <path
-      d="M3.105 16.895a.5.5 0 01.707 0L19.403 1.303a.5.5 0 01.707.707L3.812 16.895a.5.5 0 01-.707 0z"
-      clipRule="evenodd"
-    />
+    <path d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />
   </svg>
 );
+
+// --- Main Chat Component ---
 
 export default function Chats() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-5 right-5 z-50">
+    <div className="fixed bottom-5 right-5 z-50 rounded-xl">
+      {/* --- CHAT MODAL (Shown when 'isOpen' is true) --- */}
       {isOpen && (
-        <div className="w-100 h-[450px] bg-white rounded-lg shadow-xl flex flex-col transition-all duration-300 ease-out">
-          {/* Header */}
-          <div className="bg-violet-600 text-white p-4 rounded-t-lg flex justify-between items-center">
-            <h3 className="font-semibold text-lg">Messages</h3>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="p-1 rounded-full hover:bg-violet-700 transition-colors"
-              aria-label="Close chat"
-            >
-              <CloseIcon />
-            </button>
-          </div>
-
-          {/* Message List */}
-          <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-gray-50">
-            {/* Received Message Example */}
-            <div className="flex justify-start">
-              <div className="bg-gray-100 text-gray-800 p-3 rounded-lg max-w-xs">
-                <p>Hey! Are you still looking for a roommate?</p>
-                <span className="text-xs text-gray-500 block text-right mt-1">
-                  10:30 AM
-                </span>
+        // Changed width and height to accommodate sidebar
+        <div className="w-[700px] h-[600px] bg-white rounded-lg shadow-xl flex flex-col transition-all duration-300 ease-out rounded-xl">
+          {/* --- Main Content Area (Sidebar + Chat) --- */}
+          <div className="flex flex-row flex-1 overflow-hidden">
+            {/* --- NEW: Contact Sidebar (Left) --- */}
+            <div className="w-1/3 border-r bg-violet-500 border-gray-200 flex flex-col rounded-s-xl ">
+              <div className="flex items-center w-full">
+                <h1 className="text-xl  px-3 py-5 text-white">Messages</h1>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="size-6 text-white"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
               </div>
+              <hr className="boder-3 border-gray-300" />
+              {/* Search Bar */}
+              <div className="p-3  flex-shrink-0">
+                <input
+                  type="text"
+                  placeholder="Search messages..."
+                  className="w-full px-3 py-2  rounded-full bg-violet-300 text-sm focus:outline-none focus:bg-gray-200"
+                />
+              </div>
+
+              {/* Contact List */}
+              <ul className="flex-1 overflow-y-auto divide-y divide-gray-200 text-white">
+                {/* Example: Active Contact */}
+                <li className="p-3 flex items-center space-x-3 hover:bg-violet-400  cursor-pointer  ">
+                  <div className="w-10 h-10 rounded-full bg-gray-300 flex-shrink-0"></div>
+                  <div className="overflow-hidden">
+                    <h4 className="font-semibold text-sm ">Jane Doe</h4>
+                    <p className="text-xs truncate">
+                      Great! Could I come see the place...
+                    </p>
+                  </div>
+                </li>
+
+                {/* Example: Inactive Contact */}
+                <li className="p-3 flex items-center space-x-3  hover:bg-violet-400 cursor-pointer">
+                  <div className="w-10 h-10 rounded-full bg-gray-300 flex-shrink-0"></div>
+                  <div className="overflow-hidden">
+                    <h4 className="font-semibold text-sm ">John Smith</h4>
+                    <p className="text-xs truncate">Sounds good, thanks!</p>
+                  </div>
+                </li>
+
+                {/* Example: Inactive Contact */}
+                <li className="p-3 flex items-center space-x-3 hover:bg-violet-400  cursor-pointer">
+                  <div className="w-10 h-10 rounded-full bg-gray-300 flex-shrink-0"></div>
+                  <div className="overflow-hidden">
+                    <h4 className="font-semibold text-sm ">Alex Johnson</h4>
+                    <p className="text-xs  truncate">
+                      Okay, I'll let you know.
+                    </p>
+                  </div>
+                </li>
+              </ul>
             </div>
 
-            {/* Sent Message Example */}
-            <div className="flex justify-end">
-              <div className="bg-violet-500 text-white p-3 rounded-lg max-w-xs">
-                <p>Hi! Yes, I am. My listing is still active.</p>
-                <span className="text-xs text-blue-100 block text-right mt-1">
-                  10:31 AM
-                </span>
+            {/* --- Active Chat Window (Right) --- */}
+            <div className="w-2/3 flex flex-col">
+              <div className="px-3 py-5 flex justify-between">
+                <div className="flex gap-2 items-center ">
+                  <img
+                    src=""
+                    alt="no"
+                    className="aspect-square rounded-xl bg-gray-200"
+                  />
+                  <h1 className="text-xl">John Wick</h1>
+                </div>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-1 rounded-full hover:bg-violet-700 hover:text-white  "
+                  aria-label="Close chat"
+                >
+                  <CloseIcon />
+                </button>
               </div>
-            </div>
+              <hr className="border-gray-300" />
+              {/* Message List */}
+              <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-white">
+                {/* Received Message Example */}
+                <div className="flex justify-start">
+                  <div className="bg-gray-200 text-gray-800 p-3 rounded-lg max-w-xs">
+                    <p>Hey! Are you still looking for a roommate?</p>
+                    <span className="text-xs text-gray-500 block text-right mt-1">
+                      10:30 AM
+                    </span>
+                  </div>
+                </div>
 
-            {/* Received Message Example */}
-            <div className="flex justify-start">
-              <div className="bg-gray-200 text-gray-800 p-3 rounded-lg max-w-xs">
-                <p>Great! Could I come see the place tomorrow?</p>
-                <span className="text-xs text-gray-500 block text-right mt-1">
-                  10:32 AM
-                </span>
+                {/* Sent Message Example */}
+                <div className="flex justify-end">
+                  <div className="bg-violet-500 text-white p-3 rounded-lg max-w-xs">
+                    <p>Hi! Yes, I am. My listing is still active.</p>
+                    <span className="text-xs text-blue-100 block text-right mt-1">
+                      10:31 AM
+                    </span>
+                  </div>
+                </div>
+
+                {/* Received Message Example */}
+                <div className="flex justify-start">
+                  <div className="bg-gray-200 text-gray-800 p-3 rounded-lg max-w-xs">
+                    <p>Great! Could I come see the place tomorrow?</p>
+                    <span className="text-xs text-gray-500 block text-right mt-1">
+                      10:32 AM
+                    </span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
 
-          {/* Input Area */}
-          <div className="p-3 border-t bg-white rounded-b-lg">
-            <div className="flex space-x-2">
-              <input
-                type="text"
-                placeholder="Type your message..."
-                className="flex-1 px-3 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button
-                className="bg-violet-600 text-white p-3 rounded-full hover:bg-violet-700 transition-colors"
-                aria-label="Send message"
-              >
-                <SendIcon />
-              </button>
+              {/* Input Area */}
+              <div className="p-3 border-t bg-white rounded-b-lg flex-shrink-0">
+                <div className="flex space-x-2">
+                  <input
+                    type="text"
+                    placeholder="Type your message..."
+                    className="flex-1 px-3 py-2  border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-violet-500" // Changed focus to violet
+                  />
+                  <button
+                    className="bg-violet-600 text-white p-3 rounded-full hover:bg-violet-700 transition-colors"
+                    aria-label="Send message"
+                  >
+                    <SendIcon />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
