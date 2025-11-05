@@ -54,6 +54,13 @@ export default function Userlogin() {
         logindata
       );
       if (response.data) navigate("/room");
+      let userdata = response.data;
+      let user = {
+        id: userdata.id,
+        firstName: userdata.firstName,
+        email: userdata.email,
+      };
+      localStorage.setItem("user", JSON.stringify(user));
     } catch (e) {
       console.error(e);
     }
