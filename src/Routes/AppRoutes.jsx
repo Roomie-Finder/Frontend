@@ -7,6 +7,7 @@ import UserProfile from "../Pages/UserPages/UserProfile";
 import RoomInfo from "../Pages/RoomPages/RoomInfo";
 import PageNotFound from "../Pages/AdditionalPages/PageNotFound";
 import CreateRoom from "../Pages/RoomPages/CreateRoom";
+import AdminDashboard from "../Pages/AdminPages/AdminDashboard";
 
 export const AppRoutes = createBrowserRouter([
   {
@@ -37,6 +38,15 @@ export const AppRoutes = createBrowserRouter([
   {
     path: "createRoom",
     Component: CreateRoom,
+  },
+  {
+    path: "admin",
+    children: [
+      {
+        path: "dashboard",
+        Component: AdminDashboard,
+      },
+    ],
   },
   {
     path: "*",

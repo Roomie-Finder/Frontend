@@ -42,6 +42,7 @@ export default function Userlogin() {
             <HomeIcon /> Home
           </Link>
         </TabList>
+
         <TabPanels>
           {/* ********* login **********************************************/}
           <TabPanel className="xl:grid xl:grid-cols-2 grid-cols-1">
@@ -90,11 +91,11 @@ export default function Userlogin() {
             </form>
           </TabPanel>
           {/************** signup ******************************************/}
-          <TabPanel className="grid grid-cols-1 xl:grid-cols-2 ">
+          <TabPanel className="grid grid-cols-1 xl:grid-cols-2 items-center">
             <img
               src={SignUpImage}
               alt=""
-              className=" h-120 lg:rounded-xl lg:scale-120 lg:shadow-xl/30 border-x-3 border-gray-200 lg:border-none rounded-none xl:block hidden"
+              className=" h-130 lg:rounded-xl lg:scale-120 lg:shadow-xl/30 border-x-3 border-gray-200 lg:border-none rounded-none xl:block hidden"
             />
             <form className=" flex content-center justify-center p-20 ">
               <Field className=" flex flex-col justify-center items-center gap-10 ">
@@ -105,7 +106,7 @@ export default function Userlogin() {
                   name="name"
                 />
                 <Input
-                  placeholder="email"
+                  placeholder="neon@gmail.com"
                   type="email"
                   className="rounded-full shadow-xl/10 border-1 border-gray-100  p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
                   name="email"
