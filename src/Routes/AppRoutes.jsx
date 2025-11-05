@@ -32,12 +32,12 @@ export const AppRoutes = createBrowserRouter([
     ],
   },
   {
-    path: "login",
-    Component: Userlogin,
+    path: "room/create",
+    Component: CreateRoom,
   },
   {
-    path: "createRoom",
-    Component: CreateRoom,
+    path: "login",
+    Component: Userlogin,
   },
   {
     path: "admin",

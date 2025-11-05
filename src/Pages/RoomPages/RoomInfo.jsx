@@ -28,7 +28,6 @@ export default function RoomInfo() {
             `http://localhost:8080/room/${roomid}`
           );
           setroom(response.data);
-          console.log(response.data);
         } catch (e) {
           console.error(e);
         } finally {

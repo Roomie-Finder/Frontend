@@ -8,6 +8,7 @@ import {
   WFHIcon,
 } from "../../Components/UI_Components/Icons/Icons";
 import axios from "axios";
+import { Link } from "react-router";
 
 export default function UserProfile() {
   let [User, setUser] = useState({});
@@ -68,9 +69,12 @@ export default function UserProfile() {
           </p>
         </div>
         <div className="ms-auto">
-          <button className="text-white text-sm rounded-full sm:px-5 sm:p-3 px-2 p-1 bg-linear-to-r from-indigo-500 via-purple-500  to-pink-500 hover:-translate-y-1 ">
-            Message
-          </button>
+          <Link
+            to="/room/create"
+            className="text-white text-sm rounded-full sm:px-5 sm:p-3 px-2 p-1 bg-linear-to-r from-indigo-500 via-purple-500  to-pink-500 hover:-translate-y-1 "
+          >
+            Create Room
+          </Link>
         </div>
       </div>
       <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6">
@@ -122,7 +126,7 @@ export default function UserProfile() {
               <div>
                 <p className="text-sm text-gray-500">Looking for</p>
                 <h6 className="font-semibold text-lg">
-                  {User.userProfile.roomStatus.preferredRoomType}
+                  {User?.userProfile?.roomStatus?.preferredRoomType}
                 </h6>
               </div>
             </div>

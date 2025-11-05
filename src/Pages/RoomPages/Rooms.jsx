@@ -18,11 +18,10 @@ export default function Rooms() {
       try {
         let response = await axios
           .get("http://localhost:8080/room")
-          .catch((err) => console.log(err));
+          .catch((err) => console.error(err));
         setRooms(response.data);
-        console.log(response.data);
       } catch (e) {
-        console.log(e);
+        console.error(e);
       } finally {
         setLoading(false);
       }

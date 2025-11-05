@@ -1,19 +1,5 @@
 import React, { useState } from "react";
 
-// Main App component to render the form
-export default function App() {
-  return (
-    <div className="bg-gray-100 min-h-screen p-8">
-      <RoomForm />
-    </div>
-  );
-}
-
-/**
- * Helper component for form rows.
- * Moved outside RoomForm to prevent re-definition on re-renders,
- * which causes input focus loss.
- */
 const FormRow = ({ label, children }) => (
   <div className="mb-4">
     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -23,12 +9,7 @@ const FormRow = ({ label, children }) => (
   </div>
 );
 
-/**
- * A simple form component for creating or updating a room listing.
- * It uses basic Tailwind CSS classes and no icons.
- */
-function RoomForm() {
-  // State to hold form data, initialized with default/empty values
+export default function CreateRoom() {
   const [formData, setFormData] = useState({
     roomName: "",
     address: "",
@@ -42,10 +23,6 @@ function RoomForm() {
     roommatePreferences: "",
   });
 
-  /**
-   * Generic handler to update state for most input fields.
-   * @param {React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>} e - The event object
-   */
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
@@ -54,13 +31,8 @@ function RoomForm() {
     }));
   };
 
-  /**
-   * Handles form submission.
-   * @param {React.FormEvent<HTMLFormElement>} e - The event object
-   */
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Convert comma-separated strings back to arrays if needed
     const submissionData = {
       ...formData,
       rent: Number(formData.rent) || 0,
@@ -74,9 +46,6 @@ function RoomForm() {
         .map((item) => item.trim())
         .filter(Boolean),
     };
-    console.log("Form Submitted:", submissionData);
-    // Here you would typically send the data to an API
-    // alert("Form submitted! Check the console for the data."); // Avoid alert()
   };
 
   return (
@@ -107,7 +76,7 @@ function RoomForm() {
           />
         </FormRow>
 
-        {/* Rent and Deposit (in a grid) */}
+        {/* Rent and Deposit  */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormRow label="Rent (per month)">
             <input
@@ -131,7 +100,7 @@ function RoomForm() {
           </FormRow>
         </div>
 
-        {/* Property Type and Looking For (in a grid) */}
+        {/* Property Type and Looking For*/}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormRow label="Property Type">
             <select
@@ -172,7 +141,7 @@ function RoomForm() {
           />
         </FormRow>
 
-        {/* Amenities (as comma-separated string) */}
+        {/* Amenities  */}
         <FormRow label="Amenities (comma-separated)">
           <input
             type="text"
@@ -184,7 +153,7 @@ function RoomForm() {
           />
         </FormRow>
 
-        {/* Roommate Preferences (as comma-separated string) */}
+        {/* Roommate Preferences */}
         <FormRow label="Roommate Preferences (comma-separated)">
           <input
             type="text"

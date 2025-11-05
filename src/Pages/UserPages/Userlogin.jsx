@@ -1,5 +1,5 @@
 import { Field, Input, Button } from "@headlessui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import { useState } from "react";
 import LoginImage from "../../assets/two.png";
@@ -9,15 +9,73 @@ import {
   ProfileIcon,
   RegisterIcon,
 } from "../../Components/UI_Components/Icons/Icons";
+import axios from "axios";
 
 export default function Userlogin() {
   let [selectedIndex, setSelectedIndex] = useState(0);
+  let [email, setemail] = useState("");
+  let [password, setpassword] = useState("");
+  let [name, setname] = useState("");
+  let navigate = useNavigate();
+
+  async function userSignUp(event) {
+    event.preventDefault();
+
+    let user = {
+      firstName: name,
+      email: email,
+      password: password,
+    };
+    try {
+      let response = await axios.post(
+        "http://localhost:8080/user/signup",
+        user
+      );
+
+      if (response.status == 200) {
+        setSelectedIndex(0);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async function userLogin(event) {
+    event.preventDefault();
+
+    const logindata = {
+      email: email,
+      password: password,
+    };
+
+    try {
+      let response = await axios.post(
+        "http://localhost:8080/user/login",
+        logindata
+      );
+      if (response.data) navigate("/room");
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   let changetab = () => {
-    console.log(selectedIndex);
     if (selectedIndex < 2) setSelectedIndex(selectedIndex + 1);
     else setSelectedIndex(selectedIndex - 1);
   };
+
+  function emailchange(email) {
+    setemail(email);
+  }
+
+  function passwordchange(password) {
+    setpassword(password);
+  }
+
+  function namechange(name) {
+    setname(name);
+  }
+
   return (
     <div className="flex justify-center items-center h-screen bg-gradient-to-r from-indigo-500 to-purple-400">
       <TabGroup
@@ -53,13 +111,17 @@ export default function Userlogin() {
                 className=" h-120 lg:rounded-xl lg:scale-120 lg:shadow-xl/30 border-x-3 border-gray-200 lg:border-none rounded-none xl:block hidden"
               />
             </div>
-            <form className="flex flex-col items-center justify-center relative p-20">
+            <form
+              className="flex flex-col items-center justify-center relative p-20"
+              onSubmit={userLogin}
+            >
               <Field className=" flex flex-col justify-center items-center gap-10 ">
                 <Input
                   placeholder="neon@gmail.com"
                   type="email"
                   className="rounded-full shadow-xl/10 border-1 border-gray-100 p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
                   name="email"
+                  onChange={(event) => emailchange(event.target.value)}
                 />
                 <div className="w-full flex flex-col gap-4 ">
                   <Input
@@ -67,6 +129,7 @@ export default function Userlogin() {
                     className="rounded-full  shadow-xl/10 border-1 border-gray-100 p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
                     name="password"
                     type="password"
+                    onChange={(event) => passwordchange(event.target.value)}
                   />
                   <div className="w-full flex justify-end">
                     <Link to="/forgotpassword" className="">
@@ -97,25 +160,31 @@ export default function Userlogin() {
               alt=""
               className=" h-130 lg:rounded-xl lg:scale-120 lg:shadow-xl/30 border-x-3 border-gray-200 lg:border-none rounded-none xl:block hidden"
             />
-            <form className=" flex content-center justify-center p-20 ">
+            <form
+              className=" flex content-center justify-center p-20 "
+              onSubmit={userSignUp}
+            >
               <Field className=" flex flex-col justify-center items-center gap-10 ">
                 <Input
                   placeholder="Enter your name"
                   type="name"
                   className="rounded-full shadow-xl/10 border-1 border-gray-100  p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
                   name="name"
+                  onChange={(event) => namechange(event.target.value)}
                 />
                 <Input
                   placeholder="neon@gmail.com"
                   type="email"
                   className="rounded-full shadow-xl/10 border-1 border-gray-100  p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
                   name="email"
+                  onChange={(event) => emailchange(event.target.value)}
                 />
                 <Input
                   placeholder="password"
                   className="rounded-full shadow-xl/10 border-1 border-gray-100  p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
                   name="password"
                   type="password"
+                  onChange={(event) => passwordchange(event.target.value)}
                 />
 
                 <Button
