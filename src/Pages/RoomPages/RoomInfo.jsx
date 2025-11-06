@@ -162,7 +162,7 @@ export default function RoomInfo() {
           {room?.members?.map((member) => {
             return (
               <Link
-                to={`http://localhost:5173/user/${member?.id}`}
+                to={`/user/${member?.id}`}
                 className="relative flex bg-gray-50 rounded-full p-3 items-center gap-5"
                 key={member?.email}
               >

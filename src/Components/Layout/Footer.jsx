@@ -1,4 +1,5 @@
 import phoenix from "../../assets/phoenix.svg";
+import FullScreenLoader from "../UI_Components/Icons/Animations";
 export default function Footer() {
   let footerLinks = [
     [

@@ -1,21 +1,12 @@
 import React, { useState } from "react";
 
-const FormRow = ({ label, children }) => (
-  <div className="mb-4">
-    <label className="block text-sm font-medium text-gray-700 mb-1">
-      {label}
-    </label>
-    {children}
-  </div>
-);
-
 export default function CreateRoom() {
   const [formData, setFormData] = useState({
     roomName: "",
     address: "",
     rent: "",
-    propertyType: "PG",
-    lookingFor: "Male",
+    propertyType: "",
+    lookingFor: "",
     deposit: "",
     aboutRoom: "",
     amenities: "",
@@ -192,3 +183,12 @@ export default function CreateRoom() {
     </div>
   );
 }
+
+const FormRow = ({ label, children }) => (
+  <div className="mb-4">
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      {label}
+    </label>
+    {children}
+  </div>
+);

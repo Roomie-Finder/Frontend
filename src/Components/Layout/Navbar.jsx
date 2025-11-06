@@ -4,9 +4,11 @@ import {
   RoomsIcon,
   ProfileIcon,
   RegisterIcon,
+  LogoutArrow,
 } from "../UI_Components/Icons/Icons";
 
 export default function Navbar() {
+  let userData = JSON.parse(localStorage.getItem("user"));
   let tabs = [
     {
       key: 1,
@@ -22,21 +24,42 @@ export default function Navbar() {
       icon: RoomsIcon,
       active: false,
     },
-    {
-      key: 3,
-      value: "Profile",
-      link: "user/profile",
-      icon: ProfileIcon,
-      active: false,
-    },
-    {
+  ];
+
+  if (userData) {
+    if (userData.role == "user") {
+      tabs.push({
+        key: 3,
+        value: "Profile",
+        link: "user/profile",
+        icon: ProfileIcon,
+        active: false,
+      });
+    } else {
+      tabs.push({
+        key: 3,
+        value: "dashboard",
+        link: "admin/dashboard",
+        icon: ProfileIcon,
+        active: false,
+      });
+    }
+    tabs.push({
       key: 4,
-      value: "login/Register",
+      value: "Logout",
+      link: "logout",
+      icon: LogoutArrow,
+      active: false,
+    });
+  } else {
+    tabs.push({
+      key: 5,
+      value: "Login",
       link: "login",
       icon: RegisterIcon,
       active: false,
-    },
-  ];
+    });
+  }
 
   return (
     <div className="flex justify-center pt-8 sticky z-100 text-violet-500">
@@ -47,7 +70,7 @@ export default function Navbar() {
             <NavLink to={tab.link} key={tab.key}>
               {({ isActive }) => (
                 <div
-                  className={`p-2 px-3 hover:text-white hover:bg-violet-800 flex rounded-full cursor-pointer active:bg-violet-500 gap-2  ${
+                  className={`p-2 px-3 hover:text-white hover:bg-violet-800  flex rounded-full cursor-pointer active:bg-violet-500 gap-2  ${
                     isActive ? `bg-violet-900 text-white` : ""
                   }`}
                 >

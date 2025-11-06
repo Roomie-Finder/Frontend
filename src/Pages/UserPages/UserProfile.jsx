@@ -17,10 +17,9 @@ export default function UserProfile() {
 
   useEffect(() => {
     async function getuser() {
+      let user = JSON.parse(localStorage.getItem("user"));
       try {
-        let newuser = await axios.get(
-          "http://localhost:8080/user/69090ae4b506cb384a77abf1"
-        );
+        let newuser = await axios.get(`http://localhost:8080/user/${user.id}`);
         setUser(newuser.data);
       } catch (e) {
         console.error(e);
@@ -48,7 +47,7 @@ export default function UserProfile() {
     <div className="lg:px-30 flex flex-col gap-10">
       <div className="userinfo flex shadow-lg p-3 px-8 rounded-xl gap-5  relative items-center">
         <img
-          src={`https://avatar.iran.liara.run/public/boy?username=${User.firsName}`}
+          src={`https://avatar.iran.liara.run/public/boy?username=${User.firstName}`}
           alt="image not found !   "
           className="rounded-full sm:h-35 h-20 shadow-lg p-1 aspect-square"
           loading="lazy"
@@ -56,16 +55,16 @@ export default function UserProfile() {
         <div>
           <div className="text-center flex flex-row items-center gap-2 ">
             <h1 className="sm:text-3xl lg:text4xl font-semibold text-nowrap ">
-              {User.firstName + " " + User.lastName}
+              <span>{User?.firstName || ""}</span>{" "}
+              <span>{User?.lastName || ""}</span>
             </h1>
             <CheckBadgeIcon className="w-3 h-3 sm:w-5 sm:h-5" />
           </div>
           <p className="sm:text-xl text-gray-600">
-            {User?.userProfile?.personalInfo?.age} years old
+            {User?.userProfile?.personalInfo?.age && "years old"}
           </p>
           <p className="flex items-center gap-1">
-            <LocationIcon />
-            {User?.userProfile?.personalInfo?.city}
+            {<LocationIcon /> && User?.userProfile?.personalInfo?.city}
           </p>
         </div>
         <div className="ms-auto">
@@ -82,7 +81,10 @@ export default function UserProfile() {
           <div className=" shadow-lg p-6 py-7 rounded-xl">
             <p className="text-xl font-semibold ">About Me</p>
             <hr className=" border border-gray-200 my-3 " />
-            <p>{User.userProfile.personalInfo.aboutUser}</p>
+            <p>
+              {User?.userProfile?.personalInfo?.aboutUser ||
+                "tell us something about you "}
+            </p>
           </div>
           <div className=" grid grid-cols-2 gap-10 mt-3 *:bg-blue-100 *:rounded-xl *:p-3 *:flex *:items-center *:gap-2">
             <div className="  ">
@@ -92,7 +94,7 @@ export default function UserProfile() {
               <div>
                 <p className="text-sm text-gray-500">Occupation</p>
                 <h6 className="font-semibold text-lg">
-                  {User.userProfile.personalInfo.occupation}
+                  {User?.userProfile?.personalInfo?.occupation || ""}
                 </h6>
               </div>
             </div>
@@ -103,7 +105,7 @@ export default function UserProfile() {
               <div>
                 <p className="text-sm text-gray-500">Language</p>
                 <h6 className="font-semibold text-lg">
-                  {User.userProfile.personalInfo.nativeLanguage}
+                  {User?.userProfile?.personalInfo?.nativeLanguage}
                 </h6>
               </div>
             </div>
@@ -165,7 +167,7 @@ export default function UserProfile() {
               {User?.userProfile?.roomStatus?.lookingForRoom == true && (
                 <p className="text-green-800 ">Room</p>
               )}
-              {User.userProfile.roomStatus.lookingForRoommate == true && (
+              {User?.userProfile?.roomStatus?.lookingForRoommate == true && (
                 <p className="text-green-800">Roommate </p>
               )}
             </div>
@@ -173,7 +175,7 @@ export default function UserProfile() {
           <div className=" *:my-2">
             <h2 className="text-xl font-semibold">LifeStyle</h2>
             <div className=" gap-2 flex flex-wrap">
-              {User.userProfile.lifeStyle.socialHabits.map((lifeStyle) => {
+              {User?.userProfile?.lifeStyle?.socialHabits.map((lifeStyle) => {
                 return (
                   <div className="inline-block bg-purple-100 rounded-full py-1 px-4 text-purple-800 text-nowrap">
                     {lifeStyle}

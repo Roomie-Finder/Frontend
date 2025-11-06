@@ -8,6 +8,7 @@ import RoomInfo from "../Pages/RoomPages/RoomInfo";
 import PageNotFound from "../Pages/AdditionalPages/PageNotFound";
 import CreateRoom from "../Pages/RoomPages/CreateRoom";
 import AdminDashboard from "../Pages/AdminPages/AdminDashboard";
+import UserLogOut from "../Pages/UserPages/UserLogOut";
 
 export const AppRoutes = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ export const AppRoutes = createBrowserRouter([
   {
     path: "login",
     Component: Userlogin,
+  },
+  {
+    path: "logout",
+    Component: UserLogOut,
   },
   {
     path: "admin",

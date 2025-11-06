@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 import {
   MdHome,
   MdPeople,
@@ -37,7 +39,7 @@ const Sidebar = ({ activeView, setActiveView }) => {
       <nav className="flex-grow">
         <ul>
           {navItems.map((item) => (
-            <li key={item.id} className="mb-2">
+            <li key={item.id} className="mb-2 hover:ms-2">
               <button
                 onClick={() => setActiveView(item.id)}
                 className={`flex items-center space-x-3 p-3 rounded-lg w-full text-left transition-colors duration-200
@@ -58,7 +60,7 @@ const Sidebar = ({ activeView, setActiveView }) => {
       <div className="mt-auto pt-4 border-t border-gray-700">
         <button className="flex items-center space-x-3 p-3 rounded-lg w-full text-left  hover:bg-gray-200  transition-colors duration-200">
           <MdLogout />
-          <span>Logout</span>
+          <Link to="/logout">Logout</Link>
         </button>
       </div>
     </aside>
@@ -66,7 +68,7 @@ const Sidebar = ({ activeView, setActiveView }) => {
 };
 
 // --- Header Component ---
-const Header = () => {
+const Header = ({ admin }) => {
   return (
     <header className="bg-white p-4 shadow-sm flex justify-between items-center z-10 sticky top-0">
       <div className="relative flex items-center w-1/3">
@@ -86,11 +88,13 @@ const Header = () => {
         </div>
         <div className="flex items-center space-x-2">
           <div className="text-right">
-            <p className="text-sm font-semibold text-gray-800">Admin User</p>
-            <p className="text-xs text-gray-500">admin@roommate.com</p>
+            <p className="text-sm font-semibold text-gray-800">
+              Admin {admin.firstName}
+            </p>
+            <p className="text-xs text-gray-500">{admin.email}</p>
           </div>
           <img
-            src="https://api.dicebear.com/8.x/initials/svg?seed=AU" // Placeholder avatar
+            src={`https://api.dicebear.com/8.x/initials/svg?seed=${admin.firstName}`}
             alt="Admin Avatar"
             className="w-10 h-10 rounded-full border-2 border-blue-500"
           />
@@ -237,60 +241,7 @@ const GrowthChart = () => {
   );
 };
 
-const RecentListings = () => {
-  const listings = [
-    {
-      id: 1,
-      user: "Sarah Chen",
-      avatar: "SC",
-      location: "Brooklyn, NY",
-      price: "$1,200/mo",
-      type: "2 BR",
-      status: "active",
-      posted: "2 hours ago",
-    },
-    {
-      id: 2,
-      user: "Mike Johnson",
-      avatar: "MJ",
-      location: "San Francisco, CA",
-      price: "$1,800/mo",
-      type: "1 BR",
-      status: "active",
-      posted: "5 hours ago",
-    },
-    {
-      id: 3,
-      user: "Emily Davis",
-      avatar: "ED",
-      location: "Austin, TX",
-      price: "$950/mo",
-      type: "3 BR",
-      status: "pending",
-      posted: "1 day ago",
-    },
-    {
-      id: 4,
-      user: "James Wilson",
-      avatar: "JW",
-      location: "Seattle, WA",
-      price: "$1,400/mo",
-      type: "2 BR",
-      status: "active",
-      posted: "1 day ago",
-    },
-    {
-      id: 5,
-      user: "Lisa Martinez",
-      avatar: "LM",
-      location: "Boston, MA",
-      price: "$1,600/mo",
-      type: "2 BR",
-      status: "inactive",
-      posted: "2 days ago",
-    },
-  ];
-
+const RecentListings = ({ listings }) => {
   return (
     <div className="bg-white p-6 rounded-xl border border-gray-200 overflow-x-auto">
       <h2 className="text-xl font-semibold text-gray-800 mb-4">
@@ -324,25 +275,27 @@ const RecentListings = () => {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {listings.map((listing) => (
-            <tr key={listing.id}>
+          {listings?.map((listing) => (
+            <tr key={listing?.id}>
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="flex items-center">
                   <img
                     className="h-9 w-9 rounded-full mr-3"
-                    src={`https://api.dicebear.com/8.x/initials/svg?seed=${listing.avatar}`}
-                    alt={`${listing.user} Avatar`}
+                    src={`https://api.dicebear.com/8.x/initials/svg?seed=${
+                      listing?.roomName || ""
+                    }`}
+                    alt={`${listing?.roomName} Avatar`}
                   />
                   <div className="text-sm font-medium text-gray-900">
-                    {listing.user}
+                    {listing?.roomName}
                   </div>
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {listing.location}
+                {listing?.address}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {listing.price}
+                {listing?.rent}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {listing.type}
@@ -351,23 +304,26 @@ const RecentListings = () => {
                 <span
                   className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                     ${
-                      listing.status === "active"
+                      listing?.status === "active"
                         ? "bg-green-100 text-green-800"
-                        : listing.status === "pending"
+                        : listing?.status === "pending"
                         ? "bg-yellow-100 text-yellow-800"
                         : "bg-red-100 text-red-800"
                     }`}
                 >
-                  {listing.status}
+                  {listing?.status}
                 </span>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {listing.posted}
+                {listing?.posted}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <button className="text-blue-600 hover:text-blue-900">
+                <Link
+                  to={`/room/${listing.id}`}
+                  className="text-blue-600 hover:text-blue-900"
+                >
                   View
-                </button>
+                </Link>
               </td>
             </tr>
           ))}
@@ -457,9 +413,30 @@ const RecentActivity = () => {
 };
 
 export default function AdminDashboard() {
-  const [activeView, setActiveView] = React.useState("overview");
+  const [activeView, setActiveView] = useState("overview");
+  let [listings, setlistings] = useState([]);
+  let [users, setusers] = useState([]);
+  const admin = JSON.parse(localStorage.getItem("user"));
 
-  // Function to render content based on activeView
+  useEffect(() => {
+    async function fetchlistings() {
+      try {
+        let listingsResponse = await axios.get(
+          "http://localhost:8080/admin/getAllRooms"
+        );
+        setlistings(listingsResponse.data);
+        let usersResponse = await axios.get(
+          "http://localhost:8080/admin/getAllUsers"
+        );
+        setusers(usersResponse.data);
+        console.log(usersResponse);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    fetchlistings();
+  }, []);
+
   const renderContent = () => {
     switch (activeView) {
       case "overview":
@@ -475,14 +452,14 @@ export default function AdminDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               <StatCard
                 title="Total Users"
-                value="2,847"
+                value={users.length}
                 change="+12.5%"
                 icon={<HiOutlineUserGroup className="w-6 h-6 text-blue-600" />}
                 iconBgColor="bg-blue-100"
               />
               <StatCard
                 title="Active Listings"
-                value="1,234"
+                value={listings.length}
                 change="+8.2%"
                 icon={<HiOutlineTag className="w-6 h-6 text-green-600" />}
                 iconBgColor="bg-green-100"
@@ -516,7 +493,7 @@ export default function AdminDashboard() {
             </p>
             <div className="flex flex-col lg:flex-row gap-6">
               <div className="flex-grow">
-                <RecentListings />
+                <RecentListings listings={listings} />
               </div>
               <div className="w-full lg:w-1/3">
                 <RecentActivity />
@@ -534,7 +511,7 @@ export default function AdminDashboard() {
               View and manage all users registered on the platform
             </p>
             {/* Reusing UserManagement from previous examples */}
-            <UserManagement />
+            <UserManagement users={users} />
           </>
         );
       case "reports":
@@ -581,7 +558,7 @@ export default function AdminDashboard() {
     <div className="flex h-screen bg-gray-100 font-sans">
       <Sidebar activeView={activeView} setActiveView={setActiveView} />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
+        <Header admin={admin} />
         <main className="flex-1 overflow-x-hidden overflow-y-auto p-6 scrollbar-thumb-rounded scrollbar-track-rounded scrollbar-thumb-gray-400 scrollbar-track-gray-200 scrollbar-w-2">
           {renderContent()}
         </main>
@@ -590,38 +567,17 @@ export default function AdminDashboard() {
   );
 }
 
-const mockUsers = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "john.doe@example.com",
-    status: "Active",
-    role: "User",
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    email: "jane.s@example.com",
-    status: "Active",
-    role: "User",
-  },
-  {
-    id: 3,
-    name: "Mike Ross",
-    email: "mike_r@example.com",
-    status: "Suspended",
-    role: "User",
-  },
-  {
-    id: 4,
-    name: "Admin User",
-    email: "admin@example.com",
-    status: "Active",
-    role: "Admin",
-  },
-];
+function UserManagement({ users }) {
+  async function deleteUser(uid) {
+    try {
+      let response = await axios.delete(
+        `http://localhost:8080/admin/${uid}/deleteuser`
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
-function UserManagement() {
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden">
       <table className="min-w-full divide-y divide-gray-200">
@@ -645,34 +601,38 @@ function UserManagement() {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {mockUsers.map((user) => (
+          {users.map((user) => (
             <tr key={user.id}>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                {user.name}
+                {user?.firstName}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {user.email}
+                {user?.email}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <span
                   className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                     ${
-                      user.status === "Active"
+                      user?.status === "Active"
                         ? "bg-green-100 text-green-800"
                         : "bg-red-100 text-red-800"
                     }`}
                 >
-                  {user.status}
+                  {user?.status || "Inactive"}
                 </span>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {user.role}
+                {user?.role}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <button className="text-blue-600 hover:text-blue-900">
+              <td className="px-6 py-4 flex whitespace-nowrap text-right text-sm font-medium">
+                <Link to="" className="text-blue-600 hover:text-blue-900">
                   Edit
-                </button>
-                <button className="text-red-600 hover:text-red-900 ml-4">
+                </Link>
+
+                <button
+                  onClick={() => deleteUser(user.id)}
+                  className="text-red-600 hover:text-red-900 ml-4"
+                >
                   Delete
                 </button>
               </td>

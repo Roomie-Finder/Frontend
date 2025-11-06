@@ -13,39 +13,63 @@ import axios from "axios";
 
 export default function Userlogin() {
   let [selectedIndex, setSelectedIndex] = useState(0);
-  let [email, setemail] = useState("");
-  let [password, setpassword] = useState("");
-  let [name, setname] = useState("");
   let navigate = useNavigate();
+  const [loginState, setLoginState] = useState({
+    email: "",
+    password: "",
+  });
+  const [adminLoginState, setadminLoginState] = useState({
+    email: "",
+    password: "",
+  });
+  const [signupState, setSignupState] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const handleSignupChange = (e) => {
+    const { name, value } = e.target;
+    setSignupState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   async function userSignUp(event) {
     event.preventDefault();
 
-    let user = {
-      firstName: name,
-      email: email,
-      password: password,
+    let signUpData = {
+      firstName: signupState.name,
+      email: signupState.email,
+      password: signupState.password,
     };
     try {
       let response = await axios.post(
         "http://localhost:8080/user/signup",
-        user
+        signUpData
       );
-
-      if (response.status == 200) {
+      if (response.status === 200 || response.status === 201) {
         setSelectedIndex(0);
+        setSignupState({ name: "", email: "", password: "" });
       }
     } catch (e) {
       console.error(e);
     }
   }
-
+  const handleLoginChange = (e) => {
+    const { name, value } = e.target;
+    setLoginState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
   async function userLogin(event) {
     event.preventDefault();
 
     const logindata = {
-      email: email,
-      password: password,
+      email: loginState.email,
+      password: loginState.password,
     };
 
     try {
@@ -53,14 +77,49 @@ export default function Userlogin() {
         "http://localhost:8080/user/login",
         logindata
       );
-      if (response.data) navigate("/room");
       let userdata = response.data;
-      let user = {
+      let newuser = {
         id: userdata.id,
         firstName: userdata.firstName,
         email: userdata.email,
+        role: userdata.role,
       };
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(newuser));
+
+      if (response.data) navigate("/");
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  const hadleAdminChange = (e) => {
+    let { name, value } = e.target;
+    setadminLoginState((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  async function adminLogin(event) {
+    event.preventDefault();
+
+    const adminLoginData = {
+      email: adminLoginState.email,
+      password: adminLoginState.password,
+    };
+    try {
+      let response = await axios.post(
+        "http://localhost:8080/user/login",
+        adminLoginData
+      );
+
+      let adminData = response.data;
+      let newadmin = {
+        id: adminData.id,
+        firstName: adminData.firstName,
+        email: adminData.email,
+        role: adminData.role,
+      };
+      localStorage.setItem("user", JSON.stringify(newadmin));
+
+      if (response.data) navigate("/admin/dashboard");
     } catch (e) {
       console.error(e);
     }
@@ -70,18 +129,6 @@ export default function Userlogin() {
     if (selectedIndex < 2) setSelectedIndex(selectedIndex + 1);
     else setSelectedIndex(selectedIndex - 1);
   };
-
-  function emailchange(email) {
-    setemail(email);
-  }
-
-  function passwordchange(password) {
-    setpassword(password);
-  }
-
-  function namechange(name) {
-    setname(name);
-  }
 
   return (
     <div className="flex justify-center items-center h-screen bg-gradient-to-r from-indigo-500 to-purple-400">
@@ -126,9 +173,10 @@ export default function Userlogin() {
                 <Input
                   placeholder="neon@gmail.com"
                   type="email"
-                  className="rounded-full shadow-xl/10 border-1 border-gray-100 p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
                   name="email"
-                  onChange={(event) => emailchange(event.target.value)}
+                  className="rounded-full shadow-xl/10 border-1 border-gray-100 p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
+                  value={loginState.email}
+                  onChange={handleLoginChange}
                 />
                 <div className="w-full flex flex-col gap-4 ">
                   <Input
@@ -136,7 +184,8 @@ export default function Userlogin() {
                     className="rounded-full  shadow-xl/10 border-1 border-gray-100 p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
                     name="password"
                     type="password"
-                    onChange={(event) => passwordchange(event.target.value)}
+                    value={loginState.password}
+                    onChange={handleLoginChange}
                   />
                   <div className="w-full flex justify-end">
                     <Link to="/forgotpassword" className="">
@@ -174,26 +223,28 @@ export default function Userlogin() {
               <Field className=" flex flex-col justify-center items-center gap-10 ">
                 <Input
                   placeholder="Enter your name"
-                  type="name"
+                  type="text"
                   className="rounded-full shadow-xl/10 border-1 border-gray-100  p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
                   name="name"
-                  onChange={(event) => namechange(event.target.value)}
+                  value={signupState.name}
+                  onChange={handleSignupChange}
                 />
                 <Input
                   placeholder="neon@gmail.com"
-                  type="email"
+                  type="text"
                   className="rounded-full shadow-xl/10 border-1 border-gray-100  p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
                   name="email"
-                  onChange={(event) => emailchange(event.target.value)}
+                  value={signupState.email}
+                  onChange={handleSignupChange}
                 />
                 <Input
                   placeholder="password"
                   className="rounded-full shadow-xl/10 border-1 border-gray-100  p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
                   name="password"
                   type="password"
-                  onChange={(event) => passwordchange(event.target.value)}
+                  value={signupState.password}
+                  onChange={handleSignupChange}
                 />
-
                 <Button
                   type="submit"
                   className=" text-white rounded-full bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 hover:bg-gradient-to-r hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 active:opacity-75 p-3 px-8 w-full shadow-xl/20"
@@ -216,13 +267,18 @@ export default function Userlogin() {
               alt=""
               className=" h-120 lg:rounded-xl lg:scale-120 lg:shadow-xl/30 border-x-3 border-gray-200 lg:border-none rounded-none xl:block hidden"
             />
-            <form className="flex flex-col items-center justify-center relative p-20">
+            <form
+              className="flex flex-col items-center justify-center relative p-20"
+              onSubmit={adminLogin}
+            >
               <Field className=" flex flex-col justify-center items-center gap-10 ">
                 <Input
                   placeholder="neon@gmail.com"
                   type="email"
                   className="rounded-full shadow-xl/10 border-1 border-gray-100 p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
                   name="email"
+                  value={adminLoginState.email}
+                  onChange={hadleAdminChange}
                 />
                 <div className="w-full flex flex-col gap-4 ">
                   <Input
@@ -230,6 +286,8 @@ export default function Userlogin() {
                     className="rounded-full  shadow-xl/10 border-1 border-gray-100 p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
                     name="password"
                     type="password"
+                    value={adminLoginState.password}
+                    onChange={hadleAdminChange}
                   />
                   <div className="w-full flex justify-end">
                     <Link to="/forgotpassword" className="">

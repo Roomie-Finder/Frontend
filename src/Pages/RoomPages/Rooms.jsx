@@ -58,15 +58,15 @@ export default function Rooms() {
             </div>
             <div className=" flex flex-col justify-evenly ms-2 gap-2 w-full  p-2 lg:gap-5">
               <div>
-                <div className=" text-lg md:text-xl ">{room.roomName}</div>
+                <div className=" text-lg md:text-xl ">{room?.roomName}</div>
                 <div className="text-xs md:text-sm flex items-center gap-1 text-gray-500 ">
                   <LocationIcon />
-                  {room.address}
+                  {room?.address}
                 </div>
               </div>
               <div className="flex flex-row justify-between ">
                 <div className="flex flex-row items-baseline text-normal ">
-                  <p className="text-lg md:text-2xl">&#8377;{room.rent}</p>
+                  <p className="text-lg md:text-2xl">&#8377;{room?.rent}</p>
                   <div className="text-sm text-gray-500"> /month</div>
                 </div>
               </div>
@@ -76,13 +76,13 @@ export default function Rooms() {
                     <PeopleIcon className="text-pink-500 size-4  md:size-5" />
                   </div>
                   <div className="text-sm text-gray-500 md:text-base">
-                    {room.members.length} Male
+                    {room?.members?.length} Male
                   </div>
                 </div>
                 <div className="">
                   <BedIcon className="text-blue-400 size-4  md:size-5" />
                   <div className="text-sm md:text-base text-gray-500">
-                    {room.propertyType}
+                    {room?.propertyType}
                   </div>
                 </div>
                 <div>
@@ -93,7 +93,7 @@ export default function Rooms() {
                 </div>
               </div>
               <div className="wrap-normal flex text-xs gap-2 *:px-2 *:bg-gray-200 *:rounded-full *:text-gray-700">
-                {room.amenities.map((val) => {
+                {room?.amenities.map((val) => {
                   return (
                     <div className="text-nowrap " key={val}>
                       {" "}
