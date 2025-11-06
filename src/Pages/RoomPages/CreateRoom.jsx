@@ -1,15 +1,41 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function CreateRoom() {
+  let navigate = useNavigate();
+  const dateObject = new Date();
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const monthName = monthNames[dateObject.getMonth()];
+  const dayNumber = dateObject.getDate();
+
+  const date = `${dayNumber} ${monthName.slice(2)} `;
+
+  console.log(formattedOutputManual);
   const [formData, setFormData] = useState({
     roomName: "",
     address: "",
     rent: "",
-    propertyType: "",
-    lookingFor: "",
+    status: "active",
+    propertyType: "PG",
+    lookingFor: "male",
     deposit: "",
     aboutRoom: "",
     amenities: "",
+    date: date,
     parkingAvailable: false,
     roommatePreferences: "",
   });
@@ -22,7 +48,8 @@ export default function CreateRoom() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    let user = JSON.parse(localStorage.getItem("user"));
     e.preventDefault();
     const submissionData = {
       ...formData,
@@ -37,6 +64,17 @@ export default function CreateRoom() {
         .map((item) => item.trim())
         .filter(Boolean),
     };
+
+    try {
+      let response = await axios.post(
+        `http://localhost:8080/room/create/${user.id}`,
+        submissionData
+      );
+      console.log(response.data);
+      if (response.status === 200 || response.status === 201) navigate("/room");
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -100,7 +138,9 @@ export default function CreateRoom() {
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded bg-white"
             >
-              <option value="PG">PG</option>
+              <option value="PG" selected>
+                PG
+              </option>
               <option value="Apartment">Apartment</option>
               <option value="House">House</option>
               <option value="Other">Other</option>
@@ -113,7 +153,9 @@ export default function CreateRoom() {
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded bg-white"
             >
-              <option value="Male">Male</option>
+              <option value="Male" selected>
+                Male
+              </option>
               <option value="Female">Female</option>
               <option value="Any">Any</option>
             </select>

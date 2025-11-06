@@ -10,11 +10,12 @@ import {
   RegisterIcon,
 } from "../../Components/UI_Components/Icons/Icons";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Userlogin() {
   let [selectedIndex, setSelectedIndex] = useState(0);
   let navigate = useNavigate();
-  const [loginState, setLoginState] = useState({
+  let [loginState, setLoginState] = useState({
     email: "",
     password: "",
   });
@@ -50,11 +51,13 @@ export default function Userlogin() {
         signUpData
       );
       if (response.status === 200 || response.status === 201) {
-        setSelectedIndex(0);
+        toast.success("Sign up successful! Please login");
         setSignupState({ name: "", email: "", password: "" });
-      }
+        setSelectedIndex(0);
+      } else toast.error("Sign up failed. Email might already be in use.");
     } catch (e) {
       console.error(e);
+      toast.error("An error occurred during signup. Please try again.");
     }
   }
   const handleLoginChange = (e) => {
@@ -64,6 +67,7 @@ export default function Userlogin() {
       [name]: value,
     }));
   };
+
   async function userLogin(event) {
     event.preventDefault();
 
@@ -78,17 +82,16 @@ export default function Userlogin() {
         logindata
       );
       let userdata = response.data;
-      let newuser = {
-        id: userdata.id,
-        firstName: userdata.firstName,
-        email: userdata.email,
-        role: userdata.role,
-      };
-      localStorage.setItem("user", JSON.stringify(newuser));
-
-      if (response.data) navigate("/");
+      if (response.status === 200 || response.status === 201) {
+        localStorage.setItem("user", JSON.stringify(userdata));
+        toast.success("🦄 Login successful welcome back !");
+        navigate("/");
+      } else {
+        toast.error("Invalid email or password.");
+      }
     } catch (e) {
       console.error(e);
+      toast.error("An error occurred during login. Please try again.");
     }
   }
 
@@ -104,6 +107,7 @@ export default function Userlogin() {
       email: adminLoginState.email,
       password: adminLoginState.password,
     };
+    console.log(adminLoginData);
     try {
       let response = await axios.post(
         "http://localhost:8080/user/login",
@@ -119,9 +123,13 @@ export default function Userlogin() {
       };
       localStorage.setItem("user", JSON.stringify(newadmin));
 
-      if (response.data) navigate("/admin/dashboard");
+      if (response.data) {
+        navigate("/admin/dashboard");
+        toast.success("Login successful !!");
+      } else toast.error("invalid username or password !");
     } catch (e) {
       console.error(e);
+      toast.error("An error occurred during login. Please try again.");
     }
   }
 
@@ -132,6 +140,7 @@ export default function Userlogin() {
 
   return (
     <div className="flex justify-center items-center h-screen bg-gradient-to-r from-indigo-500 to-purple-400">
+      <ToastContainer position="top-right" autoClose={5000} />
       <TabGroup
         className="flex bg-white shadow-2xl/30 rounded-2xl"
         selectedIndex={selectedIndex}

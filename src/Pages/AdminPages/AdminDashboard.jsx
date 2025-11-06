@@ -241,9 +241,20 @@ const GrowthChart = () => {
   );
 };
 
-const RecentListings = ({ listings }) => {
+const RecentListings = ({ listings, setlistings }) => {
+  async function deleteRoom(rid) {
+    try {
+      let response = await axios.delete(
+        `http://localhost:8080/admin/deleteRoom/${rid}`
+      );
+      setlistings(response.data);
+      console.log(response);
+    } catch (e) {
+      console.error(e);
+    }
+  }
   return (
-    <div className="bg-white p-6 rounded-xl border border-gray-200 overflow-x-auto">
+    <div className="bg-white p-6 rounded-3xl border border-gray-200 overflow-x-auto">
       <h2 className="text-xl font-semibold text-gray-800 mb-4">
         Recent Listings
       </h2>
@@ -271,7 +282,9 @@ const RecentListings = ({ listings }) => {
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Posted
             </th>
-            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Action
+            </th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
@@ -317,13 +330,19 @@ const RecentListings = ({ listings }) => {
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {listing?.posted}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <td className="flex gap-3 px-6 py-4  text-sm font-medium">
                 <Link
                   to={`/room/${listing.id}`}
                   className="text-blue-600 hover:text-blue-900"
                 >
                   View
                 </Link>
+                <button
+                  onClick={() => deleteRoom(listing.id)}
+                  className="text-red-500 hover:text-red-900"
+                >
+                  delete
+                </button>
               </td>
             </tr>
           ))}
@@ -337,7 +356,7 @@ const RecentActivity = () => {
   const activities = [
     {
       id: 1,
-      user: "Alex Thompson",
+      user: "varun sigh",
       avatar: "AT",
       action: "created a new listing",
       time: "5 minutes ago",
@@ -346,7 +365,7 @@ const RecentActivity = () => {
     },
     {
       id: 2,
-      user: "Jessica Lee",
+      user: "ram ",
       avatar: "JL",
       action: "matched with a roommate",
       time: "15 minutes ago",
@@ -355,7 +374,7 @@ const RecentActivity = () => {
     },
     {
       id: 3,
-      user: "David Kim",
+      user: "abc ",
       avatar: "DK",
       action: "sent a message",
       time: "1 hour ago",
@@ -364,7 +383,7 @@ const RecentActivity = () => {
     },
     {
       id: 4,
-      user: "Rachel Green",
+      user: "ram ",
       avatar: "RG",
       action: "joined the platform",
       time: "2 hours ago",
@@ -373,7 +392,7 @@ const RecentActivity = () => {
     },
     {
       id: 5,
-      user: "Tom Anderson",
+      user: "Tom",
       avatar: "TA",
       action: "created a new listing",
       time: "3 hours ago",
@@ -493,7 +512,7 @@ export default function AdminDashboard() {
             </p>
             <div className="flex flex-col lg:flex-row gap-6">
               <div className="flex-grow">
-                <RecentListings listings={listings} />
+                <RecentListings listings={listings} setlistings={setlistings} />
               </div>
               <div className="w-full lg:w-1/3">
                 <RecentActivity />
@@ -510,7 +529,6 @@ export default function AdminDashboard() {
             <p className="text-gray-500 mb-8">
               View and manage all users registered on the platform
             </p>
-            {/* Reusing UserManagement from previous examples */}
             <UserManagement users={users} />
           </>
         );
@@ -571,7 +589,7 @@ function UserManagement({ users }) {
   async function deleteUser(uid) {
     try {
       let response = await axios.delete(
-        `http://localhost:8080/admin/${uid}/deleteuser`
+        `http://localhost:8080/admin/deleteUser/${uid}`
       );
     } catch (e) {
       console.error(e);
@@ -579,7 +597,7 @@ function UserManagement({ users }) {
   }
 
   return (
-    <div className="bg-white shadow-md rounded-lg overflow-hidden">
+    <div className="bg-white shadow-md rounded-3xl overflow-hidden">
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>

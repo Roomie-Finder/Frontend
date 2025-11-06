@@ -6,6 +6,7 @@ import {
   BedIcon,
   CalenderIcon,
   CheckIcon,
+  CloseIcon,
   HomeIcon,
   KitchenIcon,
   LocationIcon,
@@ -19,6 +20,8 @@ export default function RoomInfo() {
   let [loading, setLoading] = useState(true);
   let { roomid } = useParams();
   let [room, setroom] = useState({});
+
+  let user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     if (roomid) {
@@ -34,11 +37,48 @@ export default function RoomInfo() {
           setLoading(false);
         }
       }
-
       getroom();
     } else {
     }
   }, []);
+
+  async function addRoomMember() {
+    setLoading(true);
+    try {
+      let memberdata = {
+        uid: user.id,
+        rid: room.id,
+      };
+      let response = await axios.post(
+        `http://localhost:8080/room/member/add`,
+        memberdata
+      );
+      setroom(response.data);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function removeMember() {
+    setLoading(true);
+    try {
+      let memberdata = {
+        uid: user.id,
+        rid: room.id,
+      };
+      let response = await axios.post(
+        `http://localhost:8080/room/member/remove`,
+        memberdata
+      );
+      setroom(response.data);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   if (loading) {
     return (
@@ -75,8 +115,7 @@ export default function RoomInfo() {
           <div className="flex relative w-full ">
             <h2 className="text-2xl">{room?.roomName} </h2>
             <p className="absolute right-2 rounded-full bg-green-500 px-2 text-white text-xs md:text-base">
-              {" "}
-              Availible
+              {room?.status}
             </p>
           </div>
           <div className="flex items-baseline gap-2 ">
@@ -119,8 +158,8 @@ export default function RoomInfo() {
               </div>
             </div>
             <div>
-              <p className="text-gray-500 text-sm">Available on </p>
-              <p>Oct 10</p>
+              <p className="text-gray-500 text-sm">Posted on </p>
+              <p>{room?.date}</p>
             </div>
           </div>
           <div className="">
@@ -158,29 +197,54 @@ export default function RoomInfo() {
 
         {/* Roommates */}
         <div className="outline-2 outline-gray-100 p-5 rounded-xl flex flex-col gap-5">
-          <h1 className="mb-2">Current Roommates</h1>
+          <div className=" w-full flex justify-between ">
+            <h1 className="mb-2">Current Roommates </h1>
+            <button
+              onClick={() => addRoomMember()}
+              className=" text-blue-500 hover:font-semibold"
+            >
+              {user && "Be a member"}
+            </button>
+          </div>
           {room?.members?.map((member) => {
             return (
-              <Link
-                to={`/user/${member?.id}`}
-                className="relative flex bg-gray-50 rounded-full p-3 items-center gap-5"
-                key={member?.email}
-              >
-                <img
-                  src="abc.jpg"
-                  alt="not found"
-                  className="rounded-full bg-orange-100 h-15 aspect-square"
-                />
-                <div>
-                  <p>
-                    {member?.firstName} {member?.lastName} ,{" "}
-                    {member?.userProfile?.personalInfo?.age}
-                  </p>
-                  <p className="font-light">
-                    {member?.userProfile?.personalInfo?.occupation}{" "}
-                  </p>
-                </div>
-              </Link>
+              <div className="flex items-center gap-5">
+                <Link
+                  to={`/user/${member?.id}`}
+                  className="relative flex bg-gray-50 rounded-full p-3 items-center gap-5 w-full"
+                  key={member?.email}
+                >
+                  <img
+                    src={`https://avatar.iran.liara.run/public/boy?username=${user.firstName}`}
+                    alt="not found"
+                    className="rounded-full bg-orange-100 h-15 aspect-square"
+                  />
+                  <div className="flex justify-between w-full">
+                    <div>
+                      <p>
+                        {member?.firstName} {member?.lastName}
+                        {member?.userProfile?.personalInfo?.age}
+                      </p>
+                      <p className="font-light">
+                        {member?.userProfile?.personalInfo?.occupation}{" "}
+                      </p>
+                    </div>
+                    <p className="me-5 text-gray-500">
+                      {user.id == member.id && user.id != room.owner.id
+                        ? "owner"
+                        : "member"}
+                    </p>
+                  </div>
+                </Link>
+                {user.id == member.id && user.id != room.owner.id && (
+                  <button
+                    className="hover:cursor-pointer text-red-400 hover:text-red-600"
+                    onClick={() => removeMember()}
+                  >
+                    remove
+                  </button>
+                )}
+              </div>
             );
           })}
           <div className="bg-blue-50 outline-1 outline-blue-100 p-3 rounded-xl *:flex *:text-sm *:font-light *:gap-3 ">

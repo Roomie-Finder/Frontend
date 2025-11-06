@@ -8,7 +8,8 @@ import {
 } from "../UI_Components/Icons/Icons";
 
 export default function Navbar() {
-  let userData = JSON.parse(localStorage.getItem("user"));
+  let user = JSON.parse(localStorage.getItem("user"));
+
   let tabs = [
     {
       key: 1,
@@ -26,20 +27,20 @@ export default function Navbar() {
     },
   ];
 
-  if (userData) {
-    if (userData.role == "user") {
+  if (user) {
+    if (user.role == "admin") {
       tabs.push({
         key: 3,
-        value: "Profile",
-        link: "user/profile",
+        value: "dashboard",
+        link: "admin/dashboard",
         icon: ProfileIcon,
         active: false,
       });
     } else {
       tabs.push({
         key: 3,
-        value: "dashboard",
-        link: "admin/dashboard",
+        value: "Profile",
+        link: "user/profile",
         icon: ProfileIcon,
         active: false,
       });

@@ -9,6 +9,7 @@ import PageNotFound from "../Pages/AdditionalPages/PageNotFound";
 import CreateRoom from "../Pages/RoomPages/CreateRoom";
 import AdminDashboard from "../Pages/AdminPages/AdminDashboard";
 import UserLogOut from "../Pages/UserPages/UserLogOut";
+import ProfileUpdate from "../Pages/UserPages/ProfileUpdate";
 
 export const AppRoutes = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ export const AppRoutes = createBrowserRouter([
       {
         path: "user/:userid",
         Component: UserProfile,
+      },
+      {
+        path: "user/update",
+        Component: ProfileUpdate,
       },
     ],
   },

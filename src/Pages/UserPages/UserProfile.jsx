@@ -69,10 +69,10 @@ export default function UserProfile() {
         </div>
         <div className="ms-auto">
           <Link
-            to="/room/create"
+            to="/user/update"
             className="text-white text-sm rounded-full sm:px-5 sm:p-3 px-2 p-1 bg-linear-to-r from-indigo-500 via-purple-500  to-pink-500 hover:-translate-y-1 "
           >
-            Create Room
+            Edit Profile
           </Link>
         </div>
       </div>
