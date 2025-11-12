@@ -1,6 +1,8 @@
 @import "tailwindcss";
+@plugin 'lightswind/plugin'; 
 
 *{
     font-family: "Source Sans 3", sans-serif;
+    scroll-behavior: "smooth";
 }
 

@@ -127,6 +127,7 @@ export default function Chats() {
                     src=""
                     alt="no"
                     className="aspect-square rounded-xl bg-gray-200"
+                    loading="lazy"
                   />
                   <h1 className="text-xl">John Wick</h1>
                 </div>

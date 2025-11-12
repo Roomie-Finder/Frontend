@@ -27,8 +27,8 @@ export default function UpdateProfileForm({
     socialHabits: "",
     interests: "",
     smokingDrinkingHabbit: "",
-    isLookingForRoom: false,
-    isLookingForRoommate: false,
+    isLookingForRoom: true,
+    isLookingForRoommate: true,
     locationPreference: "",
     preferredRoomType: "Any",
   });
@@ -56,8 +56,8 @@ export default function UpdateProfileForm({
         smokingDrinkingHabbit: (lifeStyle.smokingDrinkingHabbit || []).join(
           ", "
         ),
-        isLookingForRoom: roomStatus.isLookingForRoom || false,
-        isLookingForRoommate: roomStatus.isLookingForRoommate || false,
+        isLookingForRoom: roomStatus.isLookingForRoom,
+        isLookingForRoommate: roomStatus.isLookingForRoommate,
         preferredRoomType: roomStatus.preferredRoomType || "Any",
         locationPreference: (roomStatus.locationPreference || []).join(", "),
       });
@@ -70,6 +70,8 @@ export default function UpdateProfileForm({
       ...prevData,
       [name]: type === "checkbox" ? checked : value,
     }));
+    console.log(formData.isLookingForRoom);
+    console.log(formData.isLookingForRoommate);
   };
 
   const handleSubmit = (e) => {
@@ -103,8 +105,8 @@ export default function UpdateProfileForm({
           sleepSchedule: formData.sleepSchedule,
         },
         roomStatus: {
-          isLookingForRoom: formData.isLookingForRoom,
-          isLookingForRoommate: formData.isLookingForRoommate,
+          isLookingForRoom: formData.isLookingForRoom || true,
+          isLookingForRoommate: formData.isLookingForRoommate || true,
           locationPreference: splitAndTrim(formData.locationPreference),
           preferredRoomType: formData.preferredRoomType,
         },

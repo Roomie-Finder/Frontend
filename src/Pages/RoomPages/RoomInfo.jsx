@@ -14,7 +14,7 @@ import {
   PeopleIcon,
   WashingMachineIcon,
   WifiIcon,
-} from "../../Components/UI_Components/Icons/Icons";
+} from "../../Layout/Icons";
 
 export default function RoomInfo() {
   let [loading, setLoading] = useState(true);
@@ -31,6 +31,7 @@ export default function RoomInfo() {
             `http://localhost:8080/room/${roomid}`
           );
           setroom(response.data);
+          console.log(room);
         } catch (e) {
           console.error(e);
         } finally {
@@ -214,10 +215,12 @@ export default function RoomInfo() {
                   className="relative flex bg-gray-50 rounded-full p-3 items-center gap-5 w-full"
                   key={member?.email}
                 >
+                  {console.log(member?.id)}
                   <img
-                    src={`https://avatar.iran.liara.run/public/boy?username=${user.firstName}`}
+                    src={`https://avatar.iran.liara.run/public/boy?username=${user?.firstName}`}
                     alt="not found"
                     className="rounded-full bg-orange-100 h-15 aspect-square"
+                    loading="lazy"
                   />
                   <div className="flex justify-between w-full">
                     <div>
@@ -230,13 +233,13 @@ export default function RoomInfo() {
                       </p>
                     </div>
                     <p className="me-5 text-gray-500">
-                      {user.id == member.id && user.id != room.owner.id
+                      {user?.id == member?.id && user?.id != room?.owner?.id
                         ? "owner"
                         : "member"}
                     </p>
                   </div>
                 </Link>
-                {user.id == member.id && user.id != room.owner.id && (
+                {user?.id == member?.id && user?.id != room?.owner.id && (
                   <button
                     className="hover:cursor-pointer text-red-400 hover:text-red-600"
                     onClick={() => removeMember()}

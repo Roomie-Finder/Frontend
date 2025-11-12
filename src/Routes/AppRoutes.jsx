@@ -1,7 +1,7 @@
 import HomePage from "../Pages/HomePage";
 import Rooms from "../Pages/RoomPages/Rooms";
 import Userlogin from "../Pages/UserPages/Userlogin";
-import AppLayout from "../Components/Layout/AppLayout";
+import AppLayout from "../Layout/AppLayout";
 import { createBrowserRouter } from "react-router-dom";
 import UserProfile from "../Pages/UserPages/UserProfile";
 import RoomInfo from "../Pages/RoomPages/RoomInfo";
@@ -10,6 +10,7 @@ import CreateRoom from "../Pages/RoomPages/CreateRoom";
 import AdminDashboard from "../Pages/AdminPages/AdminDashboard";
 import UserLogOut from "../Pages/UserPages/UserLogOut";
 import ProfileUpdate from "../Pages/UserPages/ProfileUpdate";
+import AboutUs from "../Pages/AdditionalPages/AboutUs";
 
 export const AppRoutes = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ export const AppRoutes = createBrowserRouter([
         Component: RoomInfo,
       },
       {
+        path: "room/create",
+        Component: CreateRoom,
+      },
+      {
         path: "user/:userid",
         Component: UserProfile,
       },
@@ -35,11 +40,11 @@ export const AppRoutes = createBrowserRouter([
         path: "user/update",
         Component: ProfileUpdate,
       },
+      {
+        path: "aboutus",
+        Component: AboutUs,
+      },
     ],
-  },
-  {
-    path: "room/create",
-    Component: CreateRoom,
   },
   {
     path: "login",

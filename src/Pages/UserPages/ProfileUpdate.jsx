@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import UpdateProfileForm from "./UpdateProfileForm";
+import { useNavigate } from "react-router";
 
 export default function ProfileUpdate() {
   let [currentUser, setCurrUser] = useState({});
   let [isSubmitting, setIsSubmitting] = useState(false);
   let user = JSON.parse(localStorage.getItem("user"));
+  let navigate = useNavigate();
 
   useEffect(() => {
     async function fetchdata() {
@@ -29,11 +31,13 @@ export default function ProfileUpdate() {
         `http://localhost:8080/userProfile/${user.id}`,
         formData
       );
-      console.log(res.data);
-      setCurrUser(res.data);
+      if (res.status == 200 || res.status == 201) {
+        navigate(`/user/${user.id}`);
+      }
     } catch (e) {
       console.error(e);
     }
+    setIsSubmitting(false);
   };
 
   return (

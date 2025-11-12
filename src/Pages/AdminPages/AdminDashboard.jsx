@@ -97,6 +97,7 @@ const Header = ({ admin }) => {
             src={`https://api.dicebear.com/8.x/initials/svg?seed=${admin.firstName}`}
             alt="Admin Avatar"
             className="w-10 h-10 rounded-full border-2 border-blue-500"
+            loading="lazy"
           />
         </div>
       </div>
@@ -298,6 +299,7 @@ const RecentListings = ({ listings, setlistings }) => {
                       listing?.roomName || ""
                     }`}
                     alt={`${listing?.roomName} Avatar`}
+                    loading="lazy"
                   />
                   <div className="text-sm font-medium text-gray-900">
                     {listing?.roomName}
