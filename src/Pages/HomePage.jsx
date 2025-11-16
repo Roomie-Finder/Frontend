@@ -1,12 +1,15 @@
 "use client";
-
 import Navbar from "../Layout/Navbar";
-import Footer from "../Layout/Footer";
+import React, { Suspense, lazy } from "react";
 import HeroSection from "./HomePageComponents/HeroSection";
-import CallToAction from "./HomePageComponents/CallToAction";
-import HowItWorks from "./HomePageComponents/HowItWorks";
-import FeaturedListings from "./HomePageComponents/FeaturedListings";
-import { TrustSafety } from "./HomePageComponents/TrusAndSafety";
+
+const Footer = lazy(() => import("../Layout/Footer"));
+const FeaturedListings = lazy(() =>
+  import("./HomePageComponents/FeaturedListings")
+);
+const HowItWorks = lazy(() => import("./HomePageComponents/HowItWorks"));
+const CallToAction = lazy(() => import("./HomePageComponents/CallToAction"));
+const TrustAndSafety = lazy(() => import("./HomePageComponents/TrusAndSafety"));
 
 export default function HomePage() {
   return (
@@ -24,7 +27,7 @@ export default function HomePage() {
       <FeaturedListings />
 
       {/* TrusAndSafety */}
-      <TrustSafety />
+      <TrustAndSafety />
 
       {/* how it works */}
       <CallToAction />

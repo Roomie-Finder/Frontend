@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   CheckBadgeIcon,
   LocationIcon,
@@ -6,20 +5,21 @@ import {
   BriefCaseIcon,
   LangaugeIcon,
   WFHIcon,
-  HomeIcon,
 } from "../../Layout/Icons";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
-import AnimatedNotification from "@/components/lightswind/animated-notification.tsx";
-import { Home, PlusIcon } from "lucide-react";
-import { HomeModernIcon } from "@heroicons/react/16/solid";
-import ProfileBack from "../../assets/ProfileBack.JPG";
+import { PlusIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import RoomCard from "../RoomPages/RoomCard";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import ProfileBack from "../../assets/ProfileBack.webp";
+import AnimatedNotification from "@/components/lightswind/animated-notification.js";
 
 export default function UserProfile() {
   let [User, setUser] = useState({});
   let [loading, setLoading] = useState(true);
   let { userid } = useParams();
   let [userRooms, setuserRooms] = useState([]);
+  let navigate = useNavigate();
 
   useEffect(() => {
     async function getuser() {
@@ -32,9 +32,9 @@ export default function UserProfile() {
         );
         setUser(newuser.data);
         setuserRooms(rooms.data);
-        console.log(newuser.data);
       } catch (e) {
         console.error(e);
+        navigate("/error");
       } finally {
         setLoading(false);
       }
@@ -56,41 +56,42 @@ export default function UserProfile() {
   }
 
   return (
-    <div className="lg:px-24 flex flex-col gap-10 bg-gray-50 min-h-screen">
+    <div className="lg:px-24 flex flex-col gap-10  min-h-screen pb-20 rounded-2xl ">
       <AnimatedNotification
         autoGenerate={false}
         maxNotifications={3}
         variant="glass"
         position="top-right"
-        showAvatars={false}
+        showAvatars={true}
         allowDismiss={true}
         notifications={[]}
         autoDismissTimeout={3000}
       />
 
-      <div className=" pb-2 rounded-2xl gap-5 items-center bg-white">
+      <div className=" pb-2 rounded-2xl gap-5 items-center ">
         <div>
           <img
             src={ProfileBack}
             alt=""
             loading="lazy"
-            className="w-full h-50 object-cover rounded-2xl"
+            className="w-full h-50 object-cover rounded-t-2xl"
+            fetchPriority="high"
           />
         </div>
-        <div className="flex">
+        <div className="flex rounded-b-2xl outline-3 outline-gray-200/10 pb-3 shadow-sm/10">
           <img
-            src={`https://avatar.iran.liara.run/public/boy?username=${User.firstName}`}
+            src={`https://avatar.iran.liara.run/public/boy?username=${User.firstName}&size=150`}
             alt="User Avatar"
             className="absolute rounded-full h-24 sm:h-32 shadow-lg p-1 aspect-square border translate-x-15 -translate-y-10"
             loading="lazy"
           />
-          <div className="flex flex-col items-start ms-60">
-            <h1 className="flex items-center gap-2 sm:text-2xl lg:text-3xl text-gray-900 text-nowrap  ">
+          <div className="flex-grow flex-col items-start ms-60">
+            <h1 className="flex items-center gap-2 sm:text-2xl lg:text-3xl text-gray-700 text-nowrap  ">
               <span>{User?.firstName || ""}</span>{" "}
               <span>{User?.lastName || ""}</span>
               <CheckBadgeIcon className="w-4 h-4 sm:w-6 sm:h-6 text-blue-500" />
             </h1>
-            <p className="sm:text-xl text-gray-600">
+            <p className="sm:text-lg text-gray-600">
               {User?.userProfile?.personalInfo?.age} years old
             </p>
             <p className="flex items-center gap-2 text-gray-600">
@@ -98,10 +99,10 @@ export default function UserProfile() {
               {User?.userProfile?.personalInfo?.city || "Location not set"}
             </p>
           </div>
-          <div className=" m-auto col-span-2 ">
+          <div className=" m-auto me-10">
             <Link
               to="/user/update"
-              className="text-white text-sm sm:text-base rounded-full sm:px-6 sm:py-3 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg transition-all duration-300"
+              className="text-white text-sm sm:text-base rounded-full sm:px-6 sm:py-3 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg transition-all duration-300 "
             >
               Edit Profile
             </Link>
@@ -112,18 +113,17 @@ export default function UserProfile() {
       <div className="flex flex-col lg:grid lg:grid-cols-3 gap-8">
         <div className="flex flex-col gap-8">
           {/* About Me */}
-          <div className="bg-white rounded-2xl px-6 py-5">
+          <div className="bg-gray-400/5 rounded-2xl px-6 py-5 outline-2 outline-gray-400/5">
             <h2 className="text-xl text-gray-700">About Me</h2>
-            <hr className="border border-gray-200 my-4" />
+            <hr className="border-t border-gray-500/40 my-4" />
             <p className="text-gray-700 leading-relaxed">
               {User?.userProfile?.personalInfo?.aboutUser ||
                 "This user hasn't written an about section yet."}
             </p>
             <h2 className="text-xl text-gray-700 mt-8">Looking for</h2>
-            <hr className="border border-gray-200 my-2" />
+            <hr className="border-t border-gray-500/40 my-2" />
             <div className="flex flex-wrap gap-3 text-gray-700">
-              A clean, responsible roommate who respects shared spaces and quiet
-              hours. Ideally someone around my age who's also working full-time.
+              {User?.userProfile?.roomStatus?.lookingFor}
             </div>
           </div>
 
@@ -141,15 +141,42 @@ export default function UserProfile() {
               List Your Room
             </Link>
           </div>
+        </div>
+        <div className="col-span-2 flex flex-col gap-8">
+          {/* Info like occupation & etc  */}
+          <div className="shadow-lg/3 p-6 py-7 rounded-2xl bg-gray-400/5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
+              <InfoItem
+                icon={<BriefCaseIcon className="size-6 text-violet-400" />}
+                label="Occupation"
+                value={User?.userProfile?.personalInfo?.occupation}
+              />
+              <InfoItem
+                icon={<LangaugeIcon className="size-6 text-green-400" />}
+                label="Language"
+                value={User?.userProfile?.personalInfo?.nativeLanguage}
+              />
+              <InfoItem
+                icon={<WFHIcon className="size-6 text-orange-400" />}
+                label="Work Arrangement"
+                value={User?.userProfile?.personalInfo?.workFromHome}
+              />
+              <InfoItem
+                icon={<BedIcon className="size-6 text-blue-400" />}
+                label="Preferred Room Type"
+                value={User?.userProfile?.roomStatus?.preferredRoomType}
+              />
+            </div>
+          </div>
 
           {/* Lifestyle Card */}
-          <div className="rounded-2xl px-6 shadow-lg py-5 bg-white">
-            <h2 className="text-2xl font-bold text-gray-900 pb-4">Lifestyle</h2>
-            <div className="flex flex-wrap gap-2">
+          <div className="rounded-2xl px-6 shadow-lg/3 py-5 bg-gray-400/5">
+            <h2 className="text-2xl pb-4">Lifestyle</h2>
+            <div className="flex flex-wrap gap-2 grid grid-cols-2 sm:grid-cols-5">
               {User?.userProfile?.lifeStyle?.socialHabits.map((lifeStyle) => (
                 <div
                   key={lifeStyle}
-                  className="inline-block bg-indigo-100 rounded-full py-1.5 px-4 text-indigo-800 font-medium text-nowrap"
+                  className=" bg-indigo-100 rounded-full py-1.5 px-6 text-indigo-800 font-medium text-nowrap"
                 >
                   {lifeStyle}
                 </div>
@@ -157,51 +184,24 @@ export default function UserProfile() {
             </div>
           </div>
 
-          {/* Interests Card */}
-          <div className="rounded-2xl px-6 shadow-lg py-5 bg-white">
-            <h2 className="text-2xl font-bold text-gray-900 pb-4">Interests</h2>
-            <div className="flex flex-wrap gap-2">
+          {/* Hobbies and Interests Card */}
+          <div className="rounded-2xl px-6 shadow-lg/3 py-5 bg-gray-400/5">
+            <h2 className="text-2xl  pb-4">Hobbies & Interests</h2>
+            <div className="flex flex-wrap gap-2 grid grid-cols-2 sm:grid-cols-5">
               {User?.userProfile?.lifeStyle?.interests?.map((interest) => (
                 <p
                   key={interest}
-                  className="inline-block bg-rose-100 rounded-full text-rose-800 py-1.5 px-4 font-medium"
+                  className="inline-block bg-rose-100 rounded-full text-rose-800 py-1.5 px-6 font-medium"
                 >
                   {interest}
                 </p>
               ))}
             </div>
           </div>
-        </div>
-        <div className="col-span-2 flex flex-col gap-8">
-          <div className="shadow-lg p-6 py-7 rounded-2xl bg-white">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
-              <InfoItem
-                icon={<BriefCaseIcon className="size-6" />}
-                label="Occupation"
-                value={User?.userProfile?.personalInfo?.occupation}
-              />
-              <InfoItem
-                icon={<LangaugeIcon className="size-6" />}
-                label="Language"
-                value={User?.userProfile?.personalInfo?.nativeLanguage}
-              />
-              <InfoItem
-                icon={<WFHIcon className="size-6" />}
-                label="Work Arrangement"
-                value={User?.userProfile?.personalInfo?.workFromHome}
-              />
-              <InfoItem
-                icon={<BedIcon className="size-6" />}
-                label="Preferred Room Type"
-                value={User?.userProfile?.roomStatus?.preferredRoomType}
-              />
-            </div>
-          </div>
 
-          <div className="rounded-2xl shadow-lg px-6 py-5 bg-white flex flex-col gap-3">
-            <h2 className="text-2xl font-bold text-gray-900">
-              Room Preferences
-            </h2>
+          {/* Room Preferences */}
+          <div className="rounded-2xl shadow-lg/3 px-6 py-5 bg-gray-400/5 flex flex-col gap-3">
+            <h2 className="text-2xl ">Room Preferences</h2>
             <hr className="border border-gray-200 my-2" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -231,27 +231,25 @@ export default function UserProfile() {
             </div>
           </div>
 
-          <div className="rounded-2xl shadow-lg px-6 py-5 bg-white">
-            <h2 className="text-2xl font-bold text-gray-900 pb-6 flex flex-col ">
-              My Rooms
-            </h2>
-            <div className=" flex flex-col gap-2 *:rounded-full w-full  *:border-2 *:border-gray-300/50 *:bg-violet-200/20 *:px-10 *cursor-pointer ">
+          <div className="rounded-2xl shadow-lg/3 px-6 py-5 bg-gray-400/5 ">
+            <h2 className="text-2xl   pb-6 flex flex-col ">My Rooms</h2>
+            <div className="grid md:grid-cols-3 grid-cols-1 gap-3  *cursor-pointer ">
               {userRooms.length
-                ? userRooms.map((room) => (
-                    <Link
-                      to={`/room/${room.id}`}
-                      className="px-7 py-3 w-full flex "
-                    >
-                      <div className="w-full grid grid-cols-2 truncate">
-                        <h1 className="flex items-center gap-2 text-violet-800">
-                          <HomeModernIcon className="size-4" /> {room.roomName}
-                        </h1>
-                        <p className="flex gap-1 items-center">
-                          <LocationIcon />
-                          {room.address}
-                        </p>
-                      </div>
-                    </Link>
+                ? userRooms.map((room, index) => (
+                    <RoomCard
+                      key={room.id}
+                      id={room.id}
+                      image={
+                        room.images[0] ||
+                        `https://placehold.co/600x400/e2e8f0/64748b?text=${encodeURIComponent(
+                          room.roomName
+                        )}`
+                      }
+                      title={room.roomName}
+                      location={room.address}
+                      price={`₹${room?.rent}/mo`}
+                      type={room?.propertyType}
+                    />
                   ))
                 : "no"}
             </div>
@@ -269,7 +267,7 @@ const InfoItem = ({ icon, label, value }) => {
       <div className="flex-shrink-0 text-gray-500">{icon}</div>
       <div>
         <p className="text-sm text-gray-500">{label}</p>
-        <h6 className="font-semibold text-lg text-gray-900">{value}</h6>
+        <h6 className="font-semibold text-lg ">{value}</h6>
       </div>
     </div>
   );

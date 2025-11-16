@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import LoginImage from "../../assets/two.png";
-import SignUpImage from "../../assets/three.png";
+import LoginImage from "../../assets/two.webp";
+import SignUpImage from "../../assets/three.webp";
 import { Field, Input, Button } from "@headlessui/react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { HomeIcon, ProfileIcon, RegisterIcon } from "../../Layout/Icons";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
-import AnimatedNotification from "@/components/lightswind/animated-notification.tsx";
+import AnimatedNotification from "@/components/lightswind/animated-notification.js";
 
-export default function Userlogin() {
+export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -132,7 +132,7 @@ export default function Userlogin() {
           allowDismiss={true}
           notifications={notifications}
           onNotificationDismiss={handleDismiss}
-          autoDismissTimeout={3000}
+          autoDismissTimeout={300}
         />
       </div>
 

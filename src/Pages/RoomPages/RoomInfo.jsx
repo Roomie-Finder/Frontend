@@ -1,19 +1,20 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
 import {
   BedIcon,
   CalenderIcon,
   CheckIcon,
-  CloseIcon,
   HomeIcon,
-  KitchenIcon,
   LocationIcon,
-  ParkingIcon,
   PeopleIcon,
-  WashingMachineIcon,
-  WifiIcon,
 } from "../../Layout/Icons";
 
 export default function RoomInfo() {
@@ -31,9 +32,9 @@ export default function RoomInfo() {
             `http://localhost:8080/room/${roomid}`
           );
           setroom(response.data);
-          console.log(room);
         } catch (e) {
           console.error(e);
+          alert("error occured during fetching rooms !!");
         } finally {
           setLoading(false);
         }
@@ -93,23 +94,29 @@ export default function RoomInfo() {
     );
   }
 
-  const amenityIcons = {
-    Wifi: WifiIcon,
-    Parking: ParkingIcon,
-    Kitchen: KitchenIcon,
-    "Washing Machine": WashingMachineIcon,
-  };
-
   return (
     <div className="xl:px-20 p-0 flex flex-col lg:grid lg:grid-cols-3 gap-5 ">
       <div className="left-side flex flex-col col-span-2 gap-5">
         <div className="aspect-[16/10] rounded-2xl overflow-hidden ">
-          <img
-            src="abc"
-            alt=""
-            loading="lazy"
-            className="bg-blue-100 w-full h-full object-cover"
-          />
+          <Swiper
+            slidesPerView={1}
+            spaceBetween={30}
+            loop={true}
+            pagination={{
+              clickable: true,
+            }}
+            navigation={true}
+            modules={[Pagination, Navigation]}
+            className="mySwiper w-full h-full object-cover "
+          >
+            {room.images.map((image, index) => {
+              return (
+                <SwiperSlide key={index} className="">
+                  <img src={image} alt="" />
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
         </div>
 
         <div className="">
@@ -120,7 +127,7 @@ export default function RoomInfo() {
             </p>
           </div>
           <div className="flex items-baseline gap-2 ">
-            <LocationIcon />
+            <LocationIcon className="size-3" />
             <p className="text-gray-600">{room?.address}</p>
           </div>
           <div className="text-3xl flex items-baseline pt-2 gap-2 mt-1">
@@ -128,6 +135,7 @@ export default function RoomInfo() {
             <p className="text-base text-gray-600">/month</p>
           </div>
         </div>
+
         {/* Room Information */}
         <div className="grid md:grid-cols-4 grid-cols-2 gap-3 rounded-xl  p-5 outline-1 outline-gray-200 *:flex *:gap-3">
           <div className="">
@@ -183,12 +191,13 @@ export default function RoomInfo() {
         {/* Amenities */}
         <div className="outline-2 outline-gray-100 p-5 rounded-xl ">
           <h1 className=" pb-5">Amenities</h1>
-          <div className="grid md:grid-cols-3 grid-cols-2 *:flex *:items-center gap-4 *:gap-3">
-            {room?.amenities.map((amenity) => {
-              let Icon = amenityIcons[amenity];
+          <div className="flex  *:flex *:items-center gap-4 ">
+            {room?.amenities.map((amenity, index) => {
               return (
-                <div className="">
-                  <div className="p-2 bg-gray-100 rounded-lg "></div>
+                <div
+                  className="bg-gray-300/20 outline outline-gray-300 rounded-full p-2 px-4 "
+                  key={index}
+                >
                   <div className="text-nowrap">{amenity}</div>
                 </div>
               );
@@ -207,23 +216,22 @@ export default function RoomInfo() {
               {user && "Be a member"}
             </button>
           </div>
-          {room?.members?.map((member) => {
+          {room?.members?.map((member, index) => {
             return (
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-5" key={index}>
                 <Link
                   to={`/user/${member?.id}`}
                   className="relative flex bg-gray-50 rounded-full p-3 items-center gap-5 w-full"
                   key={member?.email}
                 >
-                  {console.log(member?.id)}
                   <img
-                    src={`https://avatar.iran.liara.run/public/boy?username=${user?.firstName}`}
+                    src={`https://avatar.iran.liara.run/public/boy?username=${user?.firstName}&size=150`}
                     alt="not found"
                     className="rounded-full bg-orange-100 h-15 aspect-square"
                     loading="lazy"
                   />
                   <div className="flex justify-between w-full">
-                    <div>
+                    <div className="text-gray-700">
                       <p>
                         {member?.firstName} {member?.lastName}
                         {member?.userProfile?.personalInfo?.age}
@@ -232,8 +240,8 @@ export default function RoomInfo() {
                         {member?.userProfile?.personalInfo?.occupation}{" "}
                       </p>
                     </div>
-                    <p className="me-5 text-gray-500">
-                      {user?.id == member?.id && user?.id != room?.owner?.id
+                    <p className="me-5 text-gray-500 flex items-center ">
+                      {user?.id == member?.id && user?.id == room?.owner?.id
                         ? "owner"
                         : "member"}
                     </p>
@@ -250,12 +258,12 @@ export default function RoomInfo() {
               </div>
             );
           })}
-          <div className="bg-blue-50 outline-1 outline-blue-100 p-3 rounded-xl *:flex *:text-sm *:font-light *:gap-3 ">
+          <div className="bg-blue-300/20 outline-1 outline-blue-200 p-3 rounded-xl *:flex *:text-sm *:font-light *:gap-3 text-blue-400">
             {room?.roommatePreferences.map((value) => {
               return (
                 <div className="" key={value}>
-                  <div className="text-blue-700  ">
-                    <CheckIcon />
+                  <div className="flex items-center">
+                    <CheckIcon className="size-3 " />
                   </div>
                   {value}
                 </div>

@@ -6,17 +6,17 @@ import {
   useSpring,
   useTransform,
   AnimatePresence,
+  MotionValue,
 } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-// --- No changes in useDockItemSize ---
 function useDockItemSize(
-  mouseX,
-  baseItemSize,
-  magnification,
-  distance,
-  ref,
-  spring
+  mouseX: MotionValue<number>,
+  baseItemSize: number,
+  magnification: number,
+  distance: number,
+  ref: React.RefObject<HTMLDivElement>,
+  spring: { mass: number; stiffness: number; damping: number }
 ) {
   const mouseDistance = useTransform(mouseX, (val) => {
     if (typeof val !== "number" || isNaN(val)) return 0;
@@ -36,7 +36,18 @@ function useDockItemSize(
   return useSpring(targetSize, spring);
 }
 
-// --- ADD `isActive` PROP ---
+interface DockItemProps {
+  icon: React.ReactNode;
+  label: string;
+  onClick: () => void;
+  mouseX: MotionValue<number>;
+  baseItemSize: number;
+  magnification: number;
+  distance: number;
+  spring: { mass: number; stiffness: number; damping: number };
+  badgeCount?: number;
+}
+
 function DockItem({
   icon,
   label,
@@ -47,9 +58,8 @@ function DockItem({
   distance,
   spring,
   badgeCount,
-  isActive = false, // <-- ADD THIS
-}) {
-  const ref = useRef(null);
+}: DockItemProps) {
+  const ref = useRef<HTMLDivElement>(null);
   const isHovered = useMotionValue(0);
   const size = useDockItemSize(
     mouseX,
@@ -77,11 +87,8 @@ function DockItem({
       onFocus={() => isHovered.set(1)}
       onBlur={() => isHovered.set(0)}
       onClick={onClick}
-      // --- APPLY CONDITIONAL STYLES HERE ---
-      className={`relative inline-flex items-center justify-center rounded-full 
-      shadow-md transition-colors duration-200
-      ${isActive ? "bg-violet-500 text-white" : "bg-white"}
-      `}
+      className="relative inline-flex items-center justify-center rounded-full 
+      bg-background    shadow-md  "
       tabIndex={0}
       role="button"
       aria-haspopup="true"
@@ -100,7 +107,7 @@ function DockItem({
             exit={{ opacity: 0, y: 0 }}
             transition={{ duration: 0.2 }}
             className="absolute -top-6 left-1/2 w-fit whitespace-pre rounded-md 
-            border border bg-[#060606] px-2 py-0.5 text-xs text-white"
+            border border   bg-[#060606] px-2 py-0.5 text-xs text-white"
             style={{ x: "-50%" }}
             role="tooltip"
           >
@@ -112,7 +119,25 @@ function DockItem({
   );
 }
 
-// --- ADD `activeIndex` PROP ---
+interface DockItem {
+  icon: React.ReactNode;
+  label: string;
+  onClick: () => void;
+  badgeCount?: number;
+}
+
+interface DockProps {
+  items: DockItem[];
+  className?: string;
+  spring?: { mass: number; stiffness: number; damping: number };
+  magnification?: number;
+  distance?: number;
+  panelHeight?: number;
+  dockHeight?: number;
+  baseItemSize?: number;
+  position?: "bottom" | "top";
+}
+
 export default function Dock({
   items,
   className = "",
@@ -122,8 +147,7 @@ export default function Dock({
   panelHeight = 64,
   dockHeight = 256,
   baseItemSize = 50,
-  activeIndex = -1, // <-- ADD THIS (default to -1 for "none")
-}) {
+}: DockProps) {
   const mouseX = useMotionValue(Infinity);
   const isHovered = useMotionValue(0);
 
@@ -152,8 +176,8 @@ export default function Dock({
           mouseX.set(Infinity);
         }}
         className={`absolute bottom-2 left-1/2 -translate-x-1/2 transform 
-          flex items-end gap-4 w-fit rounded-2xl 
-          border-2 border px-4 pb-2 ${className}`}
+            flex items-end gap-4 w-fit rounded-2xl 
+            border-2 border   px-4 pb-2 ${className}`}
         style={{ height: panelHeight }}
         role="toolbar"
         aria-label="Application dock"
@@ -170,7 +194,6 @@ export default function Dock({
             distance={distance}
             spring={spring}
             badgeCount={item.badgeCount}
-            isActive={index === activeIndex} // <-- PASS isActive PROP
           />
         ))}
       </motion.div>

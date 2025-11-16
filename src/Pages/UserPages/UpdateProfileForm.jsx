@@ -6,6 +6,7 @@ import {
   BriefcaseIcon,
   SparklesIcon,
 } from "@heroicons/react/24/outline";
+import { Link } from "react-router";
 
 export default function UpdateProfileForm({
   currentUser,
@@ -27,8 +28,7 @@ export default function UpdateProfileForm({
     socialHabits: "",
     interests: "",
     smokingDrinkingHabbit: "",
-    isLookingForRoom: true,
-    isLookingForRoommate: true,
+    lookingFor: "",
     locationPreference: "",
     preferredRoomType: "Any",
   });
@@ -65,13 +65,11 @@ export default function UpdateProfileForm({
   }, [currentUser]);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     }));
-    console.log(formData.isLookingForRoom);
-    console.log(formData.isLookingForRoommate);
   };
 
   const handleSubmit = (e) => {
@@ -105,8 +103,7 @@ export default function UpdateProfileForm({
           sleepSchedule: formData.sleepSchedule,
         },
         roomStatus: {
-          isLookingForRoom: formData.isLookingForRoom || true,
-          isLookingForRoommate: formData.isLookingForRoommate || true,
+          lookingFor: formData.lookingFor || "Tell about your preferences....",
           locationPreference: splitAndTrim(formData.locationPreference),
           preferredRoomType: formData.preferredRoomType,
         },
@@ -117,201 +114,314 @@ export default function UpdateProfileForm({
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 md:p-8">
-      <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div className="p-6 md:p-10">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Profile Settings
-          </h1>
+    <div className=" mx-auto  overflow-hidden">
+      {/* --- SECTION 1: PERSONAL INFORMATION --- */}
+      <div className="p-2 md:p-5 grid grid-cols-3">
+        <div className="col-span-1 pt-5">
+          <h1 className="text-xl font-semibold  mb-2">Profile</h1>
           <p className="text-gray-600 mb-8">
-            Update your profile and roommate preferences.
+            This information will be displayed publicly <br />
+            so be careful what you share.
           </p>
-
+        </div>
+        <div className="col-span-2  bg-gray-400/10 rounded-2xl p-10">
           <form onSubmit={handleSubmit} className="space-y-10">
-            {/* --- SECTION 1: PERSONAL INFORMATION --- */}
-            <fieldset>
-              <legend className="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
-                Personal Information
-              </legend>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormInput
-                  label="First Name"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  placeholder="e.g., Jane"
-                />
-                <FormInput
-                  label="Last Name"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  placeholder="e.g., Doe"
-                />
-                <FormInput
-                  label="Email Address"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="e.g., jane.doe@example.com"
-                  icon={EnvelopeIcon}
-                />
-                <FormInput
-                  label="Contact Phone"
-                  name="contactNo"
-                  type="tel"
-                  value={formData.contactNo}
-                  onChange={handleChange}
-                  placeholder="e.g., 9876543210"
-                  icon={PhoneIcon}
-                />
-                <FormInput
-                  label="Age"
-                  name="age"
-                  type="number"
-                  value={formData.age}
-                  onChange={handleChange}
-                  placeholder="e.g., 25"
-                />
-                <FormInput
-                  label="Current City"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  placeholder="e.g., Pune"
-                  icon={HomeIcon}
-                />
-                <FormInput
-                  label="Occupation"
-                  name="occupation"
-                  value={formData.occupation}
-                  onChange={handleChange}
-                  placeholder="e.g., Software Engineer"
-                  icon={BriefcaseIcon}
-                />
-                <FormInput
-                  label="Native Language"
-                  name="nativeLanguage"
-                  value={formData.nativeLanguage}
-                  onChange={handleChange}
-                  placeholder="e.g., Hindi"
-                />
-              </div>
-              <div className="mt-6">
-                <FormSelect
-                  label="Work Arrangement"
-                  name="workFromHome"
-                  value={formData.workFromHome}
-                  onChange={handleChange}
-                >
-                  <option>No</option>
-                  <option>Yes</option>
-                  <option>Hybrid</option>
-                </FormSelect>
-              </div>
-              <div className="mt-6">
-                <FormTextarea
-                  label="About Me"
-                  name="aboutUser"
-                  rows="4"
-                  value={formData.aboutUser}
-                  onChange={handleChange}
-                  placeholder="Tell everyone a bit about yourself..."
-                />
-              </div>
-            </fieldset>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <FormInput
+                label="Email Address"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="e.g., jane.doe@example.com"
+                icon={EnvelopeIcon}
+              />
+            </div>
 
-            {/* --- SECTION 2: LIFESTYLE & HABITS --- */}
-            <fieldset>
-              <legend className="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
-                Lifestyle & Habits
-              </legend>
-              <div className="space-y-6">
-                <FormSelect
-                  label="Sleep Schedule"
-                  name="sleepSchedule"
-                  value={formData.sleepSchedule}
-                  onChange={handleChange}
+            <FormTextarea
+              label="About Me"
+              name="aboutUser"
+              rows="4"
+              value={formData.aboutUser}
+              onChange={handleChange}
+              placeholder="Tell everyone a bit about yourself..."
+            />
+            {/* image */}
+            <div className="mt-2 flex justify-center rounded-lg border border-dashed border-blue-700/25 px-6 py-10">
+              <div className="text-center">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  data-slot="icon"
+                  aria-hidden="true"
+                  className="mx-auto size-12 text-violet-600"
                 >
-                  <option>Flexible</option>
-                  <option>Early Bird</option>
-                  <option>Night Owl</option>
-                </FormSelect>
-                <FormInput
-                  label="Social Habits (comma-separated)"
-                  name="socialHabits"
-                  value={formData.socialHabits}
-                  onChange={handleChange}
-                  placeholder="e.g., Quiet, Social, Introvert"
-                  icon={SparklesIcon}
-                />
-                <FormInput
-                  label="Interests (comma-separated)"
-                  name="interests"
-                  value={formData.interests}
-                  onChange={handleChange}
-                  placeholder="e.g., Reading, Gaming, Hiking"
-                />
-                <FormInput
-                  label="Smoking/Drinking Habits (comma-separated)"
-                  name="smokingDrinkingHabbit"
-                  value={formData.smokingDrinkingHabbit}
-                  onChange={handleChange}
-                  placeholder="e.g., Non-smoker, Social drinker"
-                />
-              </div>
-            </fieldset>
-
-            <fieldset>
-              <legend className="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
-                Room Preferences
-              </legend>
-              <div className="space-y-6">
-                <div className="flex space-x-8">
-                  <FormCheckbox
-                    label="I'm looking for a room"
-                    name="isLookingForRoom"
-                    checked={formData.isLookingForRoom}
-                    onChange={handleChange}
+                  <path
+                    d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
+                    clipRule="evenodd"
+                    fillRule="evenodd"
                   />
-                  <FormCheckbox
-                    label="I'm looking for a roommate"
-                    name="isLookingForRoommate"
-                    checked={formData.isLookingForRoommate}
-                    onChange={handleChange}
-                  />
+                </svg>
+                <div className="mt-4 flex text-sm/6 text-gray-400">
+                  <label
+                    htmlFor="file-upload"
+                    className="relative cursor-pointer rounded-md bg-transparent font-semibold text-indigo-400 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-indigo-500 hover:text-indigo-300"
+                  >
+                    <span>Upload a file</span>
+                    <input
+                      id="file-upload"
+                      type="file"
+                      name="file"
+                      className="sr-only"
+                      required
+                      multiple
+                    />
+                  </label>
+                  <p className="pl-1">or drag and drop</p>
                 </div>
-                <FormInput
-                  label="Preferred Locations (comma-separated)"
-                  name="locationPreference"
-                  value={formData.locationPreference}
-                  onChange={handleChange}
-                  placeholder="e.g., Koregaon Park, Hinjewadi"
-                />
-                <FormSelect
-                  label="Preferred Room Type"
-                  name="preferredRoomType"
-                  value={formData.preferredRoomType}
-                  onChange={handleChange}
-                >
-                  <option>Any</option>
-                  <option>PG</option>
-                  <option>Apartment</option>
-                  <option>House</option>
-                  <option>Other</option>
-                </FormSelect>
+                <p className="text-xs/5 text-gray-400">
+                  PNG, JPG, GIF up to 10MB
+                </p>
               </div>
-            </fieldset>
-
-            {/* --- SUBMIT BUTTON --- */}
-            <div className="pt-6 border-t border-gray-200 flex justify-end">
+            </div>
+            <div className="pt-6 flex justify-end gap-5 ">
+              <Link
+                to={`/user/${currentUser.id}`}
+                className="bg-gray-500/60 hover:bg-gray-500 rounded-full px-10 flex items-center"
+              >
+                Cancel
+              </Link>
               <button
                 type="submit"
                 disabled={isLoading}
-                className="inline-flex justify-center items-center py-2 px-6 border border-transparent shadow-sm text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-0 focus:border-indigo-700 disabled:opacity-50"
+                className="inline-flex justify-center items-center py-2 px-10 border border-transparent shadow-sm text-base font-medium rounded-full text-white bg-violet-400/50 hover:bg-violet-800 focus:outline-none focus:ring-0 focus:border-indigo-700 disabled:opacity-50"
               >
-                {isLoading ? "Saving..." : "Update Profile"}
+                {isLoading ? "Saving..." : "Save"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <hr />
+
+      {/* Personal Information */}
+      <div className="p-2 md:p-5 grid grid-cols-3">
+        <div className="col-span-1 pt-5">
+          <h1 className="text-xl font-semibold  mb-2">Personal Information</h1>
+          <p className="text-gray-600 mb-8">
+            Fill out this section with your accurate personal details <br />
+            for our records and communication purposes
+          </p>
+        </div>
+        <div className="col-span-2  bg-gray-400/10 rounded-2xl p-10">
+          <form onSubmit={handleSubmit} className="space-y-10">
+            <div className="grid grid-cols-2 gap-5">
+              <FormInput
+                label="First Name"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                placeholder="e.g., Jane"
+              />
+              <FormInput
+                label="Last Name"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="e.g., Doe"
+              />
+              <FormInput
+                label="Contact Phone"
+                name="contactNo"
+                type="tel"
+                value={formData.contactNo}
+                onChange={handleChange}
+                placeholder="e.g., 9876543210"
+                icon={PhoneIcon}
+              />
+              <FormInput
+                label="Age"
+                name="age"
+                type="number"
+                value={formData.age}
+                onChange={handleChange}
+                placeholder="e.g., 25"
+              />
+              <FormInput
+                label="Current City"
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+                placeholder="e.g., Pune"
+                icon={HomeIcon}
+              />
+              <FormInput
+                label="Occupation"
+                name="occupation"
+                value={formData.occupation}
+                onChange={handleChange}
+                placeholder="e.g., Software Engineer"
+                icon={BriefcaseIcon}
+              />
+              <FormInput
+                label="Native Language"
+                name="nativeLanguage"
+                value={formData.nativeLanguage}
+                onChange={handleChange}
+                placeholder="e.g., Hindi"
+              />
+            </div>
+            <div className="mt-6">
+              <FormSelect
+                label="Work Arrangement"
+                name="workFromHome"
+                value={formData.workFromHome}
+                onChange={handleChange}
+              >
+                <option>No</option>
+                <option>Yes</option>
+                <option>Hybrid</option>
+              </FormSelect>
+            </div>
+            <div className="pt-6 flex justify-end gap-5 ">
+              <Link
+                to={`/user/${currentUser.id}`}
+                className="bg-gray-500/60 hover:bg-gray-500 rounded-full px-10 flex items-center"
+              >
+                Cancel
+              </Link>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="inline-flex justify-center items-center py-2 px-10 border border-transparent shadow-sm text-base font-medium rounded-full text-white bg-violet-400/50 hover:bg-violet-800 focus:outline-none focus:ring-0 focus:border-indigo-700 disabled:opacity-50"
+              >
+                {isLoading ? "Saving..." : "Save"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <hr />
+
+      {/* --- SECTION 2: LIFESTYLE & HABITS --- */}
+      <div className="p-2 md:p-5 grid grid-cols-3">
+        <div className="col-span-1 pt-5">
+          <h1 className="text-xl font-semibold  mb-2">Lifestyle & Habits</h1>
+          <p className="text-gray-600 mb-8">
+            Please use this section to share your personal pursuits, <br />{" "}
+            hobbies, and activities you enjoy .
+          </p>
+        </div>
+        <div className="col-span-2  bg-gray-400/10 rounded-2xl p-10">
+          <form onSubmit={handleSubmit} className="space-y-10">
+            <div className="space-y-6">
+              <FormSelect
+                label="Sleep Schedule"
+                name="sleepSchedule"
+                value={formData.sleepSchedule}
+                onChange={handleChange}
+              >
+                <option>Flexible</option>
+                <option>Early Bird</option>
+                <option>Night Owl</option>
+              </FormSelect>
+              <FormInput
+                label="Social Habits (comma-separated)"
+                name="socialHabits"
+                value={formData.socialHabits}
+                onChange={handleChange}
+                placeholder="e.g., Quiet, Social, Introvert"
+                icon={SparklesIcon}
+              />
+              <FormInput
+                label="Interests (comma-separated)"
+                name="interests"
+                value={formData.interests}
+                onChange={handleChange}
+                placeholder="e.g., Reading, Gaming, Hiking"
+              />
+              <FormInput
+                label="Smoking/Drinking Habits (comma-separated)"
+                name="smokingDrinkingHabbit"
+                value={formData.smokingDrinkingHabbit}
+                onChange={handleChange}
+                placeholder="e.g., Non-smoker, Social drinker"
+              />
+            </div>
+            <div className="pt-6 flex justify-end gap-5 ">
+              <Link
+                to={`/user/${currentUser.id}`}
+                className="bg-gray-500/60 hover:bg-gray-500 rounded-full px-10 flex items-center"
+              >
+                Cancel
+              </Link>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="inline-flex justify-center items-center py-2 px-10 border border-transparent shadow-sm text-base font-medium rounded-full text-white bg-violet-400/50 hover:bg-violet-800 focus:outline-none focus:ring-0 focus:border-indigo-700 disabled:opacity-50"
+              >
+                {isLoading ? "Saving..." : "Save"}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <hr />
+
+      {/* Room Information */}
+      <div className="p-2 md:p-5 grid grid-cols-3">
+        <div className="col-span-1 pt-5">
+          <h1 className="text-xl font-semibold  mb-2">Room Preferences</h1>
+          <p className="text-gray-600 mb-8">
+            Let us know your preferences for the room.
+          </p>
+        </div>
+        <div className="col-span-2  bg-gray-400/10 rounded-2xl p-10">
+          <form onSubmit={handleSubmit} className="space-y-10">
+            <div className="space-y-6">
+              <FormInput
+                label="Preferred Locations (comma-separated)"
+                name="locationPreference"
+                value={formData.locationPreference}
+                onChange={handleChange}
+                placeholder="e.g., Koregaon Park, Hinjewadi"
+              />
+              <FormSelect
+                label="Preferred Room Type"
+                name="preferredRoomType"
+                value={formData.preferredRoomType}
+                onChange={handleChange}
+              >
+                <option>Any</option>
+                <option>PG</option>
+                <option>Apartment</option>
+                <option>House</option>
+                <option>Other</option>
+              </FormSelect>
+            </div>
+            <FormTextarea
+              label="Lookin For"
+              name="lookingFor"
+              rows="4"
+              value={formData.lookingFor}
+              onChange={handleChange}
+              placeholder="room or roommate preferences...."
+            />
+            <div className="pt-6 flex justify-end gap-5 ">
+              <Link
+                to={`/user/${currentUser.id}`}
+                className="bg-gray-500/60 hover:bg-gray-500 rounded-full px-10 flex items-center"
+              >
+                Cancel
+              </Link>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="inline-flex justify-center items-center py-2 px-10 border border-transparent shadow-sm text-base font-medium rounded-full text-white bg-violet-400/50 hover:bg-violet-800 focus:outline-none focus:ring-0 focus:border-indigo-700 disabled:opacity-50"
+              >
+                {isLoading ? "Saving..." : "Save"}
               </button>
             </div>
           </form>
@@ -331,10 +441,7 @@ const FormInput = ({
   icon: Icon,
 }) => (
   <div className="col-span-1">
-    <label
-      htmlFor={name}
-      className="block text-sm font-medium text-gray-700 mb-1.5"
-    >
+    <label htmlFor={name} className="block text-sm font-medium  mb-1.5">
       {label}
     </label>
     <div className="relative">
@@ -350,10 +457,10 @@ const FormInput = ({
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`block w-full rounded-lg border-gray-300 shadow-sm sm:text-sm 
+        className={`block w-full rounded-lg  sm:text-sm  border border-gray-400/20
                    py-2.5 
                    ${Icon ? "pl-10 pr-4" : "px-4"} 
-                   focus:ring-0 focus:border-indigo-500`}
+                   focus:ring-0 focus:border-indigo-500 border-gray-200`}
       />
     </div>
   </div>
@@ -361,10 +468,7 @@ const FormInput = ({
 
 const FormTextarea = ({ label, name, rows, value, onChange, placeholder }) => (
   <div>
-    <label
-      htmlFor={name}
-      className="block text-sm font-medium text-gray-700 mb-1.5"
-    >
+    <label htmlFor={name} className="block text-sm font-medium  mb-1.5">
       {label}
     </label>
     <textarea
@@ -374,7 +478,7 @@ const FormTextarea = ({ label, name, rows, value, onChange, placeholder }) => (
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className="block w-full rounded-lg border-gray-300 shadow-sm sm:text-sm 
+      className="block w-full rounded-lg sm:text-sm border border-gray-400/40
                    px-4 py-2.5 
                    focus:ring-0 focus:border-indigo-500"
     />
@@ -383,10 +487,7 @@ const FormTextarea = ({ label, name, rows, value, onChange, placeholder }) => (
 
 const FormSelect = ({ label, name, value, onChange, children }) => (
   <div>
-    <label
-      htmlFor={name}
-      className="block text-sm font-medium text-gray-700 mb-1.5"
-    >
+    <label htmlFor={name} className="block text-sm font-medium  mb-1.5">
       {label}
     </label>
     <select
@@ -394,32 +495,9 @@ const FormSelect = ({ label, name, value, onChange, children }) => (
       name={name}
       value={value}
       onChange={onChange}
-      className="block w-full rounded-lg border-gray-300 shadow-sm sm:text-sm 
-                   py-2.5 px-4 
-                   focus:ring-0 focus:border-indigo-500"
+      className="block w-full rounded-lg border-gray-300 border border-gray-400/40 sm:text-sm text-gray-500 py-2.5 px-4  focus:ring-0 focus:border-indigo-500"
     >
       {children}
     </select>
-  </div>
-);
-
-const FormCheckbox = ({ label, name, checked, onChange }) => (
-  <div className="relative flex items-start">
-    <div className="flex h-6 items-center">
-      <input
-        id={name}
-        name={name}
-        type="checkbox"
-        checked={checked}
-        onChange={onChange}
-        className="h-4 w-4 rounded border-gray-300 text-indigo-600 
-                   focus:ring-0"
-      />
-    </div>
-    <div className="ml-3 text-sm leading-6">
-      <label htmlFor={name} className="font-medium text-gray-900">
-        {label}
-      </label>
-    </div>
   </div>
 );

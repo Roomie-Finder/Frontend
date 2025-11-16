@@ -13,7 +13,6 @@ export default function ProfileUpdate() {
     async function fetchdata() {
       try {
         let res = await axios.get(`http://localhost:8080/user/${user.id}`);
-        console.log(res.data);
         setCurrUser(res.data);
       } catch (e) {
         console.error(e);
@@ -25,7 +24,6 @@ export default function ProfileUpdate() {
 
   let handleUpdateProfile = async (formData) => {
     setIsSubmitting(true);
-    console.log(formData);
     try {
       let res = await axios.post(
         `http://localhost:8080/userProfile/${user.id}`,

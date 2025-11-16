@@ -2,12 +2,10 @@ import React from "react";
 import { motion } from "framer-motion";
 import {
   Heart,
-  Target,
   Users,
   Sparkles,
   Building2,
   MessageCircle,
-  TrendingUp,
   CheckCircle,
 } from "lucide-react";
 
@@ -192,35 +190,38 @@ const teamMembers = [
     id: "1",
     name: "Yash Yadav",
     role: "Co-Founder & CEO",
-    image: "https://avatar.iran.liara.run/public/boy?username=Yash",
+    image: "https://avatar.iran.liara.run/public/boy?username=Yash&size=150",
     bio: "Driving the vision and strategic direction, Yash is passionate about creating seamless living experiences through technology. His expertise in product development ensures RoomieFinder stays ahead.",
   },
   {
     id: "2",
     name: "Rushikesh Kalhale",
     role: "Co-Founder & CTO",
-    image: "https://avatar.iran.liara.run/public/boy?username=Rushikesh",
+    image:
+      "https://avatar.iran.liara.run/public/boy?username=Rushikesh&size=150",
     bio: "The architect behind our intelligent matching algorithm, Rushikesh brings a decade of experience in software engineering and AI to build a robust and secure platform.",
   },
   {
     id: "3",
     name: "Abhishek Kumbhar",
     role: "Head of Marketing",
-    image: "https://avatar.iran.liara.run/public/boy?username=Abhishek",
+    image:
+      "https://avatar.iran.liara.run/public/boy?username=Abhishek&size=150",
     bio: "With a keen eye for connecting people with solutions, Abhishek leads our outreach efforts, ensuring more individuals discover the ease and benefits of RoomieFinder.",
   },
   {
     id: "4",
     name: "Yash Yadav",
     role: "Community Manager",
-    image: "https://avatar.iran.liara.run/public/girl?username=Yash",
+    image: "https://avatar.iran.liara.run/public/girl?username=Yash&size=150",
     bio: "Yash is the heart of our community, fostering positive interactions and ensuring every user feels supported. He's dedicated to building a trusted network.",
   },
   {
     id: "5",
     name: "Abhishek Kumbhar",
     role: "Product Designer",
-    image: "https://avatar.iran.liara.run/public/boy?username=Abhishek",
+    image:
+      "https://avatar.iran.liara.run/public/boy?username=Abhishek&size=150",
     bio: "Crafting intuitive and beautiful user experiences, Abhishek ensures RoomieFinder is not just functional but a delight to use for every single person.",
   },
 ];

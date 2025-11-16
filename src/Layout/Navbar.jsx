@@ -4,11 +4,11 @@ import {
   RoomsIcon,
   ProfileIcon,
   RegisterIcon,
-  LogoutArrow,
+  InfoIcon,
+  LogOutIcon,
 } from "./Icons";
-import Dock from "@/components/lightswind/dock.jsx";
-import { ToggleTheme } from "@/components/lightswind/toggle-theme";
-import { InfoIcon } from "lucide-react";
+import Dock from "@/components/lightswind/dock.tsx";
+import { ToggleTheme } from "../components/lightswind/ToggleTheme";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ export default function Navbar() {
       key: 5,
       value: "Logout",
       link: "/logout",
-      icon: LogoutArrow,
+      icon: LogOutIcon,
     });
   } else {
     tabs.push({
@@ -99,7 +99,7 @@ export default function Navbar() {
         position="top"
         magnification={70}
         baseItemSize={50}
-        className={`rounded-full text-violet-500 backdrop-blur-lg`}
+        className={`rounded-full text-violet-700 backdrop-blur-lg`}
       />
     </div>
   );

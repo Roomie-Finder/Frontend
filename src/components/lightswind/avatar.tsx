@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import { cn } from "../lib/utils";
 
@@ -9,8 +8,9 @@ interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   status?: "online" | "offline" | "away" | "busy" | null;
 }
 
-const DEFAULT_AVATAR = `https://robohash.org/${Math.random().toString(36).substring(7)}.png`;
-
+const DEFAULT_AVATAR = `https://robohash.org/${Math.random()
+  .toString(36)
+  .substring(7)}.png`;
 
 const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
   ({ className, src, alt, fallback, status, ...props }, ref) => {
@@ -40,7 +40,6 @@ const AvatarImage = React.forwardRef<HTMLImageElement, AvatarImageProps>(
     const finalSrc = src && !imgError ? src : DEFAULT_AVATAR;
 
     const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-      console.log("AvatarImage error occurred, using fallback");
       setImgError(true);
       if (onError) onError(e);
     };

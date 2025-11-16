@@ -4,10 +4,9 @@ import {
   Headphones,
   CheckCircle,
   Lock,
-  Award,
 } from "lucide-react";
 
-export function TrustSafety() {
+export default function TrustSafety() {
   return (
     <section className="py-32 relative overflow-hidden">
       {/* Background Elements */}

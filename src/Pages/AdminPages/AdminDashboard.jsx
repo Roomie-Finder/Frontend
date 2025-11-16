@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import {
@@ -30,11 +30,13 @@ const Sidebar = ({ activeView, setActiveView }) => {
   ];
 
   return (
-    <aside className="w-64 bg-white-800  flex flex-col p-4 shadow-xl">
+    <aside className="w-64  flex flex-col p-4 shadow-xl">
       <div className=" text-xl font-bold mb-10 mt-2 px-2">
-        <span className="text-indigo-400">Roomie-Finder</span>
+        <span className="bg-linear-to-r from-pink-600 to-blue-600 bg-clip-text text-transparent text-2xl">
+          Roomie-Finder
+        </span>
       </div>
-      <div className=" text-sm font-semibold mb-6 px-2">Admin Dashboard</div>
+      <div className=" text-lg font-semibold mb-6 px-2">Dashboard</div>
 
       <nav className="flex-grow">
         <ul>
@@ -42,7 +44,7 @@ const Sidebar = ({ activeView, setActiveView }) => {
             <li key={item.id} className="mb-2 hover:ms-2">
               <button
                 onClick={() => setActiveView(item.id)}
-                className={`flex items-center space-x-3 p-3 rounded-lg w-full text-left transition-colors duration-200
+                className={`flex items-center space-x-3 p-3 rounded-lg w-full text-left transition-all duration-500
                   ${
                     activeView === item.id
                       ? "bg-indigo-200  shadow-md"
@@ -70,19 +72,19 @@ const Sidebar = ({ activeView, setActiveView }) => {
 // --- Header Component ---
 const Header = ({ admin }) => {
   return (
-    <header className="bg-white p-4 shadow-sm flex justify-between items-center z-10 sticky top-0">
+    <header className=" p-4 shadow-sm flex justify-between items-center z-10 sticky top-0">
       <div className="relative flex items-center w-1/3">
-        <MdSearch className="absolute left-3 text-gray-400 text-xl" />
+        <MdSearch className="absolute left-3 text-indigo-500 text-xl" />
         <input
           type="text"
           placeholder="Search users, listings, messages..."
-          className="w-full pl-10 pr-4 py-2  rounded-lg focus:outline-none bg-gray-100 focus:bg-gray-200"
+          className="w-full pl-10 pr-4 py-2 bg-gray-300/60 rounded-lg focus:outline-none  focus:bg-gray-300/50"
         />
       </div>
       <div className="flex items-center space-x-6">
         <div className="relative">
           <MdNotifications className="text-gray-600 text-2xl hover:text-gray-800 cursor-pointer" />
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 bg-red-500  text-xs rounded-full h-4 w-4 flex items-center justify-center">
             3
           </span>
         </div>
@@ -96,7 +98,7 @@ const Header = ({ admin }) => {
           <img
             src={`https://api.dicebear.com/8.x/initials/svg?seed=${admin.firstName}`}
             alt="Admin Avatar"
-            className="w-10 h-10 rounded-full border-2 border-blue-500"
+            className="w-10 h-10 rounded-full "
             loading="lazy"
           />
         </div>
@@ -107,7 +109,7 @@ const Header = ({ admin }) => {
 
 // --- StatCard Component ---
 const StatCard = ({ title, value, change, icon, iconBgColor }) => (
-  <div className="bg-white p-6 rounded-xl border border-gray-200 flex items-center space-x-4">
+  <div className=" p-6 rounded-xl border border-gray-200 flex items-center space-x-4">
     <div className={`p-3 rounded-xl ${iconBgColor}`}>{icon}</div>
     <div>
       <h3 className="text-sm font-medium text-gray-500">{title}</h3>
@@ -125,122 +127,176 @@ const StatCard = ({ title, value, change, icon, iconBgColor }) => (
   </div>
 );
 
-// --- Dummy Chart Component (Replace with actual charting library) ---
-const GrowthChart = () => {
+const CHART_WIDTH = 840;
+const CHART_HEIGHT = 300;
+const CHART_PADDING = 60;
+
+const generatePath = (dataPoints, scale) => {
+  const { width, height, padding, yMin, yMax } = scale;
+
+  if (!dataPoints || dataPoints.length === 0) {
+    return "M0 0";
+  }
+  // Ensure there are at least 2 points for a line
+  const effectiveDataPoints =
+    dataPoints.length === 1 ? [dataPoints[0], dataPoints[0]] : dataPoints;
+  const dataLength = effectiveDataPoints.length;
+
+  const xStep = (width - padding * 2) / (dataLength - 1); // Step between points
+
+  const yRange = yMax - yMin || 1; // Avoid division by zero
+  const yFactor = (height - padding * 2) / yRange;
+
+  // Function to scale a data point to its Y coordinate
+  const scaleY = (dataPoint) => height - padding - (dataPoint - yMin) * yFactor;
+
+  // Start path
+  let path = `M${padding} ${scaleY(effectiveDataPoints[0])}`;
+
+  // Use bezier curves for a smooth line
+  for (let i = 0; i < dataLength - 1; i++) {
+    const x1 = padding + i * xStep;
+    const y1 = scaleY(effectiveDataPoints[i]);
+    const x2 = padding + (i + 1) * xStep;
+    const y2 = scaleY(effectiveDataPoints[i + 1]);
+
+    // Calculate control points for a smooth curve
+    const controlPointX1 = x1 + xStep / 4;
+    const controlPointY1 = y1;
+    const controlPointX2 = x1 + xStep / 4;
+    const controlPointY2 = y2;
+
+    path += ` C ${controlPointX1} ${controlPointY1}, ${controlPointX2} ${controlPointY2}, ${x2} ${y2}`;
+  }
+
+  return path;
+};
+
+function GrowthChart({ usersData = [10, 20], listingsData = [15, 35] }) {
+  const { paths, yAxisLabels } = useMemo(() => {
+    const allData = [...usersData, ...listingsData, 0];
+    const globalYMin = Math.min(...allData);
+    const globalYMax = Math.max(...allData);
+
+    const scale = {
+      yMin: globalYMin,
+      yMax: globalYMax,
+      width: CHART_WIDTH,
+      height: CHART_HEIGHT,
+      padding: CHART_PADDING,
+    };
+
+    // 2. Generate Y-axis labels based on the global scale
+    const yRange = globalYMax - globalYMin || 1;
+    const yFactor = (CHART_HEIGHT - CHART_PADDING * 2) / yRange;
+    const scaleY = (dataPoint) =>
+      CHART_HEIGHT - CHART_PADDING - (dataPoint - globalYMin) * yFactor;
+
+    // Generate 3 tick marks: min, mid, max
+    const midValue = Math.round((globalYMax + globalYMin) / 2);
+    const labels = [...new Set([globalYMin, midValue, globalYMax])];
+    const yAxisLabels = labels.map((value) => ({
+      value,
+      y: scaleY(value),
+    }));
+
+    // 3. Generate paths for the lines
+    const usersPath = generatePath(usersData, scale);
+    const listingsPath = generatePath(listingsData, scale);
+
+    const chartPaths = {
+      users: usersPath,
+      listings: listingsPath,
+      usersFill: `${usersPath} L${
+        CHART_WIDTH - CHART_PADDING
+      } ${CHART_HEIGHT} L${CHART_PADDING} ${CHART_HEIGHT} Z`,
+      listingsFill: `${listingsPath} L${
+        CHART_WIDTH - CHART_PADDING
+      } ${CHART_HEIGHT} L${CHART_PADDING} ${CHART_HEIGHT} Z`,
+    };
+
+    return { paths: chartPaths, yAxisLabels };
+  }, [usersData, listingsData]);
+
   return (
-    <div className="bg-white p-6 rounded-xl shadow-md h-auto">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4">
-        Platform Growth
-      </h2>
-      <p className="text-gray-500 text-sm mb-6">
-        Monthly trends for users, listings, and matches
-      </p>
-      {/* This is a simple SVG placeholder. In a real app, you'd use a library like Chart.js or Recharts */}
-      <svg viewBox="0 0 800 300" className="w-full h-full">
-        <rect
-          x="0"
-          y="0"
-          width="800"
-          height="300"
-          fill="#f9fafb"
-          rx="8"
-          ry="8"
-        />
-        {/* Y-axis labels */}
-        {[0, 350, 700, 1050, 1400].map((val, i) => (
-          <text
-            key={i}
-            x="30"
-            y={280 - i * 60}
-            fontSize="14"
-            fill="#6b7280"
-            textAnchor="end"
-          >
-            {val}
-          </text>
-        ))}
-        {/* X-axis labels */}
-        {["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"].map((month, i) => (
-          <text
-            key={i}
-            x={100 + i * 100}
-            y="295"
-            fontSize="14"
-            fill="#6b7280"
-            textAnchor="middle"
-          >
-            {month}
-          </text>
-        ))}
-        {/* Grid lines */}
-        {[0, 60, 120, 180, 240, 280].map((y, i) => (
+    <div className="p-4 bg-gray-900 text-white rounded-lg">
+      <h3 className="text-xl font-semibold mb-4">Users & Listings Chart</h3>
+      <svg
+        viewBox={`0 0 ${CHART_WIDTH} ${CHART_HEIGHT}`}
+        className="w-full h-auto"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* Y-Axis Labels */}
+        <g className="y-axis-labels">
+          {yAxisLabels.map((label) => (
+            <text
+              key={label.value}
+              x={CHART_PADDING - 10} // Position 10px left of the line
+              y={label.y}
+              fill="rgba(255, 255, 255, 0.5)"
+              fontSize="12"
+              textAnchor="end" // Align text to the right
+              alignmentBaseline="middle"
+            >
+              {label.value}
+            </text>
+          ))}
+        </g>
+
+        {/* Grid lines (optional) */}
+        <g className="grid-lines">
+          {/* Bottom line */}
           <line
-            key={`y-${i}`}
-            x1="60"
-            y1={280 - y}
-            x2="780"
-            y2={280 - y}
-            stroke="#e5e7eb"
+            x1={CHART_PADDING}
+            y1={CHART_HEIGHT - CHART_PADDING}
+            x2={CHART_WIDTH - CHART_PADDING}
+            y2={CHART_HEIGHT - CHART_PADDING}
+            stroke="rgba(255, 255, 255, 0.1)"
             strokeWidth="1"
           />
-        ))}
-        {/* Dummy data paths - Users, Listings, Matches */}
-        <path
-          d="M60 260 C160 200, 260 210, 360 160 S460 180, 560 150 C660 120, 760 100, 780 80"
-          fill="none"
-          stroke="#60a5fa"
-          strokeWidth="2"
-        />{" "}
-        {/* Users */}
-        <path
-          d="M60 250 C160 190, 260 200, 360 150 S460 170, 560 140 C660 110, 760 90, 780 70"
-          fill="none"
-          stroke="#34d399"
-          strokeWidth="2"
-        />{" "}
-        {/* Listings */}
-        <path
-          d="M60 240 C160 180, 260 190, 360 140 S460 160, 560 130 C660 100, 760 80, 780 60"
-          fill="none"
-          stroke="#a78bfa"
-          strokeWidth="2"
-        />{" "}
-        {/* Matches */}
-        {/* Shaded areas (simplified) */}
-        <path
-          d="M60 260 C160 200, 260 210, 360 160 S460 180, 560 150 C660 120, 760 100, 780 80 L780 280 L60 280 Z"
-          fill="rgba(96, 165, 250, 0.15)"
-        />{" "}
-        {/* Users area */}
-        <path
-          d="M60 250 C160 190, 260 200, 360 150 S460 170, 560 140 C660 110, 760 90, 780 70 L780 280 L60 280 Z"
-          fill="rgba(52, 211, 153, 0.15)"
-        />{" "}
-        {/* Listings area */}
-        <path
-          d="M60 240 C160 180, 260 190, 360 140 S460 160, 560 130 C660 100, 760 80, 780 60 L780 280 L60 280 Z"
-          fill="rgba(167, 139, 250, 0.15)"
-        />{" "}
-        {/* Matches area */}
-        {/* Legend */}
-        <g transform="translate(450, 10)">
-          <circle cx="0" cy="0" r="5" fill="#60a5fa" />
-          <text x="10" y="5" fontSize="14" fill="#4b5563">
-            Users
-          </text>
-          <circle cx="80" cy="0" r="5" fill="#34d399" />
-          <text x="90" y="5" fontSize="14" fill="#4b5563">
-            Listings
-          </text>
-          <circle cx="160" cy="0" r="5" fill="#a78bfa" />
-          <text x="170" y="5" fontSize="14" fill="#4b5563">
-            Matches
-          </text>
+          {/* Top line */}
+          <line
+            x1={CHART_PADDING}
+            y1={CHART_PADDING}
+            x2={CHART_WIDTH - CHART_PADDING}
+            y2={CHART_PADDING}
+            stroke="rgba(255, 255, 255, 0.1)"
+            strokeWidth="1"
+          />
+          {/* Middle line (optional, aligned with mid-label) */}
+          {yAxisLabels.length > 2 && (
+            <line
+              x1={CHART_PADDING}
+              y1={yAxisLabels[1].y}
+              x2={CHART_WIDTH - CHART_PADDING}
+              y2={yAxisLabels[1].y}
+              stroke="rgba(255, 255, 255, 0.1)"
+              strokeDasharray="2,2"
+              strokeWidth="1"
+            />
+          )}
         </g>
+
+        {/* Shaded Areas (drawn first) */}
+        <path d={paths.usersFill} fill="rgba(52, 211, 153, 0.15)" />
+        <path d={paths.listingsFill} fill="rgba(167, 139, 250, 0.15)" />
+
+        {/* Data Lines */}
+        <path d={paths.users} fill="none" stroke="#34d399" strokeWidth="2" />
+        <path d={paths.listings} fill="none" stroke="#a78bfa" strokeWidth="2" />
+
+        {/* Legend (Example) */}
+        <text x="60" y="20" fill="#34d399" fontSize="12">
+          Users
+        </text>
+        <text x="110" y="20" fill="#a78bfa" fontSize="12">
+          Listings
+        </text>
       </svg>
+      {/* Removed the "Randomize Data" button */}
     </div>
   );
-};
+}
 
 const RecentListings = ({ listings, setlistings }) => {
   async function deleteRoom(rid) {
@@ -249,13 +305,12 @@ const RecentListings = ({ listings, setlistings }) => {
         `http://localhost:8080/admin/deleteRoom/${rid}`
       );
       setlistings(response.data);
-      console.log(response);
     } catch (e) {
       console.error(e);
     }
   }
   return (
-    <div className="bg-white p-6 rounded-3xl border border-gray-200 overflow-x-auto">
+    <div className=" p-6 rounded-3xl border border-gray-200 overflow-x-auto">
       <h2 className="text-xl font-semibold text-gray-800 mb-4">
         Recent Listings
       </h2>
@@ -288,7 +343,7 @@ const RecentListings = ({ listings, setlistings }) => {
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className=" divide-y divide-gray-200">
           {listings?.map((listing) => (
             <tr key={listing?.id}>
               <td className="px-6 py-4 whitespace-nowrap">
@@ -404,7 +459,7 @@ const RecentActivity = () => {
   ];
 
   return (
-    <div className="bg-white p-6 rounded-xl border border-gray-200">
+    <div className=" p-6 rounded-xl border border-gray-200">
       <h2 className="text-xl font-semibold text-gray-800 mb-4">
         Recent Activity
       </h2>
@@ -450,7 +505,6 @@ export default function AdminDashboard() {
           "http://localhost:8080/admin/getAllUsers"
         );
         setusers(usersResponse.data);
-        console.log(usersResponse);
       } catch (e) {
         console.error(e);
       }
@@ -463,7 +517,7 @@ export default function AdminDashboard() {
       case "overview":
         return (
           <>
-            <h1 className="text-3xl font-semibold text-gray-800 mb-2">
+            <h1 className="text-3xl font-semibold text-gray-600 mb-2">
               Dashboard Overview
             </h1>
             <p className="text-gray-500 mb-8">
@@ -512,8 +566,8 @@ export default function AdminDashboard() {
             <p className="text-gray-500 mb-8">
               Manage all roommate listings on the platform
             </p>
-            <div className="flex flex-col lg:flex-row gap-6">
-              <div className="flex-grow">
+            <div className="flex flex-col gap-6">
+              <div className=" w-full">
                 <RecentListings listings={listings} setlistings={setlistings} />
               </div>
               <div className="w-full lg:w-1/3">
@@ -543,7 +597,7 @@ export default function AdminDashboard() {
             <p className="text-gray-500 mb-8">
               Detailed insights into platform performance
             </p>
-            <div className="bg-white p-6 rounded-xl shadow-md">
+            <div className=" p-6 rounded-xl shadow-md">
               <p className="text-gray-700">
                 Analytics content would go here, e.g., detailed charts, user
                 behavior reports, etc.
@@ -561,7 +615,7 @@ export default function AdminDashboard() {
               <p className="text-gray-500 mb-8">
                 Configure general platform settings
               </p>
-              <div className="bg-white p-6 rounded-xl shadow-md">
+              <div className=" p-6 rounded-xl shadow-md">
                 <p className="text-gray-700">
                   Settings forms and options would be displayed here.
                 </p>
@@ -575,7 +629,7 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100 font-sans">
+    <div className="flex h-screen  font-sans">
       <Sidebar activeView={activeView} setActiveView={setActiveView} />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header admin={admin} />
@@ -599,7 +653,7 @@ function UserManagement({ users }) {
   }
 
   return (
-    <div className="bg-white shadow-md rounded-3xl overflow-hidden">
+    <div className=" shadow-md rounded-3xl overflow-hidden">
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>
@@ -620,7 +674,7 @@ function UserManagement({ users }) {
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className=" divide-y divide-gray-200">
           {users.map((user) => (
             <tr key={user.id}>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

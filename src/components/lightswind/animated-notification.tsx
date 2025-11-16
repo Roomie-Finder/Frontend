@@ -1,9 +1,10 @@
+
 "use client";
 
-import React, { useState, useCallback, useEffect, useRef } from "react";
-import { Flipper, Flipped } from "react-flip-toolkit";
-import { X } from "lucide-react";
-import { cn } from "../lib/utils";
+import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { Flipper, Flipped } from 'react-flip-toolkit';
+import { X } from 'lucide-react';
+import { cn } from '../lib/utils';
 
 export interface NotificationUser {
   avatarUrl?: string;
@@ -17,8 +18,8 @@ export interface NotificationItem {
   user: NotificationUser;
   message: string;
   timestamp?: string;
-  priority?: "low" | "medium" | "high";
-  type?: "info" | "success" | "warning" | "error";
+  priority?: 'low' | 'medium' | 'high';
+  type?: 'info' | 'success' | 'warning' | 'error';
   fadingOut?: boolean;
 }
 
@@ -36,12 +37,7 @@ export interface AnimatedNotificationProps {
   /** Animation duration for fade transitions */
   animationDuration?: number;
   /** Position of the notification center */
-  position?:
-    | "top-left"
-    | "top-right"
-    | "bottom-left"
-    | "bottom-right"
-    | "center";
+  position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center';
   /** Width of notification cards */
   width?: number;
   /** Enable/disable user avatars */
@@ -61,10 +57,21 @@ export interface AnimatedNotificationProps {
   /** Custom API endpoint for fetching users */
   userApiEndpoint?: string;
   /** Theme variant */
-  variant?: "default" | "minimal" | "glass" | "bordered";
+  variant?: 'default' | 'minimal' | 'glass' | 'bordered';
 }
 
-const defaultMessages = [];
+const defaultMessages = [
+  "Just completed a task! ✅",
+  "New feature deployed 🚀",
+  "Check out our latest update 📱",
+  "Server responded with 200 OK ✨",
+  "Background job finished 🔄",
+  "Data synced successfully! 💾",
+  "User logged in successfully 👋",
+  "Payment processed 💳",
+  "Email sent successfully 📧",
+  "Backup completed 🛡️"
+];
 
 const Avatar: React.FC<{
   user: NotificationUser;
@@ -89,13 +96,7 @@ const Avatar: React.FC<{
         />
       ) : (
         <span className="text-xs font-bold text-white drop-shadow-sm">
-          {user.initials ||
-            user.name
-              .split(" ")
-              .map((n) => n[0])
-              .join("")
-              .slice(0, 2)
-              .toUpperCase()}
+          {user.initials || user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()}
         </span>
       )}
     </div>
@@ -117,33 +118,34 @@ const Notification: React.FC<{
   variant,
   onDismiss,
   onClick,
-  allowDismiss,
+  allowDismiss
 }) => {
   const getVariantStyles = () => {
     switch (variant) {
-      case "minimal":
+      case 'minimal':
         return "bg-background/95 border border-border/50 backdrop-blur-xl";
-      case "glass":
+      case 'glass':
         return "bg-background/30 backdrop-blur-2xl border border-white/20 dark:border-gray-800/20 shadow-2xl";
-      case "bordered":
+      case 'bordered':
         return "bg-card/95 border-2 border-primary/30 backdrop-blur-lg shadow-xl";
       default:
         return "bg-background/30 backdrop-blur-2xl border border-white/20 shadow-2xl";
     }
   };
 
-  const getPriorityStyles = () => {
-    switch (notification.priority) {
-      case "high":
-        return "border-l-4 border-l-red-500 shadow-red-500/20 dark:border-l-red-500 dark:shadow-red-500/20";
-      case "medium":
-        return "border-l-4 border-l-yellow-500 shadow-yellow-500/20 dark:border-l-yellow-500 dark:shadow-yellow-500/20";
-      case "low":
-        return "border-l-4 border-l-blue-500 shadow-blue-500/20 dark:border-l-blue-500 dark:shadow-blue-500/20";
-      default:
-        return "border-l-4 border-l-primary/50 shadow-primary/20 dark:border-l-primary/50 dark:shadow-primary/20";
-    }
-  };
+const getPriorityStyles = () => {
+  switch (notification.priority) { 
+    case 'high':
+      return 'border-l-4 border-l-red-500 shadow-red-500/20 dark:border-l-red-500 dark:shadow-red-500/20';
+    case 'medium':
+      return 'border-l-4 border-l-yellow-500 shadow-yellow-500/20 dark:border-l-yellow-500 dark:shadow-yellow-500/20';
+    case 'low':
+      return 'border-l-4 border-l-blue-500 shadow-blue-500/20 dark:border-l-blue-500 dark:shadow-blue-500/20';
+    default:
+      return 'border-l-4 border-l-primary/50 shadow-primary/20 dark:border-l-primary/50 dark:shadow-primary/20';
+  }
+};
+
 
   return (
     <div
@@ -191,9 +193,7 @@ const Notification: React.FC<{
   );
 };
 
-async function fetchRandomUser(
-  apiEndpoint?: string
-): Promise<NotificationUser> {
+async function fetchRandomUser(apiEndpoint?: string): Promise<NotificationUser> {
   try {
     const endpoint = apiEndpoint || "https://randomuser.me/api/";
     const res = await fetch(endpoint);
@@ -203,15 +203,15 @@ async function fetchRandomUser(
     return {
       avatarUrl: user.picture?.large,
       name: `${user.name.first} ${user.name.last}`,
-      color: `hsl(${Math.floor(Math.random() * 360)}, 70%, 80%)`,
+      color: `hsl(${Math.floor(Math.random() * 360)}, 70%, 80%)`
     };
   } catch (error) {
-    const names = [];
+    const names = ['John Doe', 'Jane Smith', 'Alex Johnson', 'Sarah Wilson', 'Mike Brown'];
     const randomName = names[Math.floor(Math.random() * names.length)];
 
     return {
       name: randomName,
-      color: `hsl(${Math.floor(Math.random() * 360)}, 70%, 80%)`,
+      color: `hsl(${Math.floor(Math.random() * 360)}, 70%, 80%)`
     };
   }
 }
@@ -231,10 +231,7 @@ async function generateNotification(
     user,
     message: getRandomMessage(customMessages),
     timestamp: new Date().toLocaleTimeString(),
-    priority: ["low", "medium", "high"][Math.floor(Math.random() * 3)] as
-      | "low"
-      | "medium"
-      | "high",
+    priority: ['low', 'medium', 'high'][Math.floor(Math.random() * 3)] as 'low' | 'medium' | 'high'
   };
 }
 
@@ -245,7 +242,7 @@ const AnimatedNotification: React.FC<AnimatedNotificationProps> = ({
   notifications = [],
   customMessages,
   animationDuration = 800,
-  position = "center",
+  position = 'center',
   width = 320,
   showAvatars = true,
   showTimestamps = true,
@@ -255,39 +252,36 @@ const AnimatedNotification: React.FC<AnimatedNotificationProps> = ({
   allowDismiss = true,
   autoDismissTimeout = 0,
   userApiEndpoint,
-  variant = "glass",
+  variant = 'glass'
 }) => {
   const [notes, setNotes] = useState<NotificationItem[]>(notifications);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const dismissTimeouts = useRef<Map<string, NodeJS.Timeout>>(new Map());
 
-  const dismissNotification = useCallback(
-    (id: string) => {
-      setNotes((prev) => {
-        const noteToDismiss = prev.find((note) => note.id === id);
-        if (!noteToDismiss || noteToDismiss.fadingOut) {
-          return prev;
-        }
+  const dismissNotification = useCallback((id: string) => {
+    setNotes(prev => {
+      const noteToDismiss = prev.find(note => note.id === id);
+      if (!noteToDismiss || noteToDismiss.fadingOut) {
+        return prev;
+      }
 
-        const updatedNotes = prev.map((note) =>
-          note.id === id ? { ...note, fadingOut: true } : note
-        );
+      const updatedNotes = prev.map(note =>
+        note.id === id ? { ...note, fadingOut: true } : note
+      );
 
-        const timeout = dismissTimeouts.current.get(id);
-        if (timeout) {
-          clearTimeout(timeout);
-          dismissTimeouts.current.delete(id);
-        }
+      const timeout = dismissTimeouts.current.get(id);
+      if (timeout) {
+        clearTimeout(timeout);
+        dismissTimeouts.current.delete(id);
+      }
 
-        setTimeout(() => {
-          setNotes((current) => current.filter((note) => note.id !== id));
-        }, animationDuration);
+      setTimeout(() => {
+        setNotes(current => current.filter(note => note.id !== id));
+      }, animationDuration);
 
-        return updatedNotes;
-      });
-    },
-    [animationDuration]
-  );
+      return updatedNotes;
+    });
+  }, [animationDuration]);
 
   const addNote = useCallback(async () => {
     if (!autoGenerate) return;
@@ -306,9 +300,7 @@ const AnimatedNotification: React.FC<AnimatedNotificationProps> = ({
           );
 
           setTimeout(() => {
-            setNotes((current) =>
-              current.filter((note) => note.id !== oldestNote.id)
-            );
+            setNotes(current => current.filter(note => note.id !== oldestNote.id));
           }, animationDuration);
         }
       }
@@ -334,7 +326,7 @@ const AnimatedNotification: React.FC<AnimatedNotificationProps> = ({
     autoInterval,
     autoDismissTimeout,
     animationDuration,
-    dismissNotification,
+    dismissNotification
   ]);
 
   useEffect(() => {
@@ -344,42 +336,38 @@ const AnimatedNotification: React.FC<AnimatedNotificationProps> = ({
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      dismissTimeouts.current.forEach((timeout) => clearTimeout(timeout));
+      dismissTimeouts.current.forEach(timeout => clearTimeout(timeout));
       dismissTimeouts.current.clear();
     };
   }, [addNote, autoGenerate]);
 
   useEffect(() => {
-    if (
-      notifications.length > 0 &&
-      JSON.stringify(notes) !== JSON.stringify(notifications)
-    ) {
+    if (notifications.length > 0 && JSON.stringify(notes) !== JSON.stringify(notifications)) {
       setNotes(notifications);
-      dismissTimeouts.current.forEach((timeout) => clearTimeout(timeout));
+      dismissTimeouts.current.forEach(timeout => clearTimeout(timeout));
       dismissTimeouts.current.clear();
     }
   }, [notifications, notes]);
 
   const getPositionStyles = () => {
     switch (position) {
-      case "top-left":
-        return "fixed top-6 left-6 z-50";
-      case "top-right":
-        return "fixed top-6 right-6 z-50";
-      case "bottom-left":
-        return "fixed bottom-6 left-6 z-50";
-      case "bottom-right":
-        return "fixed bottom-6 right-6 z-50";
+      case 'top-left':
+        return 'fixed top-6 left-6 z-50';
+      case 'top-right':
+        return 'fixed top-6 right-6 z-50';
+      case 'bottom-left':
+        return 'fixed bottom-6 left-6 z-50';
+      case 'bottom-right':
+        return 'fixed bottom-6 right-6 z-50';
       default:
-        return "flex items-center justify-center min-h-auto p-6";
+        return 'flex items-center justify-center min-h-auto p-6';
     }
   };
 
   return (
     <>
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
           @keyframes notification-enter {
             from {
               opacity: 0;
@@ -413,9 +401,8 @@ const AnimatedNotification: React.FC<AnimatedNotificationProps> = ({
           .notification-exit {
             animation: notification-exit var(--animation-duration) cubic-bezier(0.4, 0, 0.2, 1) forwards;
           }
-        `,
-        }}
-      />
+        `
+      }} />
 
       <div className={cn(getPositionStyles(), className)}>
         <Flipper flipKey={notes.map((note) => note.id).join("")}>
@@ -427,11 +414,7 @@ const AnimatedNotification: React.FC<AnimatedNotificationProps> = ({
                     "notification-item",
                     note.fadingOut ? "notification-exit" : "notification-enter"
                   )}
-                  style={
-                    {
-                      "--animation-duration": `${animationDuration}ms`,
-                    } as React.CSSProperties
-                  }
+                  style={{ '--animation-duration': `${animationDuration}ms` } as React.CSSProperties}
                 >
                   <Notification
                     notification={note}

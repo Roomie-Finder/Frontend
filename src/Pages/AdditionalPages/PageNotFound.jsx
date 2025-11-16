@@ -3,7 +3,7 @@ import { Link } from "react-router";
 export default function PageNotFound() {
   return (
     <div
-      className={`bg-[url(./assets/about.avif)] h-screen w-screen  bg-cover bg-bottom text-white flex flex-col p-5 pt-10 content-top items-center gap-5`}
+      className={`bg-[url(https://res.cloudinary.com/dcdjrjgaq/image/upload/v1763302660/about_pwkf3p.avif)] h-screen w-screen  bg-cover bg-bottom text-white flex flex-col p-5 pt-10 content-top items-center gap-5`}
     >
       <div className="md:text-xl text-xl font-semibold">404</div>
       <h1 className="md:text-8xl sm:text-7xl text-3xl font-semibold">

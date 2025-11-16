@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useCallback, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { motion, AnimatePresence, TargetAndTransition } from "framer-motion";
-import { cn } from "../lib/utils"; // Assuming this utility correctly merges class names
+import React, { useState, useCallback, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence, TargetAndTransition} from 'framer-motion';
+import { cn } from '../lib/utils'; // Assuming this utility correctly merges class names
 
 export interface TeamMember {
   id: string;
@@ -19,7 +19,7 @@ export interface TeamCarouselProps {
   /** Title displayed above the carousel */
   title?: string;
   /** Title font size */
-  titleSize?: "sm" | "md" | "lg" | "xl" | "2xl";
+  titleSize?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   /** Title color */
   titleColor?: string;
   /** Background color or gradient. Overrides the default 'bg-background' class. */
@@ -59,7 +59,7 @@ export interface TeamCarouselProps {
   /** Custom className for title */
   titleClassName?: string;
   /** Member info position */
-  infoPosition?: "bottom" | "overlay" | "none";
+  infoPosition?: 'bottom' | 'overlay' | 'none';
   /** Info text color */
   infoTextColor?: string;
   /** Info background */
@@ -78,7 +78,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
   titleSize = "2xl",
   titleColor = "rgba(0, 76, 255, 1)",
   background,
-  cardWidth = 380,
+  cardWidth = 280,
   cardHeight = 380,
   cardRadius = 20,
   showArrows = true,
@@ -88,7 +88,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
   animationDuration = 800,
   autoPlay = 0,
   pauseOnHover = true,
-  visibleCards = 1,
+  visibleCards = 2,
   sideCardScale = 0.9,
   sideCardOpacity = 0.8,
   grayscaleEffect = true,
@@ -96,7 +96,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
   cardClassName,
   titleClassName,
   infoPosition = "bottom",
-  infoTextColor = "text-violet-500",
+  infoTextColor = "rgb(8, 42, 123)",
   infoBackground = "transparent",
   onMemberChange,
   onCardClick,
@@ -113,8 +113,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
     (newDirection: number) => {
       if (totalMembers === 0) return;
       setDirection(newDirection);
-      const nextIndex =
-        (currentIndex + newDirection + totalMembers) % totalMembers;
+      const nextIndex = (currentIndex + newDirection + totalMembers) % totalMembers;
       setCurrentIndex(nextIndex);
       onMemberChange?.(members[nextIndex], nextIndex);
     },
@@ -129,11 +128,10 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
     const activeIndex = currentIndex;
     const diff = wrapIndex(index - activeIndex);
 
-    if (diff === 0) return "center";
+    if (diff === 0) return 'center';
     if (diff <= visibleCards) return `right-${diff}`;
-    if (diff >= totalMembers - visibleCards)
-      return `left-${totalMembers - diff}`;
-    return "hidden";
+    if (diff >= totalMembers - visibleCards) return `left-${totalMembers - diff}`;
+    return 'hidden';
   };
 
   // Explicitly type the return of getVariantStyles to match framer-motion's expectations
@@ -152,54 +150,54 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
     };
 
     switch (position) {
-      case "center":
+      case 'center':
         return {
           zIndex: 10,
           opacity: 1,
           scale: 1.1,
           x: 0,
-          filter: "grayscale(0%)",
-          pointerEvents: "auto",
+          filter: 'grayscale(0%)',
+          pointerEvents: 'auto',
           transition,
         };
-      case "right-1":
+      case 'right-1':
         return {
           zIndex: 5,
           opacity: sideCardOpacity,
           scale: sideCardScale,
           x: cardWidth * 0.7,
-          filter: grayscaleEffect ? "grayscale(100%)" : "grayscale(0%)",
-          pointerEvents: "auto",
+          filter: grayscaleEffect ? 'grayscale(100%)' : 'grayscale(0%)',
+          pointerEvents: 'auto',
           transition,
         };
-      case "right-2":
+      case 'right-2':
         return {
           zIndex: 1,
           opacity: sideCardOpacity * 0.7,
           scale: sideCardScale * 0.9,
           x: cardWidth * 1.4,
-          filter: grayscaleEffect ? "grayscale(100%)" : "grayscale(0%)",
-          pointerEvents: "auto",
+          filter: grayscaleEffect ? 'grayscale(100%)' : 'grayscale(0%)',
+          pointerEvents: 'auto',
           transition,
         };
-      case "left-1":
+      case 'left-1':
         return {
           zIndex: 5,
           opacity: sideCardOpacity,
           scale: sideCardScale,
           x: -cardWidth * 0.7,
-          filter: grayscaleEffect ? "grayscale(100%)" : "grayscale(0%)",
-          pointerEvents: "auto",
+          filter: grayscaleEffect ? 'grayscale(100%)' : 'grayscale(0%)',
+          pointerEvents: 'auto',
           transition,
         };
-      case "left-2":
+      case 'left-2':
         return {
           zIndex: 1,
           opacity: sideCardOpacity * 0.7,
           scale: sideCardScale * 0.9,
           x: -cardWidth * 1.4,
-          filter: grayscaleEffect ? "grayscale(100%)" : "grayscale(0%)",
-          pointerEvents: "auto",
+          filter: grayscaleEffect ? 'grayscale(100%)' : 'grayscale(0%)',
+          pointerEvents: 'auto',
           transition,
         };
       default:
@@ -207,12 +205,9 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
           zIndex: 0,
           opacity: 0,
           scale: 0.8,
-          x:
-            direction > 0
-              ? cardWidth * (visibleCards + 1)
-              : -cardWidth * (visibleCards + 1),
-          pointerEvents: "none",
-          filter: grayscaleEffect ? "grayscale(100%)" : "grayscale(0%)",
+          x: direction > 0 ? cardWidth * (visibleCards + 1) : -cardWidth * (visibleCards + 1),
+          pointerEvents: 'none',
+          filter: grayscaleEffect ? 'grayscale(100%)' : 'grayscale(0%)',
           transition,
         };
     }
@@ -227,9 +222,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
       }, autoPlay);
     }
 
-    const carouselContainer = document.getElementById(
-      "team-carousel-container"
-    );
+    const carouselContainer = document.getElementById('team-carousel-container');
 
     const handleMouseEnter = () => {
       if (pauseOnHover && autoPlay > 0) clearInterval(interval);
@@ -244,15 +237,15 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
     };
 
     if (carouselContainer && pauseOnHover && autoPlay > 0) {
-      carouselContainer.addEventListener("mouseenter", handleMouseEnter);
-      carouselContainer.addEventListener("mouseleave", handleMouseLeave);
+      carouselContainer.addEventListener('mouseenter', handleMouseEnter);
+      carouselContainer.addEventListener('mouseleave', handleMouseLeave);
     }
 
     return () => {
       clearInterval(interval);
       if (carouselContainer && pauseOnHover && autoPlay > 0) {
-        carouselContainer.removeEventListener("mouseenter", handleMouseEnter);
-        carouselContainer.removeEventListener("mouseleave", handleMouseLeave);
+        carouselContainer.removeEventListener('mouseenter', handleMouseEnter);
+        carouselContainer.removeEventListener('mouseleave', handleMouseLeave);
       }
     };
   }, [autoPlay, paginate, pauseOnHover]);
@@ -262,15 +255,15 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
     if (!keyboardNavigation) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
+      if (e.key === 'ArrowLeft') {
         paginate(-1);
-      } else if (e.key === "ArrowRight") {
+      } else if (e.key === 'ArrowRight') {
         paginate(1);
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [keyboardNavigation, paginate]);
 
   // Touch navigation
@@ -300,21 +293,18 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
   };
 
   const titleSizeClasses = {
-    sm: "text-4xl",
-    md: "text-5xl",
-    lg: "text-6xl",
-    xl: "text-7xl",
-    "2xl": "text-8xl",
+    sm: 'text-4xl',
+    md: 'text-5xl',
+    lg: 'text-6xl',
+    xl: 'text-7xl',
+    '2xl': 'text-8xl',
   };
 
   return (
     <div
       id="team-carousel-container"
-      className={cn(
-        `min-h-screen flex flex-col items-center justify-center overflow-hidden relative 
-        transparent`,
-        className
-      )}
+      className={cn(`min-h-screen flex flex-col items-center justify-center overflow-hidden relative 
+        transparent`, className)}
       style={{ background: background }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
@@ -329,10 +319,10 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
             titleClassName
           )}
           style={{
-            color: "transparent",
+            color: 'transparent',
             background: `linear-gradient(to bottom, ${titleColor}75 40%, transparent 76%)`,
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
           }}
         >
           {title}
@@ -344,7 +334,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
         className="w-full max-w-6xl relative mt-20"
         style={{
           height: cardHeight + 100,
-          perspective: "1000px",
+          perspective: '1000px',
         }}
       >
         {/* Navigation Arrows */}
@@ -370,14 +360,14 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
         {/* Cards Track */}
         <div
           className="w-full h-full flex justify-center items-center relative"
-          style={{ transformStyle: "preserve-3d" }}
+          style={{ transformStyle: 'preserve-3d' }}
         >
           <AnimatePresence initial={false} custom={direction}>
             {members.map((member, index) => {
               const position = calculatePosition(index);
               const isCurrent = index === currentIndex;
 
-              if (position === "hidden" && !isCurrent) return null;
+              if (position === 'hidden' && !isCurrent) return null;
 
               return (
                 <motion.div
@@ -390,14 +380,14 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
                     width: cardWidth,
                     height: cardHeight,
                     borderRadius: cardRadius,
-                    top: "50%",
-                    left: "50%",
+                    top: '50%',
+                    left: '50%',
                     marginLeft: -cardWidth / 2,
                     marginTop: -cardHeight / 2,
                   }}
-                  initial={getVariantStyles("hidden")}
+                  initial={getVariantStyles('hidden')}
                   animate={getVariantStyles(position)}
-                  exit={getVariantStyles("hidden")}
+                  exit={getVariantStyles('hidden')}
                   onClick={() => {
                     if (!isCurrent) {
                       const newDirection = index > currentIndex ? 1 : -1;
@@ -412,17 +402,14 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
                     src={member.image}
                     alt={member.name}
                     className="w-full h-full object-cover"
-                    loading="lazy"
                   />
 
                   {/* Overlay Info */}
-                  {infoPosition === "overlay" && (
+                  {infoPosition === 'overlay' && (
                     <div
                       className="absolute bottom-0 left-0 right-0 p-4 text-center"
                       style={{
-                        background:
-                          infoBackground ||
-                          "linear-gradient(transparent, rgba(0,0,0,0.8))",
+                        background: infoBackground || "linear-gradient(transparent, rgba(0,0,0,0.8))",
                         color: infoTextColor,
                       }}
                     >
@@ -438,7 +425,7 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
       </div>
 
       {/* Member Info (Bottom) */}
-      {infoPosition === "bottom" && members[currentIndex] && (
+      {infoPosition === 'bottom' && members[currentIndex] && (
         <motion.div
           key={members[currentIndex].id + "-info"}
           initial={{ opacity: 0, y: 20 }}
@@ -487,11 +474,14 @@ export const TeamCarousel: React.FC<TeamCarouselProps> = ({
               }}
               className={cn(
                 "w-3 h-3 rounded-full transition-all duration-300",
-                index === currentIndex ? "scale-125" : "hover:scale-110"
+                index === currentIndex
+                  ? "scale-125"
+                  : "hover:scale-110"
               )}
               style={{
-                background:
-                  index === currentIndex ? infoTextColor : `${infoTextColor}40`,
+                background: index === currentIndex
+                  ? infoTextColor
+                  : `${infoTextColor}40`,
               }}
               whileTap={{ scale: 0.9 }}
             />

@@ -1,70 +1,112 @@
-import HomePage from "../Pages/HomePage";
-import Rooms from "../Pages/RoomPages/Rooms";
-import Userlogin from "../Pages/UserPages/Userlogin";
-import AppLayout from "../Layout/AppLayout";
+import React, { Suspense, lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import UserProfile from "../Pages/UserPages/UserProfile";
-import RoomInfo from "../Pages/RoomPages/RoomInfo";
-import PageNotFound from "../Pages/AdditionalPages/PageNotFound";
-import CreateRoom from "../Pages/RoomPages/CreateRoom";
-import AdminDashboard from "../Pages/AdminPages/AdminDashboard";
-import UserLogOut from "../Pages/UserPages/UserLogOut";
-import ProfileUpdate from "../Pages/UserPages/ProfileUpdate";
-import AboutUs from "../Pages/AdditionalPages/AboutUs";
+
+import AppLayout from "../Layout/AppLayout";
+import PageLoader from "../Layout/PageLoader";
+
+const PageNotFound = lazy(() =>
+  import("../Pages/AdditionalPages/PageNotFound")
+);
+const HomePage = lazy(() => import("../Pages/HomePage"));
+const Rooms = lazy(() => import("../Pages/RoomPages/Rooms"));
+const AboutUs = lazy(() => import("../Pages/AdditionalPages/AboutUs"));
+const RoomInfo = lazy(() => import("../Pages/RoomPages/RoomInfo"));
+const UserProfile = lazy(() => import("../Pages/UserPages/UserProfile"));
+const CreateRoom = lazy(() => import("../Pages/RoomPages/CreateRoom"));
+const AdminDashboard = lazy(() => import("../Pages/AdminPages/AdminDashboard"));
+const Login = lazy(() => import("../Pages/Login/Login"));
+const LogOut = lazy(() => import("../Pages/Login/LogOut"));
+const ProfileUpdate = lazy(() => import("../Pages/UserPages/ProfileUpdate"));
 
 export const AppRoutes = createBrowserRouter([
   {
     path: "/",
-    Component: HomePage,
+    element: HomePage,
   },
   {
     Component: AppLayout,
     children: [
       {
         path: "room",
-        Component: Rooms,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <Rooms />
+          </Suspense>
+        ),
       },
       {
         path: "room/:roomid",
-        Component: RoomInfo,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <RoomInfo />
+          </Suspense>
+        ),
       },
       {
         path: "room/create",
-        Component: CreateRoom,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <CreateRoom />
+          </Suspense>
+        ),
       },
       {
         path: "user/:userid",
-        Component: UserProfile,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <UserProfile />
+          </Suspense>
+        ),
       },
       {
         path: "user/update",
-        Component: ProfileUpdate,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <ProfileUpdate />
+          </Suspense>
+        ),
       },
       {
         path: "aboutus",
-        Component: AboutUs,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <AboutUs />
+          </Suspense>
+        ),
       },
     ],
   },
   {
     path: "login",
-    Component: Userlogin,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <Login />
+      </Suspense>
+    ),
   },
   {
     path: "logout",
-    Component: UserLogOut,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <LogOut />
+      </Suspense>
+    ),
   },
   {
     path: "admin",
     children: [
       {
         path: "dashboard",
-        Component: AdminDashboard,
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <AdminDashboard />
+          </Suspense>
+        ),
       },
     ],
   },
   {
     path: "*",
-    Component: PageNotFound,
+    element: <PageNotFound />,
   },
 ]);

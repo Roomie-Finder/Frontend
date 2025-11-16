@@ -68,13 +68,6 @@ export default function HeroSection() {
           >
             <div className="relative rounded-full px-4 py-1.5 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20 transition duration-300">
               Find your next roommate today.{" "}
-              <a
-                href="/how-it-works"
-                className="font-semibold text-indigo-600 hover:text-indigo-500 transition duration-200"
-              >
-                <span aria-hidden="true" className="absolute inset-0" />
-                Learn more <span aria-hidden="true">&rarr;</span>
-              </a>
             </div>
           </motion.div>
 

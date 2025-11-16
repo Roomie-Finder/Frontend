@@ -67,7 +67,7 @@ const listings = [
 ];
 
 const ImageWithFallback = ({ src, alt, ...props }) => {
-  return <img src={src} alt={alt} {...props} />;
+  return <img src={src} alt={alt} {...props} loading="lazy" />;
 };
 
 export function CollageCard({ image, title, location, price, size, type }) {
