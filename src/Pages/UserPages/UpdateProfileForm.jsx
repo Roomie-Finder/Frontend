@@ -8,11 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router";
 
-export default function UpdateProfileForm({
-  currentUser,
-  onSubmit,
-  isLoading = false,
-}) {
+export default function UpdateProfileForm({ currentUser, onSubmit, loading }) {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -135,6 +131,7 @@ export default function UpdateProfileForm({
                 onChange={handleChange}
                 placeholder="e.g., jane.doe@example.com"
                 icon={EnvelopeIcon}
+                disabled={loading}
               />
             </div>
 
@@ -145,6 +142,7 @@ export default function UpdateProfileForm({
               value={formData.aboutUser}
               onChange={handleChange}
               placeholder="Tell everyone a bit about yourself..."
+              disabled={loading}
             />
             {/* image */}
             <div className="mt-2 flex justify-center rounded-lg border border-dashed border-blue-700/25 px-6 py-10">
@@ -174,6 +172,7 @@ export default function UpdateProfileForm({
                       name="file"
                       className="sr-only"
                       required
+                      disabled={loading}
                       multiple
                     />
                   </label>
@@ -193,10 +192,10 @@ export default function UpdateProfileForm({
               </Link>
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={loading}
                 className="inline-flex justify-center items-center py-2 px-10 border border-transparent shadow-sm text-base font-medium rounded-full text-white bg-violet-400/50 hover:bg-violet-800 focus:outline-none focus:ring-0 focus:border-indigo-700 disabled:opacity-50"
               >
-                {isLoading ? "Saving..." : "Save"}
+                {loading ? "Saving..." : "Save"}
               </button>
             </div>
           </form>
@@ -222,6 +221,7 @@ export default function UpdateProfileForm({
                 value={formData.firstName}
                 onChange={handleChange}
                 placeholder="e.g., Jane"
+                disabled={loading}
               />
               <FormInput
                 label="Last Name"
@@ -229,6 +229,7 @@ export default function UpdateProfileForm({
                 value={formData.lastName}
                 onChange={handleChange}
                 placeholder="e.g., Doe"
+                disabled={loading}
               />
               <FormInput
                 label="Contact Phone"
@@ -238,6 +239,7 @@ export default function UpdateProfileForm({
                 onChange={handleChange}
                 placeholder="e.g., 9876543210"
                 icon={PhoneIcon}
+                disabled={loading}
               />
               <FormInput
                 label="Age"
@@ -246,6 +248,7 @@ export default function UpdateProfileForm({
                 value={formData.age}
                 onChange={handleChange}
                 placeholder="e.g., 25"
+                disabled={loading}
               />
               <FormInput
                 label="Current City"
@@ -254,6 +257,7 @@ export default function UpdateProfileForm({
                 onChange={handleChange}
                 placeholder="e.g., Pune"
                 icon={HomeIcon}
+                disabled={loading}
               />
               <FormInput
                 label="Occupation"
@@ -262,6 +266,7 @@ export default function UpdateProfileForm({
                 onChange={handleChange}
                 placeholder="e.g., Software Engineer"
                 icon={BriefcaseIcon}
+                disabled={loading}
               />
               <FormInput
                 label="Native Language"
@@ -269,6 +274,7 @@ export default function UpdateProfileForm({
                 value={formData.nativeLanguage}
                 onChange={handleChange}
                 placeholder="e.g., Hindi"
+                disabled={loading}
               />
             </div>
             <div className="mt-6">
@@ -277,6 +283,7 @@ export default function UpdateProfileForm({
                 name="workFromHome"
                 value={formData.workFromHome}
                 onChange={handleChange}
+                disabled={loading}
               >
                 <option>No</option>
                 <option>Yes</option>
@@ -292,10 +299,10 @@ export default function UpdateProfileForm({
               </Link>
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={loading}
                 className="inline-flex justify-center items-center py-2 px-10 border border-transparent shadow-sm text-base font-medium rounded-full text-white bg-violet-400/50 hover:bg-violet-800 focus:outline-none focus:ring-0 focus:border-indigo-700 disabled:opacity-50"
               >
-                {isLoading ? "Saving..." : "Save"}
+                {loading ? "Saving..." : "Save"}
               </button>
             </div>
           </form>
@@ -321,6 +328,7 @@ export default function UpdateProfileForm({
                 name="sleepSchedule"
                 value={formData.sleepSchedule}
                 onChange={handleChange}
+                disabled={loading}
               >
                 <option>Flexible</option>
                 <option>Early Bird</option>
@@ -333,6 +341,7 @@ export default function UpdateProfileForm({
                 onChange={handleChange}
                 placeholder="e.g., Quiet, Social, Introvert"
                 icon={SparklesIcon}
+                disabled={loading}
               />
               <FormInput
                 label="Interests (comma-separated)"
@@ -340,6 +349,7 @@ export default function UpdateProfileForm({
                 value={formData.interests}
                 onChange={handleChange}
                 placeholder="e.g., Reading, Gaming, Hiking"
+                disabled={loading}
               />
               <FormInput
                 label="Smoking/Drinking Habits (comma-separated)"
@@ -347,6 +357,7 @@ export default function UpdateProfileForm({
                 value={formData.smokingDrinkingHabbit}
                 onChange={handleChange}
                 placeholder="e.g., Non-smoker, Social drinker"
+                disabled={loading}
               />
             </div>
             <div className="pt-6 flex justify-end gap-5 ">
@@ -358,10 +369,10 @@ export default function UpdateProfileForm({
               </Link>
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={loading}
                 className="inline-flex justify-center items-center py-2 px-10 border border-transparent shadow-sm text-base font-medium rounded-full text-white bg-violet-400/50 hover:bg-violet-800 focus:outline-none focus:ring-0 focus:border-indigo-700 disabled:opacity-50"
               >
-                {isLoading ? "Saving..." : "Save"}
+                {loading ? "Saving..." : "Save"}
               </button>
             </div>
           </form>
@@ -387,12 +398,14 @@ export default function UpdateProfileForm({
                 value={formData.locationPreference}
                 onChange={handleChange}
                 placeholder="e.g., Koregaon Park, Hinjewadi"
+                disabled={loading}
               />
               <FormSelect
                 label="Preferred Room Type"
                 name="preferredRoomType"
                 value={formData.preferredRoomType}
                 onChange={handleChange}
+                disabled={loading}
               >
                 <option>Any</option>
                 <option>PG</option>
@@ -408,6 +421,7 @@ export default function UpdateProfileForm({
               value={formData.lookingFor}
               onChange={handleChange}
               placeholder="room or roommate preferences...."
+              disabled={loading}
             />
             <div className="pt-6 flex justify-end gap-5 ">
               <Link
@@ -418,10 +432,10 @@ export default function UpdateProfileForm({
               </Link>
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={loading}
                 className="inline-flex justify-center items-center py-2 px-10 border border-transparent shadow-sm text-base font-medium rounded-full text-white bg-violet-400/50 hover:bg-violet-800 focus:outline-none focus:ring-0 focus:border-indigo-700 disabled:opacity-50"
               >
-                {isLoading ? "Saving..." : "Save"}
+                {loading ? "Saving..." : "Save"}
               </button>
             </div>
           </form>

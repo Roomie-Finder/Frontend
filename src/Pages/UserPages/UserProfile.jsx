@@ -12,6 +12,7 @@ import RoomCard from "../RoomPages/RoomCard";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import AnimatedNotification from "@/components/lightswind/animated-notification.js";
 import api from "../../api/axiosConfig";
+import PageLoader from "../../Layout/PageLoader";
 
 export default function UserProfile() {
   let localUser = JSON.parse(localStorage.getItem("user"));
@@ -35,7 +36,8 @@ export default function UserProfile() {
         setUser(newuser.data);
         setuserRooms(rooms.data);
       } catch (e) {
-        console.error(e);
+        alert("error occured while fetching user...");
+        navigate("/room");
       } finally {
         setLoading(false);
       }
@@ -45,15 +47,7 @@ export default function UserProfile() {
   }, [useridFromParam]);
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center text-indigo-600 text-2xl font-semibold min-h-screen">
-        <svg
-          className="mr-3 size-8 animate-spin border-4 border-indigo-200 border-t-indigo-600 rounded-full"
-          viewBox="0 0 24 24"
-        ></svg>
-        Loading Profile...
-      </div>
-    );
+    return <PageLoader />;
   }
 
   return (
@@ -234,6 +228,7 @@ export default function UserProfile() {
             </div>
           </div>
 
+          {/* User Rooms */}
           <div className="rounded-2xl shadow-lg/3 px-6 py-5 bg-gray-400/5 ">
             <h2 className="text-2xl   pb-6 flex flex-col ">My Rooms</h2>
             <div className="grid md:grid-cols-3 grid-cols-1 gap-3  *cursor-pointer ">

@@ -213,7 +213,7 @@ const teamMembers = [
     id: "4",
     name: "Yash Yadav",
     role: "Community Manager",
-    image: "https://avatar.iran.liara.run/public/girl?username=Yash&size=150",
+    image: "https://avatar.iran.liara.run/boy/girl?username=Yash&size=150",
     bio: "Yash is the heart of our community, fostering positive interactions and ensuring every user feels supported. He's dedicated to building a trusted network.",
   },
   {

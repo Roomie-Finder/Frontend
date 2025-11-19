@@ -5,16 +5,18 @@ import RoomCard from "./RoomCard";
 import PageLoader from "../../Layout/PageLoader";
 
 export default function Rooms() {
+  let api = import.meta.env.VITE_BACKEND_URL;
   let [rooms, setRooms] = useState([]);
   let [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchRooms() {
       try {
-        let response = await axios.get("http://localhost:8080/room");
+        let response = await axios.get(`${api}/room`);
         setRooms(response?.data);
       } catch (e) {
-        console.error(e);
+        alert("error occured while fetching room information");
+        navigate("/");
       } finally {
         setLoading(false);
       }

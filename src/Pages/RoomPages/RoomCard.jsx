@@ -2,27 +2,12 @@ import { Heart, MapPin, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useState } from "react";
-const ImageWithFallback = ({ src, alt, ...props }) => {
-  return (
-    <img
-      src={src}
-      alt={alt}
-      onError={(e) => {
-        e.target.onerror = null;
-        e.target.src = `https://placehold.co/600x400/e2e8f0/64748b?text=${encodeURIComponent(
-          alt
-        )}`;
-      }}
-      {...props}
-    />
-  );
-};
 
 export default function RoomCard({ id, image, title, location, price, type }) {
   const [isFavorite, setIsFavorite] = useState(false);
 
   return (
-    <Link to={id} className="block relative group">
+    <Link to={`/room/${id}`} className="block relative group">
       <div className="group relative overflow-hidden rounded-3xl cursor-pointer transform transition-all duration-500 hover:scale-[1.02] hover:z-10">
         <ImageWithFallback
           src={image}
@@ -92,4 +77,19 @@ RoomCard.propTypes = {
   location: PropTypes.string,
   price: PropTypes.string,
   type: PropTypes.string,
+};
+const ImageWithFallback = ({ src, alt, ...props }) => {
+  return (
+    <img
+      src={src}
+      alt={alt}
+      onError={(e) => {
+        e.target.onerror = null;
+        e.target.src = `https://placehold.co/600x400/e2e8f0/64748b?text=${encodeURIComponent(
+          alt
+        )}`;
+      }}
+      {...props}
+    />
+  );
 };

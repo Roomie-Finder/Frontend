@@ -6,7 +6,7 @@ import api from "../../api/axiosConfig";
 
 export default function ProfileUpdate() {
   let [currentUser, setCurrUser] = useState({});
-  let [isSubmitting, setIsSubmitting] = useState(false);
+  let [loading, setloading] = useState(false);
   let user = JSON.parse(localStorage.getItem("user"));
   let navigate = useNavigate();
 
@@ -17,7 +17,8 @@ export default function ProfileUpdate() {
           let res = await api.get(`/user/${user.id}`);
           setCurrUser(res.data);
         } catch (e) {
-          console.error(e);
+          alert("error occured while fetching user information");
+          navigate("/");
         }
       }
 
@@ -28,16 +29,17 @@ export default function ProfileUpdate() {
   }, []);
 
   let handleUpdateProfile = async (formData) => {
-    setIsSubmitting(true);
+    setloading(true);
     try {
       let res = await api.post(`/userProfile/${user.id}`, formData);
       if (res.status == 200 || res.status == 201) {
         navigate(`/user/${user.id}`);
       }
     } catch (e) {
-      console.error(e);
+      alert("error occured while updating user information");
+      navigate("/");
     }
-    setIsSubmitting(false);
+    setloading(false);
   };
 
   return (
@@ -45,7 +47,7 @@ export default function ProfileUpdate() {
       <UpdateProfileForm
         currentUser={currentUser}
         onSubmit={handleUpdateProfile}
-        isLoading={isSubmitting}
+        loading={loading}
       />
     </>
   );

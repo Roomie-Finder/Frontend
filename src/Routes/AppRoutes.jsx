@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import AppLayout from "../Layout/AppLayout";
 import PageLoader from "../Layout/PageLoader";
+import EditRoomDetails from "../Pages/RoomPages/EditRoomDetails";
 
 const PageNotFound = lazy(() =>
   import("../Pages/AdditionalPages/PageNotFound")
@@ -39,6 +40,14 @@ export const AppRoutes = createBrowserRouter([
         element: (
           <Suspense fallback={<PageLoader />}>
             <RoomInfo />
+          </Suspense>
+        ),
+      },
+      {
+        path: "room/:roomid/edit",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <EditRoomDetails />
           </Suspense>
         ),
       },

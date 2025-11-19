@@ -7,28 +7,9 @@ const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME || "dcdjrjgaq";
 const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_PRESET;
 
 export default function CreateRoom() {
-  // Date format
-  const dateObject = new Date();
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const monthName = monthNames[dateObject.getMonth()];
-  const dayNumber = dateObject.getDate();
-  const date = `${dayNumber} ${monthName.slice(0, 3)} `;
-
   let navigate = useNavigate();
   let [loading, setLoading] = useState(false);
+  let date = getDate();
   const [file, setFile] = useState([]);
   const [formData, setFormData] = useState({
     roomName: "",
@@ -56,7 +37,6 @@ export default function CreateRoom() {
 
   const handleFileChange = (e) => {
     setFile(e.target.files);
-    console.log(file);
   };
 
   const handleSubmit = async (e) => {
@@ -94,7 +74,6 @@ export default function CreateRoom() {
 
       const { signature, timestamp, api_key } = signatureResponse.data;
       let files = Array.from(file);
-      let allimages = submissionData.images;
 
       let uploadPromises = files.map(async (item) => {
         const imageData = new FormData();
@@ -126,10 +105,9 @@ export default function CreateRoom() {
         navigate("/room");
       }
     } catch (e) {
-      console.error("Failed to create room:", e);
-      const errorMessage = e.response?.data?.error?.message || e.message;
-      alert(`Failed to create room: ${errorMessage}`);
       setLoading(false);
+      alert("error occured.");
+      navigate("/room");
     }
   };
 
@@ -142,4 +120,25 @@ export default function CreateRoom() {
       loading={loading}
     />
   );
+}
+
+function getDate() {
+  const dateObject = new Date();
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const monthName = monthNames[dateObject.getMonth()];
+  const dayNumber = dateObject.getDate();
+  return `${dayNumber} ${monthName.slice(0, 3)} `;
 }

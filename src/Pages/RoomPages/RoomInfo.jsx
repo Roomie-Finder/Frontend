@@ -1,12 +1,11 @@
 import axios from "axios";
-import { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import PageLoader from "../../Layout/PageLoader";
+import { FiEdit3 } from "react-icons/fi";
 import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 
 import {
   BedIcon,
@@ -16,12 +15,13 @@ import {
   LocationIcon,
   PeopleIcon,
 } from "../../Layout/Icons";
-import api from "../../api/axiosConfig";
 
 export default function RoomInfo() {
+  let navigate = useNavigate();
   let [loading, setLoading] = useState(true);
   let { roomid } = useParams();
   let [room, setroom] = useState({});
+  let api = import.meta.env.VITE_BACKEND_URL;
 
   let user = JSON.parse(localStorage.getItem("user"));
 
@@ -29,13 +29,11 @@ export default function RoomInfo() {
     if (roomid) {
       async function getroom() {
         try {
-          let response = await axios.get(
-            `http://localhost:8080/room/${roomid}`
-          );
+          let response = await axios.get(`${api}/room/${roomid}`);
           setroom(response.data);
         } catch (e) {
-          console.error(e);
           alert("error occured during fetching rooms !!");
+          navigate("/");
         } finally {
           setLoading(false);
         }
@@ -55,7 +53,8 @@ export default function RoomInfo() {
       let response = await api.post(`/room/member/add`, memberdata);
       setroom(response.data);
     } catch (e) {
-      console.error(e);
+      alert("error occured");
+      navigate("/room");
     } finally {
       setLoading(false);
     }
@@ -71,22 +70,14 @@ export default function RoomInfo() {
       let response = await api.post(`/room/member/remove`, memberdata);
       setroom(response.data);
     } catch (e) {
-      console.error(e);
+      alert("error occured ! . please try again.");
     } finally {
       setLoading(false);
     }
   }
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center text-blue-500 text-2xl font-bold mt-50">
-        <svg
-          className="mr-3 size-7 animate-spin border-5 border-blue-200 border-t-blue-500 rounded-full  "
-          viewBox="0 0 24 24"
-        ></svg>
-        Processing…
-      </div>
-    );
+    return <PageLoader />;
   }
 
   return (
@@ -97,11 +88,6 @@ export default function RoomInfo() {
             slidesPerView={1}
             spaceBetween={30}
             loop={true}
-            pagination={{
-              clickable: true,
-            }}
-            navigation={true}
-            modules={[Pagination, Navigation]}
             className="mySwiper w-full h-full object-cover "
           >
             {room.images.map((image, index) => {
@@ -269,10 +255,20 @@ export default function RoomInfo() {
       </div>
 
       <div className="right-side flex flex-col gap-5 *:p-3 *:rounded-xl *:outline-2 *:outline-gray-100 ">
-        <div className="sticky top-10 backdrop-blur-sm ">
-          <button className="bg-violet-400 text-white rounded-full ppx-3 p-2 w-full hover:bg-violet-500 hover:text-white">
-            contact owner
-          </button>
+        <div className="sticky top-10 backdrop-blur-sm w-full text-center">
+          {room?.owner?.id == user?.id ? (
+            <Link
+              to={`/room/${room.id}/edit`}
+              className="flex items-center justify-center bg-violet-400 text-white rounded-full px-4 p-2  hover:bg-violet-500 hover:text-white"
+            >
+              <FiEdit3 className="w-10  p-0" />
+              <p>Edit Details</p>
+            </Link>
+          ) : (
+            <button className="bg-violet-400 text-white rounded-full px-3 p-2 w-full hover:bg-violet-500 hover:text-white">
+              contact owner
+            </button>
+          )}
         </div>
         <div className="">
           <p className="py-3 text-lg">Location</p>

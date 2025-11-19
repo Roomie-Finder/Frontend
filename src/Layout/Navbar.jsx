@@ -14,8 +14,26 @@ import { jwtDecode } from "jwt-decode";
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const localUser = JSON.parse(localStorage.getItem("user"));
-  let jwtdecoded;
+
+  let localUser = null;
+  let jwtdecoded = null;
+  try {
+    const userString = localStorage.getItem("user");
+    if (userString) {
+      localUser = JSON.parse(userString);
+      if (
+        localUser &&
+        typeof localUser.token === "string" &&
+        localUser.token.length > 0
+      ) {
+        jwtdecoded = jwtDecode(localUser.token);
+      }
+    }
+  } catch (e) {
+    console.error("Failed to parse user data or decode JWT:", e);
+    localUser = null;
+    jwtdecoded = null;
+  }
 
   const tabs = [
     {
@@ -38,8 +56,7 @@ export default function Navbar() {
     },
   ];
 
-  if (localUser) {
-    jwtdecoded = jwtDecode(localUser.token);
+  if (localUser && jwtdecoded) {
     if (jwtdecoded.role == "admin") {
       tabs.push({
         key: 4,
@@ -86,13 +103,15 @@ export default function Navbar() {
     };
   });
 
-  dockItems.push({
-    icon: (
-      <ToggleTheme duration={600} animationType="wave-ripple" className="" />
-    ),
-    label: "Toggle Theme",
-    onClick: (e) => e.stopPropagation(),
-  });
+  if (ToggleTheme) {
+    dockItems.push({
+      icon: (
+        <ToggleTheme duration={600} animationType="wave-ripple" className="" />
+      ),
+      label: "Toggle Theme",
+      onClick: (e) => e.stopPropagation(),
+    });
+  }
 
   return (
     <div className="flex justify-center top-0 sticky z-100 h-30 ">

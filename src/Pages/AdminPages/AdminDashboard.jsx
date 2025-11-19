@@ -301,12 +301,10 @@ function GrowthChart({ usersData = [10, 20], listingsData = [15, 35] }) {
 const RecentListings = ({ listings, setlistings }) => {
   async function deleteRoom(rid) {
     try {
-      let response = await api.delete(
-        `http://localhost:8080/admin/deleteRoom/${rid}`
-      );
+      let response = await api.delete(`/admin/deleteRoom/${rid}`);
       setlistings(response.data);
     } catch (e) {
-      console.error(e);
+      alert("error occured deleting user !!");
     }
   }
   return (
@@ -502,7 +500,7 @@ export default function AdminDashboard() {
         let usersResponse = await api.get("/admin/getAllUsers");
         setusers(usersResponse.data);
       } catch (e) {
-        console.error(e);
+        alert("error occured fetching users or rooms !!");
       }
     }
     fetchlistings();
@@ -643,7 +641,7 @@ function UserManagement({ users, setusers }) {
       let response = await api.delete(`/admin/deleteUser/${uid}`);
       setusers(response.data);
     } catch (e) {
-      console.error(e);
+      alert("error occured deleting user..");
     }
   }
 

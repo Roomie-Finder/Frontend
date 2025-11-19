@@ -29,6 +29,7 @@ export default function RoomForm({
                 className="w-full p-2 border border-gray-300 rounded-xl"
                 placeholder="  Zolo "
                 required
+                disabled={loading}
               />
             </FormRow>
 
@@ -43,6 +44,7 @@ export default function RoomForm({
                 className="w-full p-2 border border-gray-300 rounded-xl"
                 placeholder=" Hinjewadi Phase 3, Pune"
                 required
+                disabled={loading}
               />
             </FormRow>
 
@@ -57,6 +59,7 @@ export default function RoomForm({
                   className="w-full p-2 border border-gray-300 rounded-xl"
                   placeholder=" 6800"
                   required
+                  disabled={loading}
                 />
               </FormRow>
               <FormRow label="Deposit">
@@ -68,6 +71,7 @@ export default function RoomForm({
                   className="w-full p-2 border border-gray-300 rounded-xl"
                   placeholder=" 10000"
                   required
+                  disabled={loading}
                 />
               </FormRow>
             </div>
@@ -80,6 +84,7 @@ export default function RoomForm({
                   value={formData.propertyType}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-xl "
+                  disabled={loading}
                 >
                   <option value="PG">PG</option>
                   <option value="Apartment">Apartment</option>
@@ -93,6 +98,7 @@ export default function RoomForm({
                   value={formData.lookingFor}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-xl "
+                  disabled={loading}
                 >
                   <option value="male ">Male</option>
                   <option value="female">Female</option>
@@ -110,6 +116,7 @@ export default function RoomForm({
                 onChange={handleChange}
                 className="w-full p-2 border border-gray-300 rounded-xl"
                 placeholder="Describe the room and amenities..."
+                disabled={loading}
               />
             </FormRow>
 
@@ -122,6 +129,7 @@ export default function RoomForm({
                 onChange={handleChange}
                 className="w-full p-2 border border-gray-300 rounded-xl"
                 placeholder=" Wifi, TV, Housekeeping"
+                disabled={loading}
               />
             </FormRow>
 
@@ -134,6 +142,7 @@ export default function RoomForm({
                 onChange={handleChange}
                 className="w-full p-2 border border-gray-300 rounded-xl"
                 placeholder=" Non-smoker, Clean, Working professional"
+                disabled={loading}
               />
             </FormRow>
 
@@ -168,6 +177,7 @@ export default function RoomForm({
                         onChange={handleFileChange}
                         required
                         multiple
+                        disabled={loading}
                       />
                     </label>
                     <p class="pl-1">or drag and drop</p>
@@ -187,6 +197,7 @@ export default function RoomForm({
                 checked={formData.parkingAvailable}
                 onChange={handleChange}
                 className="ml-2 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                disabled={loading}
               />
             </FormRow>
 

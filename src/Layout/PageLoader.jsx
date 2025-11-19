@@ -91,7 +91,7 @@ const PageLoader = () => {
         .animation-delay-1200 { animation-delay: 1200ms; }
         .animation-delay-1500 { animation-delay: 1500ms; }
       `}</style>
-      <div className="flex flex-col items-center justify-center h-screen w-full backdrop-blur text-white overflow-hidden">
+      <div className="-mt-20 flex flex-col items-center justify-center h-screen w-full backdrop-blur text-white overflow-hidden">
         <div className="relative w-64 h-64 flex items-center justify-center animate-breathe animation-delay-1500">
           {/* Central House */}
           <div className="absolute opacity-0 animate-grow-and-glow animation-delay-400">
