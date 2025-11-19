@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import Masonry from "react-responsive-masonry";
 import RoomCard from "./RoomCard";
 import PageLoader from "../../Layout/PageLoader";
+import { useNavigate } from "react-router";
 
 export default function Rooms() {
+  let navigate = useNavigate();
   let api = import.meta.env.VITE_BACKEND_URL;
   let [rooms, setRooms] = useState([]);
   let [loading, setLoading] = useState(true);
