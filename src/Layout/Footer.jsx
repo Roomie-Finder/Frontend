@@ -1,4 +1,3 @@
-import phoenix from "../assets/phoenix.svg";
 import {
   Facebook,
   Twitter,
@@ -72,7 +71,12 @@ export default function Footer() {
           {/* company */}
           <div className="">
             <div className="flex items-center gap-3 mb-6">
-              <img src={phoenix} alt="icon" loading="lazy" className="h-10" />
+              <img
+                src="https://res.cloudinary.com/dcdjrjgaq/image/upload/v1763302659/phoenix_tdyle5.svg"
+                alt="icon"
+                loading="lazy"
+                className="h-10"
+              />
               <div className=" text-xl">Roomie Finder</div>
             </div>
             <p className=" mb-6 leading-relaxed">

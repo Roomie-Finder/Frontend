@@ -21,7 +21,7 @@ const ProfileUpdate = lazy(() => import("../Pages/UserPages/ProfileUpdate"));
 export const AppRoutes = createBrowserRouter([
   {
     path: "/",
-    element: HomePage,
+    element: <HomePage />,
   },
   {
     Component: AppLayout,
@@ -51,7 +51,7 @@ export const AppRoutes = createBrowserRouter([
         ),
       },
       {
-        path: "user/:userid",
+        path: "user/:useridFromParam",
         element: (
           <Suspense fallback={<PageLoader />}>
             <UserProfile />
@@ -105,6 +105,7 @@ export const AppRoutes = createBrowserRouter([
       },
     ],
   },
+
   {
     path: "*",
     element: <PageNotFound />,

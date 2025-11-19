@@ -6,42 +6,43 @@ import {
   LangaugeIcon,
   WFHIcon,
 } from "../../Layout/Icons";
-import axios from "axios";
 import { PlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import RoomCard from "../RoomPages/RoomCard";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import ProfileBack from "../../assets/ProfileBack.webp";
 import AnimatedNotification from "@/components/lightswind/animated-notification.js";
+import api from "../../api/axiosConfig";
 
 export default function UserProfile() {
+  let localUser = JSON.parse(localStorage.getItem("user"));
   let [User, setUser] = useState({});
   let [loading, setLoading] = useState(true);
-  let { userid } = useParams();
+  let { useridFromParam } = useParams();
   let [userRooms, setuserRooms] = useState([]);
   let navigate = useNavigate();
 
   useEffect(() => {
     async function getuser() {
-      if (!userid) return;
+      if (!useridFromParam) {
+        alert("error occured");
+        navigate("/no page found");
+      }
+
       setLoading(true);
       try {
-        let newuser = await axios.get(`http://localhost:8080/user/${userid}`);
-        let rooms = await axios.get(
-          `http://localhost:8080/room/user/${userid}`
-        );
+        let newuser = await api.get(`/user/${useridFromParam}`);
+        let rooms = await api.get(`/room/user/${useridFromParam}`);
         setUser(newuser.data);
         setuserRooms(rooms.data);
       } catch (e) {
         console.error(e);
-        navigate("/error");
       } finally {
         setLoading(false);
       }
     }
 
     getuser();
-  }, [userid]);
+  }, [useridFromParam]);
 
   if (loading) {
     return (
@@ -71,7 +72,7 @@ export default function UserProfile() {
       <div className=" pb-2 rounded-2xl gap-5 items-center ">
         <div>
           <img
-            src={ProfileBack}
+            src="https://res.cloudinary.com/dcdjrjgaq/image/upload/v1763302660/ProfileBack_dc03v9.webp"
             alt=""
             loading="lazy"
             className="w-full h-50 object-cover rounded-t-2xl"
@@ -226,7 +227,9 @@ export default function UserProfile() {
               </div>
               <div>
                 <p className="text-md font-semibold text-gray-800">Budget</p>
-                <p className="text-gray-700 mt-2">&#8377;5000</p>
+                <p className="text-gray-700 mt-2">
+                  &#8377;{User?.userProfile?.roomStatus?.budget || " 0.00"}
+                </p>
               </div>
             </div>
           </div>
@@ -251,7 +254,7 @@ export default function UserProfile() {
                       type={room?.propertyType}
                     />
                   ))
-                : "no"}
+                : "create your first room"}
             </div>
           </div>
         </div>

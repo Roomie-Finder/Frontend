@@ -7,13 +7,15 @@ import {
   InfoIcon,
   LogOutIcon,
 } from "./Icons";
-import Dock from "@/components/lightswind/dock.tsx";
+import Dock from "@/components/lightswind/dock";
 import { ToggleTheme } from "../components/lightswind/ToggleTheme";
+import { jwtDecode } from "jwt-decode";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const user = JSON.parse(localStorage.getItem("user"));
+  const localUser = JSON.parse(localStorage.getItem("user"));
+  let jwtdecoded;
 
   const tabs = [
     {
@@ -36,8 +38,9 @@ export default function Navbar() {
     },
   ];
 
-  if (user) {
-    if (user.role === "admin") {
+  if (localUser) {
+    jwtdecoded = jwtDecode(localUser.token);
+    if (jwtdecoded.role == "admin") {
       tabs.push({
         key: 4,
         value: "Dashboard",
@@ -48,7 +51,7 @@ export default function Navbar() {
       tabs.push({
         key: 4,
         value: "Profile",
-        link: `/user/${user?.id}`,
+        link: `/user/${localUser?.id}`,
         icon: ProfileIcon,
       });
     }

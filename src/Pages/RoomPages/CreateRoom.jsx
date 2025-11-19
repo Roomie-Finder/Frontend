@@ -1,7 +1,8 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import RoomForm from "./RoomForm";
+import api from "../../api/axiosConfig";
+import axios from "axios";
 const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME || "dcdjrjgaq";
 const UPLOAD_PRESET = import.meta.env.VITE_UPLOAD_PRESET;
 
@@ -55,6 +56,7 @@ export default function CreateRoom() {
 
   const handleFileChange = (e) => {
     setFile(e.target.files);
+    console.log(file);
   };
 
   const handleSubmit = async (e) => {
@@ -88,9 +90,7 @@ export default function CreateRoom() {
     };
 
     try {
-      const signatureResponse = await axios.get(
-        "http://localhost:8080/api/upload/signature"
-      );
+      const signatureResponse = await api.get("/api/upload/signature");
 
       const { signature, timestamp, api_key } = signatureResponse.data;
       let files = Array.from(file);
@@ -117,8 +117,8 @@ export default function CreateRoom() {
         images: imageUrls,
       };
 
-      let response = await axios.post(
-        `http://localhost:8080/room/create/${user.id}`,
+      let response = await api.post(
+        `/room/create/${user.id}`,
         finalSubmissionData
       );
 

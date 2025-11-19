@@ -16,6 +16,7 @@ import {
   LocationIcon,
   PeopleIcon,
 } from "../../Layout/Icons";
+import api from "../../api/axiosConfig";
 
 export default function RoomInfo() {
   let [loading, setLoading] = useState(true);
@@ -51,10 +52,7 @@ export default function RoomInfo() {
         uid: user.id,
         rid: room.id,
       };
-      let response = await axios.post(
-        `http://localhost:8080/room/member/add`,
-        memberdata
-      );
+      let response = await api.post(`/room/member/add`, memberdata);
       setroom(response.data);
     } catch (e) {
       console.error(e);
@@ -70,10 +68,7 @@ export default function RoomInfo() {
         uid: user.id,
         rid: room.id,
       };
-      let response = await axios.post(
-        `http://localhost:8080/room/member/remove`,
-        memberdata
-      );
+      let response = await api.post(`/room/member/remove`, memberdata);
       setroom(response.data);
     } catch (e) {
       console.error(e);
@@ -222,7 +217,7 @@ export default function RoomInfo() {
                 <Link
                   to={`/user/${member?.id}`}
                   className="relative flex bg-gray-50 rounded-full p-3 items-center gap-5 w-full"
-                  key={member?.email}
+                  key={member?.username}
                 >
                   <img
                     src={`https://avatar.iran.liara.run/public/boy?username=${user?.firstName}&size=150`}

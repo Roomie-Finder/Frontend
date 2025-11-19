@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import axios from "axios";
+import api from "../../api/axiosConfig";
 import { Link } from "react-router-dom";
 import {
   MdHome,
@@ -93,7 +93,7 @@ const Header = ({ admin }) => {
             <p className="text-sm font-semibold text-gray-800">
               Admin {admin.firstName}
             </p>
-            <p className="text-xs text-gray-500">{admin.email}</p>
+            <p className="text-xs text-gray-500">{admin.username}</p>
           </div>
           <img
             src={`https://api.dicebear.com/8.x/initials/svg?seed=${admin.firstName}`}
@@ -301,7 +301,7 @@ function GrowthChart({ usersData = [10, 20], listingsData = [15, 35] }) {
 const RecentListings = ({ listings, setlistings }) => {
   async function deleteRoom(rid) {
     try {
-      let response = await axios.delete(
+      let response = await api.delete(
         `http://localhost:8080/admin/deleteRoom/${rid}`
       );
       setlistings(response.data);
@@ -497,13 +497,9 @@ export default function AdminDashboard() {
   useEffect(() => {
     async function fetchlistings() {
       try {
-        let listingsResponse = await axios.get(
-          "http://localhost:8080/admin/getAllRooms"
-        );
+        let listingsResponse = await api.get("/admin/getAllRooms");
         setlistings(listingsResponse.data);
-        let usersResponse = await axios.get(
-          "http://localhost:8080/admin/getAllUsers"
-        );
+        let usersResponse = await api.get("/admin/getAllUsers");
         setusers(usersResponse.data);
       } catch (e) {
         console.error(e);
@@ -585,7 +581,7 @@ export default function AdminDashboard() {
             <p className="text-gray-500 mb-8">
               View and manage all users registered on the platform
             </p>
-            <UserManagement users={users} />
+            <UserManagement users={users} setusers={setusers} />
           </>
         );
       case "reports":
@@ -641,12 +637,11 @@ export default function AdminDashboard() {
   );
 }
 
-function UserManagement({ users }) {
+function UserManagement({ users, setusers }) {
   async function deleteUser(uid) {
     try {
-      let response = await axios.delete(
-        `http://localhost:8080/admin/deleteUser/${uid}`
-      );
+      let response = await api.delete(`/admin/deleteUser/${uid}`);
+      setusers(response.data);
     } catch (e) {
       console.error(e);
     }
@@ -661,7 +656,7 @@ function UserManagement({ users }) {
               Name
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Email
+              username
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Status
@@ -681,7 +676,7 @@ function UserManagement({ users }) {
                 {user?.firstName}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {user?.email}
+                {user?.username}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <span

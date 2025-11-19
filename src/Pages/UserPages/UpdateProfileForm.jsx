@@ -16,7 +16,7 @@ export default function UpdateProfileForm({
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    email: "",
+    username: "",
     contactNo: "",
     age: "",
     city: "",
@@ -42,7 +42,7 @@ export default function UpdateProfileForm({
       setFormData({
         firstName: currentUser.firstName || "",
         lastName: currentUser.lastName || "",
-        email: currentUser.email || "",
+        username: currentUser.username || "",
         contactNo: personalInfo.contactNo || "",
         age: personalInfo.age || "",
         city: personalInfo.city || "",
@@ -84,7 +84,7 @@ export default function UpdateProfileForm({
     const dataToSubmit = {
       firstName: formData.firstName,
       lastName: formData.lastName,
-      email: formData.email,
+      username: formData.username,
 
       userProfile: {
         personalInfo: {
@@ -128,10 +128,10 @@ export default function UpdateProfileForm({
           <form onSubmit={handleSubmit} className="space-y-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormInput
-                label="Email Address"
-                name="email"
-                type="email"
-                value={formData.email}
+                label="username Address"
+                name="username"
+                type="username"
+                value={formData.username}
                 onChange={handleChange}
                 placeholder="e.g., jane.doe@example.com"
                 icon={EnvelopeIcon}

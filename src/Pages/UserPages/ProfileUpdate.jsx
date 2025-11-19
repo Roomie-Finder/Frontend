@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import UpdateProfileForm from "./UpdateProfileForm";
 import { useNavigate } from "react-router";
+import api from "../../api/axiosConfig";
 
 export default function ProfileUpdate() {
   let [currentUser, setCurrUser] = useState({});
@@ -10,25 +11,26 @@ export default function ProfileUpdate() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchdata() {
-      try {
-        let res = await axios.get(`http://localhost:8080/user/${user.id}`);
-        setCurrUser(res.data);
-      } catch (e) {
-        console.error(e);
+    if (user) {
+      async function fetchdata() {
+        try {
+          let res = await api.get(`/user/${user.id}`);
+          setCurrUser(res.data);
+        } catch (e) {
+          console.error(e);
+        }
       }
-    }
 
-    fetchdata();
+      fetchdata();
+    } else {
+      navigate("/login");
+    }
   }, []);
 
   let handleUpdateProfile = async (formData) => {
     setIsSubmitting(true);
     try {
-      let res = await axios.post(
-        `http://localhost:8080/userProfile/${user.id}`,
-        formData
-      );
+      let res = await api.post(`/userProfile/${user.id}`, formData);
       if (res.status == 200 || res.status == 201) {
         navigate(`/user/${user.id}`);
       }

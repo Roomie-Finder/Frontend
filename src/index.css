@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@plugin 'lightswind/plugin'; 
+@plugin "lightswind/plugin"; 
 
 *{
     font-family: "Source Sans 3", sans-serif;
@@ -10,4 +10,3 @@
 @font-face {
   font-display: swap;
 }
-

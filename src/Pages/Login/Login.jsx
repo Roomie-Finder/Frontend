@@ -1,7 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
-import LoginImage from "../../assets/two.webp";
-import SignUpImage from "../../assets/three.webp";
+import { useState } from "react";
 import { Field, Input, Button } from "@headlessui/react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { HomeIcon, ProfileIcon, RegisterIcon } from "../../Layout/Icons";
@@ -24,16 +22,16 @@ export default function Login() {
   let [selectedIndex, setSelectedIndex] = useState(getIndexFromHash);
 
   let [loginState, setLoginState] = useState({
-    email: "",
+    username: "",
     password: "",
   });
   const [signupState, setSignupState] = useState({
     name: "",
-    email: "",
+    username: "",
     password: "",
   });
 
-  const triggerNotification = (message, priority = "medium") => {
+  const triggerNotification = (message, priority = "low") => {
     const newNotification = {
       id: crypto.randomUUID(),
       user: { name: "System" },
@@ -67,23 +65,25 @@ export default function Login() {
 
     let signUpData = {
       firstName: signupState.name,
-      email: signupState.email,
+      username: signupState.username,
       password: signupState.password,
     };
     try {
       let response = await axios.post(
-        "http://localhost:8080/user/signup",
+        "http://localhost:8080/auth/signup",
         signUpData
       );
+      console.log(response);
       if (response.status === 200 || response.status === 201) {
-        setSignupState({ name: "", email: "", password: "" });
+        setSignupState({ name: "", username: "", password: "" });
+        triggerNotification("Signup Successful , please login", "low");
         handleTabChange(0);
       } else {
-        triggerNotification("Please enter all details.", "medium");
+        triggerNotification("Please enter all details.", "high");
       }
     } catch (e) {
       console.error(e);
-      triggerNotification("Sign up failed!!", "high");
+      triggerNotification("User with this username alredy exists ", "high");
     }
   }
   const handleLoginChange = (e) => {
@@ -98,21 +98,22 @@ export default function Login() {
     event.preventDefault();
 
     const logindata = {
-      email: loginState.email,
+      username: loginState.username,
       password: loginState.password,
     };
 
     try {
       let response = await axios.post(
-        "http://localhost:8080/user/login",
+        "http://localhost:8080/auth/login",
         logindata
       );
       let userdata = response.data;
       if (response.status === 200 || response.status === 201) {
         localStorage.setItem("user", JSON.stringify(userdata));
+        triggerNotification("User not found", "");
         navigate("/");
       } else {
-        triggerNotification("User not found", "medium");
+        triggerNotification("User not found", "high");
       }
     } catch (e) {
       console.error(e);
@@ -161,7 +162,7 @@ export default function Login() {
             <TabPanel className="xl:grid xl:grid-cols-2 grid-cols-1">
               <div>
                 <img
-                  src={LoginImage}
+                  src="https://res.cloudinary.com/dcdjrjgaq/image/upload/v1763302660/two_fxma8f.webp"
                   alt=""
                   className=" h-120 lg:rounded-xl lg:scale-120 lg:shadow-xl/30 border-x-3 border-gray-200 lg:border-none rounded-none xl:block hidden"
                   loading="lazy"
@@ -174,10 +175,10 @@ export default function Login() {
                 <Field className=" flex flex-col justify-center items-center gap-10 ">
                   <Input
                     placeholder="neon@gmail.com"
-                    type="email"
-                    name="email"
+                    type="username"
+                    name="username"
                     className="rounded-full shadow-xl/10 border-1 border-gray-100 p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
-                    value={loginState.email}
+                    value={loginState.username}
                     onChange={handleLoginChange}
                     required
                   />
@@ -221,7 +222,7 @@ export default function Login() {
             {/************** signup ******************************************/}
             <TabPanel className="grid grid-cols-1 xl:grid-cols-2 items-center">
               <img
-                src={SignUpImage}
+                src="https://res.cloudinary.com/dcdjrjgaq/image/upload/v1763302660/three_d0an75.webp"
                 alt=""
                 className=" h-130 lg:rounded-xl lg:scale-120 lg:shadow-xl/30 border-x-3 border-gray-200 lg:border-none rounded-none xl:block hidden"
                 loading="lazy"
@@ -244,8 +245,8 @@ export default function Login() {
                     placeholder="neon@gmail.com"
                     type="text"
                     className="rounded-full shadow-xl/10 border-1 border-gray-100  p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
-                    name="email"
-                    value={signupState.email}
+                    name="username"
+                    value={signupState.username}
                     onChange={handleSignupChange}
                     required
                   />
