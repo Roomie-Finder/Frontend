@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 import { motion } from "framer-motion";
 
 const propertyImage1 =
@@ -23,18 +24,17 @@ export default function CallToAction() {
             <p className="mt-4 text-lg text-gray-600">
               View and book your appointment with our partners
             </p>
-            <motion.a
-              href="/room"
+            <motion.div
               className="mt-8 inline-flex items-center justify-center px-7 py-3 border border-transparent text-base font-medium rounded-full text-white bg-violet-500 hover:bg-green-700 shadow-lg"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              View Properties
+              <Link to="/room">View Properties</Link>
               <span className="ml-2" aria-hidden="true">
                 &rarr;
               </span>
-            </motion.a>
+            </motion.div>
           </motion.div>
 
           <div className="relative h-80 lg:h-96 min-h-[20rem]">

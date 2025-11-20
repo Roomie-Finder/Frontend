@@ -1,4 +1,4 @@
-import { Heart, MapPin, Eye } from "lucide-react";
+import { Heart, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useState } from "react";
@@ -12,7 +12,8 @@ export default function RoomCard({ id, image, title, location, price, type }) {
         <ImageWithFallback
           src={image}
           alt={title}
-          className="block w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-110"
+          className={`block w-full  object-cover transition-transform duration-700 group-hover:scale-110
+            ${typeof id == "string" ? "aspect-[4/3]" : "h-auto"}`}
         />
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
@@ -31,15 +32,6 @@ export default function RoomCard({ id, image, title, location, price, type }) {
                 isFavorite ? "fill-red-500 text-red-500" : "text-white"
               }`}
             />
-          </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-            }}
-            className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center hover:bg-white/30 transition-all hover:scale-110"
-          >
-            <Eye className="w-5 h-5 text-white" />
           </button>
         </div>
 
