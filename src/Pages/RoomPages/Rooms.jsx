@@ -31,8 +31,8 @@ export default function Rooms() {
       {loading ? (
         <PageLoader />
       ) : (
-        <div className="container mx-auto px-4 py-8">
-          <Masonry columnsCount={3} gutter="1.5rem">
+        <div className="container px-0 sm:px-4 py-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {rooms?.map((room) => (
               <RoomCard
                 key={room.id}
@@ -49,7 +49,7 @@ export default function Rooms() {
                 type={room?.propertyType}
               />
             ))}
-          </Masonry>
+          </div>
         </div>
       )}
     </>

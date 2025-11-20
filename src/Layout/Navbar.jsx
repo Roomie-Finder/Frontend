@@ -121,7 +121,7 @@ export default function Navbar() {
         position="top"
         magnification={70}
         baseItemSize={50}
-        className={`rounded-full text-violet-700 backdrop-blur-lg`}
+        className={`rounded-full text-violet-700 backdrop-blur-lg bg-white/10`}
       />
     </div>
   );

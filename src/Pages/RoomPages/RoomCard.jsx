@@ -12,7 +12,7 @@ export default function RoomCard({ id, image, title, location, price, type }) {
         <ImageWithFallback
           src={image}
           alt={title}
-          className="block w-full h-auto object-cover transition-transform duration-700 group-hover:scale-110"
+          className="block w-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-110"
         />
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
@@ -64,7 +64,7 @@ export default function RoomCard({ id, image, title, location, price, type }) {
           </div>
         </div>
 
-        <div className="absolute inset-0 border-4 border-white/0 group-hover:border-white/20 rounded-3xl transition-all duration-300 pointer-events-none" />
+        <div className="absolute inset-0 border-4 border-white/5 group-hover:border-white/20 rounded-3xl transition-all duration-300 pointer-events-none" />
       </div>
     </Link>
   );

@@ -96,7 +96,7 @@ const Header = ({ admin }) => {
             <p className="text-xs text-gray-500">{admin.username}</p>
           </div>
           <img
-            src={`https://api.dicebear.com/8.x/initials/svg?seed=${admin.firstName}`}
+            src={`https://api.dicebear.com/8.x/initials/svg?seed=${admin?.firstName}`}
             alt="Admin Avatar"
             className="w-10 h-10 rounded-full "
             loading="lazy"

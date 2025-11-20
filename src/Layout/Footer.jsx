@@ -70,14 +70,14 @@ export default function Footer() {
         <div className="grid lg:grid-cols-3 grid-cols-1 lg:gap-15 gap-y-10 mb-16">
           {/* company */}
           <div className="">
-            <div className="flex items-center gap-3 mb-6">
+            <div className=" mb-6">
               <img
-                src="https://res.cloudinary.com/dcdjrjgaq/image/upload/v1763302659/phoenix_tdyle5.svg"
+                src="https://res.cloudinary.com/dcdjrjgaq/image/upload/v1763646319/Logo_ghglsy.png"
                 alt="icon"
                 loading="lazy"
-                className="h-10"
+                className="h-10 m-2"
               />
-              <div className=" text-xl">Roomie Finder</div>
+              <div className=" text-xl">ROOMIE FINDER</div>
             </div>
             <p className=" mb-6 leading-relaxed">
               Discover extraordinary properties through our curated collection
