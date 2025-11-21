@@ -28,13 +28,13 @@ export default function Footer() {
     },
     {
       key: 4,
-      value: "careers",
-      to: "",
+      value: "safety",
+      to: "/safety",
     },
     {
       key: 5,
-      value: "Buy Property",
-      to: "",
+      value: "report",
+      to: "/report",
     },
   ];
   let linksCol2 = [

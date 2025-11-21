@@ -64,17 +64,17 @@ export default function AboutUs() {
 
           <motion.div className="flex flex-col gap-10" variants={fadeIn}>
             <StatItem
-              value="1.2 Million+"
+              value="0+"
               label="Connections Made"
               icon={<Users className="text-indigo-600" />}
             />
             <StatItem
-              value="50,000+"
+              value="0+"
               label="Active & Verified Listings"
               icon={<CheckCircle className="text-green-600" />}
             />
             <StatItem
-              value="95%"
+              value="0%"
               label="Community Satisfaction Rate"
               icon={<Heart className="text-pink-600" />}
             />
@@ -189,39 +189,39 @@ const teamMembers = [
   {
     id: "1",
     name: "Yash Yadav",
-    role: "Co-Founder & CEO",
+    role: "DEVELOPER",
     image: "https://avatar.iran.liara.run/public/boy?username=Yash&size=150",
-    bio: "Driving the vision and strategic direction, Yash is passionate about creating seamless living experiences through technology. His expertise in product development ensures RoomieFinder stays ahead.",
+    bio: "",
   },
   {
     id: "2",
     name: "Rushikesh Kalhale",
-    role: "Co-Founder & CTO",
+    role: "DEVELOPER",
     image:
       "https://avatar.iran.liara.run/public/boy?username=Rushikesh&size=150",
-    bio: "The architect behind our intelligent matching algorithm, Rushikesh brings a decade of experience in software engineering and AI to build a robust and secure platform.",
+    bio: "",
   },
   {
     id: "3",
     name: "Abhishek Kumbhar",
-    role: "Head of Marketing",
+    role: "DEVELOPER",
     image:
       "https://avatar.iran.liara.run/public/boy?username=Abhishek&size=150",
-    bio: "With a keen eye for connecting people with solutions, Abhishek leads our outreach efforts, ensuring more individuals discover the ease and benefits of RoomieFinder.",
+    bio: "",
   },
   {
     id: "4",
     name: "Yash Yadav",
-    role: "Community Manager",
-    image: "https://avatar.iran.liara.run/boy/girl?username=Yash&size=150",
-    bio: "Yash is the heart of our community, fostering positive interactions and ensuring every user feels supported. He's dedicated to building a trusted network.",
+    role: "DEVELOPER",
+    image: "https://avatar.iran.liara.run/public/boy?username=Yash&size=150",
+    bio: "",
   },
   {
     id: "5",
     name: "Abhishek Kumbhar",
-    role: "Product Designer",
+    role: "DEVELOPER",
     image:
       "https://avatar.iran.liara.run/public/boy?username=Abhishek&size=150",
-    bio: "Crafting intuitive and beautiful user experiences, Abhishek ensures RoomieFinder is not just functional but a delight to use for every single person.",
+    bio: "",
   },
 ];

@@ -2,6 +2,8 @@
 import Navbar from "../Layout/Navbar";
 import React, { Suspense, lazy } from "react";
 import HeroSection from "./HomePageComponents/HeroSection";
+import SafetyPage from "./AdditionalPages/SafetyPage";
+import ReportPage from "./AdditionalPages/ReportPage";
 
 const Footer = lazy(() => import("../Layout/Footer"));
 const FeaturedListings = lazy(() =>

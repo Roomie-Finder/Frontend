@@ -4,6 +4,8 @@ import { createBrowserRouter } from "react-router-dom";
 import AppLayout from "../Layout/AppLayout";
 import PageLoader from "../Layout/PageLoader";
 import EditRoomDetails from "../Pages/RoomPages/EditRoomDetails";
+import ReportPage from "../Pages/AdditionalPages/ReportPage";
+import SafetyPage from "../Pages/AdditionalPages/SafetyPage";
 
 const PageNotFound = lazy(() =>
   import("../Pages/AdditionalPages/PageNotFound")
@@ -60,6 +62,14 @@ export const AppRoutes = createBrowserRouter([
         ),
       },
       {
+        path: "report/room/:roomId",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <ReportPage />
+          </Suspense>
+        ),
+      },
+      {
         path: "user/:useridFromParam",
         element: (
           <Suspense fallback={<PageLoader />}>
@@ -76,10 +86,34 @@ export const AppRoutes = createBrowserRouter([
         ),
       },
       {
+        path: "report/user/:userId",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <ReportPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "report",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <ReportPage />
+          </Suspense>
+        ),
+      },
+      {
         path: "aboutus",
         element: (
           <Suspense fallback={<PageLoader />}>
             <AboutUs />
+          </Suspense>
+        ),
+      },
+      {
+        path: "safety",
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <SafetyPage />
           </Suspense>
         ),
       },

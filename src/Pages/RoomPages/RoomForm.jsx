@@ -83,7 +83,7 @@ export default function RoomForm({
                   name="propertyType"
                   value={formData.propertyType}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded-xl "
+                  className="w-full p-2 border border-gray-300 rounded-xl text-gray-600"
                   disabled={loading}
                 >
                   <option value="PG">PG</option>
@@ -97,7 +97,7 @@ export default function RoomForm({
                   name="lookingFor"
                   value={formData.lookingFor}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded-xl "
+                  className="w-full p-2 border border-gray-300 rounded-xl text-gray-600 "
                   disabled={loading}
                 >
                   <option value="male ">Male</option>

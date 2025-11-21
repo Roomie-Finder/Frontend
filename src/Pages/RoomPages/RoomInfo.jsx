@@ -16,7 +16,8 @@ import {
   LocationIcon,
   PeopleIcon,
 } from "../../Layout/Icons";
-import { MdOutlineSwipe } from "react-icons/md";
+import { MdOutlineSwipe, MdReportProblem } from "react-icons/md";
+import { TbMessageReportFilled } from "react-icons/tb";
 
 export default function RoomInfo() {
   let navigate = useNavigate();
@@ -85,7 +86,7 @@ export default function RoomInfo() {
   return (
     <div className="xl:px-20 p-0 flex flex-col lg:grid lg:grid-cols-3 gap-5 ">
       <div className="left-side flex flex-col col-span-2 gap-5">
-        <div className="aspect-[16/10] rounded-2xl overflow-hidden ">
+        <div className="aspect-[16/10] rounded-2xl overflow-hidden outline-5 outline-gray-400/20">
           <Swiper
             slidesPerView={1}
             spaceBetween={30}
@@ -93,14 +94,14 @@ export default function RoomInfo() {
             className="mySwiper w-full h-full object-cover "
           >
             {room?.images?.length >= 2 && (
-              <p className="absolute inset-x-0 w-full bottom-1 sm:bottom-5 z-2 text-white/70 flex items-center justify-center right-100 text-xl gap-2 ">
+              <p className="absolute inset-x-0 w-full bottom-1 sm:bottom-5 z-2 text-white/70 flex items-center justify-center right-100 text-xl md:text-2xl gap-2 ">
                 <MdOutlineSwipe />
                 swipe
               </p>
             )}
             {room?.images?.map((image, index) => {
               return (
-                <SwiperSlide key={index} className="">
+                <SwiperSlide key={index}>
                   <img src={image} alt="" />
                 </SwiperSlide>
               );
@@ -126,7 +127,7 @@ export default function RoomInfo() {
         </div>
 
         {/* Room Information */}
-        <div className="grid md:grid-cols-4 grid-cols-2 gap-3 rounded-xl  p-5 outline-1 outline-gray-200 *:flex *:gap-3">
+        <div className="grid md:grid-cols-4 grid-cols-2 gap-3 rounded-xl  p-5 outline-1 outline-gray-400/30 *:flex *:gap-3">
           <div className="">
             <div>
               <div className="text-xl text-blue-600 bg-blue-100 rounded-full p-3 aspect-square">
@@ -173,18 +174,18 @@ export default function RoomInfo() {
           </div>
         </div>
 
-        <div className="outline-1 outline-gray-200 p-5 rounded-xl">
+        <div className="outline-1 outline-gray-400/30 p-5 rounded-xl">
           <h1 className="pb-5 text-lg font-semibold">About this room</h1>
           <p className="text-gray-500">{room?.aboutRoom}</p>
         </div>
         {/* Amenities */}
-        <div className="outline-2 outline-gray-100 p-5 rounded-xl ">
+        <div className="outline-1 outline-gray-400/30 p-5 rounded-xl ">
           <h1 className=" pb-5">Amenities</h1>
           <div className="flex flex-wrap *:flex *:items-center gap-4 ">
             {room?.amenities?.map((amenity, index) => {
               return (
                 <div
-                  className="bg-gray-300/20 outline outline-gray-300 rounded-full p-2 px-4 "
+                  className="bg-gray-300/20 outline outline-gray-300/50 rounded-full p-2 px-4 "
                   key={index}
                 >
                   <div className="text-nowrap">{amenity}</div>
@@ -195,7 +196,7 @@ export default function RoomInfo() {
         </div>
 
         {/* Roommates */}
-        <div className="outline-2 outline-gray-100 p-5 rounded-xl flex flex-col gap-5">
+        <div className="outline-1 outline-gray-400/30 p-5 rounded-xl flex flex-col gap-5">
           <div className=" w-full flex justify-between ">
             <h1 className="mb-2">Current Roommates </h1>
             <button
@@ -262,20 +263,23 @@ export default function RoomInfo() {
         </div>
       </div>
 
-      <div className="right-side flex flex-col gap-5 *:p-3 *:rounded-xl *:outline-2 *:outline-gray-100 ">
-        <div className="sticky top-10 backdrop-blur-sm w-full text-center">
+      <div className="right-side flex flex-col gap-5 *:p-3 *:rounded-xl *:outline-2 *:outline-gray-400/30 ">
+        <div className="sticky top-10 backdrop-blur-sm w-full text-center *:rounded-lg">
           {room?.owner?.id == user?.id ? (
             <Link
               to={`/room/${room.id}/edit`}
-              className="flex items-center justify-center bg-violet-400 text-white rounded-full px-4 p-2  hover:bg-violet-500 hover:text-white"
+              className="flex items-center justify-center bg-violet-400 text-white  px-4 p-2  hover:bg-violet-500 hover:text-white"
             >
               <FiEdit3 className="w-10  p-0" />
               <p>Edit Details</p>
             </Link>
           ) : (
-            <button className="bg-violet-400 text-white rounded-full px-3 p-2 w-full hover:bg-violet-500 hover:text-white">
-              contact owner
-            </button>
+            <Link
+              to={`/report/room/${room.id}`}
+              className="flex items-center gap-2 justify-center bg-violet-400 text-white  px-3 p-2 w-full hover:bg-violet-500 hover:text-white"
+            >
+              <TbMessageReportFilled /> Report
+            </Link>
           )}
         </div>
         <div className="">
