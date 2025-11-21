@@ -98,11 +98,11 @@ export default function Login() {
 
       <div className="flex justify-center items-center h-screen bg-gradient-to-r from-indigo-500 to-purple-400">
         <TabGroup
-          className="flex bg-white shadow-xl/30 rounded-2xl text-indigo-500"
+          className="flex bg-white shadow-xl/30 rounded-2xl text-indigo-500 "
           selectedIndex={selectedIndex}
           onChange={handleTabChange}
         >
-          <TabList className="flex flex-col justify-center shadow-lg xl:pe-12 rounded-s-xl *:data-selected:outline-none *:hover:cursor-pointer *:data-selected:border-l-10 *:data-selected:border-indigo-700 *:p-4  *:flex *:flex-col *:items-center">
+          <TabList className="hidden sm:flex flex-col justify-center shadow-lg xl:pe-12 rounded-s-xl *:data-selected:outline-none *:hover:cursor-pointer *:data-selected:border-l-10 *:data-selected:border-indigo-700 *:p-4  *:flex *:flex-col *:items-center">
             <Tab className=" hover:scale-125 transition duration-500">
               <ProfileIcon />
               Login

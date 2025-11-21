@@ -20,15 +20,16 @@ export default function LoginForm({
         />
       </div>
       <form
-        className="flex flex-col items-center justify-center relative p-20"
+        className="flex flex-col items-center justify-center relative p-10 sm:p-20 w-90 sm:w-auto"
         onSubmit={userLogin}
       >
+        <h1 className="text-2xl text-violet-900 font-semibold pb-5">LOGIN </h1>
         <Field className=" flex flex-col justify-center items-center gap-10 ">
           <Input
-            placeholder="neon@gmail.com"
+            placeholder="username"
             type="username"
             name="username"
-            className="rounded-full shadow-xl/10 border-1 border-gray-100 p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
+            className="rounded-full shadow-xl/10 border-1 border-gray-100 p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4  sm:w-80"
             value={username}
             onChange={handleLoginChange}
             required
@@ -36,7 +37,7 @@ export default function LoginForm({
           <div className="w-full flex flex-col gap-4 ">
             <Input
               placeholder="password"
-              className="rounded-full  shadow-xl/10 border-1 border-gray-100 p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
+              className="rounded-full  shadow-xl/10 border-1 border-gray-100 p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 sm:w-80"
               name="password"
               type="password"
               value={password}

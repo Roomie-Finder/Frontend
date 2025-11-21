@@ -1,4 +1,5 @@
 import axios from "axios";
+import api from "../../api/axiosConfig";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -15,13 +16,14 @@ import {
   LocationIcon,
   PeopleIcon,
 } from "../../Layout/Icons";
+import { MdOutlineSwipe } from "react-icons/md";
 
 export default function RoomInfo() {
   let navigate = useNavigate();
   let [loading, setLoading] = useState(true);
   let { roomid } = useParams();
   let [room, setroom] = useState({});
-  let api = import.meta.env.VITE_BACKEND_URL;
+  let url = import.meta.env.VITE_BACKEND_URL;
 
   let user = JSON.parse(localStorage.getItem("user"));
 
@@ -29,7 +31,7 @@ export default function RoomInfo() {
     if (roomid) {
       async function getroom() {
         try {
-          let response = await axios.get(`${api}/room/${roomid}`);
+          let response = await axios.get(`${url}/room/${roomid}`);
           setroom(response.data);
         } catch (e) {
           alert("error occured during fetching rooms !!");
@@ -50,7 +52,7 @@ export default function RoomInfo() {
         uid: user.id,
         rid: room.id,
       };
-      let response = await api.post(`/room/member/add`, memberdata);
+      let response = await api.post(`${url}/room/member/add`, memberdata);
       setroom(response.data);
     } catch (e) {
       alert("error occured");
@@ -90,7 +92,13 @@ export default function RoomInfo() {
             loop={true}
             className="mySwiper w-full h-full object-cover "
           >
-            {room.images.map((image, index) => {
+            {room?.images?.length >= 2 && (
+              <p className="absolute inset-x-0 w-full bottom-1 sm:bottom-5 z-2 text-white/70 flex items-center justify-center right-100 text-xl gap-2 ">
+                <MdOutlineSwipe />
+                swipe
+              </p>
+            )}
+            {room?.images?.map((image, index) => {
               return (
                 <SwiperSlide key={index} className="">
                   <img src={image} alt="" />
@@ -172,8 +180,8 @@ export default function RoomInfo() {
         {/* Amenities */}
         <div className="outline-2 outline-gray-100 p-5 rounded-xl ">
           <h1 className=" pb-5">Amenities</h1>
-          <div className="flex  *:flex *:items-center gap-4 ">
-            {room?.amenities.map((amenity, index) => {
+          <div className="flex flex-wrap *:flex *:items-center gap-4 ">
+            {room?.amenities?.map((amenity, index) => {
               return (
                 <div
                   className="bg-gray-300/20 outline outline-gray-300 rounded-full p-2 px-4 "
@@ -240,7 +248,7 @@ export default function RoomInfo() {
             );
           })}
           <div className="bg-blue-300/20 outline-1 outline-blue-200 p-3 rounded-xl *:flex *:text-sm *:font-light *:gap-3 text-blue-400">
-            {room?.roommatePreferences.map((value) => {
+            {room?.roommatePreferences?.map((value) => {
               return (
                 <div className="" key={value}>
                   <div className="flex items-center">

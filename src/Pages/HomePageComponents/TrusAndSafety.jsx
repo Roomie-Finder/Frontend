@@ -134,7 +134,7 @@ export default function TrustSafety() {
             <div className="absolute inset-0 bg-purple-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
               <div className="text-4xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-1">
-                10,000+
+                3+
               </div>
               <div className="text-purple-300/60 text-sm">Verified Users</div>
             </div>
@@ -172,7 +172,7 @@ export default function TrustSafety() {
             <div className="absolute inset-0 bg-orange-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="relative">
               <div className="text-4xl bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-1">
-                $2B+
+                0+
               </div>
               <div className="text-purple-300/60 text-sm">
                 Secured Transactions
