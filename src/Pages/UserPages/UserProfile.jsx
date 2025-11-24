@@ -69,7 +69,7 @@ export default function UserProfile() {
             src="https://res.cloudinary.com/dcdjrjgaq/image/upload/v1763302660/ProfileBack_dc03v9.webp"
             alt=""
             loading="lazy"
-            className="w-full h-50 object-cover rounded-t-2xl"
+            className="w-full h-25 sm:h-50 object-cover rounded-t-2xl"
             fetchPriority="high"
           />
         </div>
@@ -77,10 +77,10 @@ export default function UserProfile() {
           <img
             src={`https://avatar.iran.liara.run/public/boy?username=${User.firstName}&size=150`}
             alt="User Avatar"
-            className="absolute rounded-full h-24 sm:h-32 shadow-lg p-1 aspect-square border translate-x-15 -translate-y-10"
+            className="absolute rounded-full h-24 sm:h-32 shadow-lg p-1 aspect-square border translate-x-6 sm:translate-x-15 -translate-y-10"
             loading="lazy"
           />
-          <div className="flex-grow flex-col items-start ms-60">
+          <div className="flex-grow flex-col items-start ms-32 sm:ms-60">
             <h1 className="flex items-center gap-2 sm:text-2xl lg:text-3xl text-gray-700 text-nowrap  ">
               <span>{User?.firstName || ""}</span>{" "}
               <span>{User?.lastName || ""}</span>

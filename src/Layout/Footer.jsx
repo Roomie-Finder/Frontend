@@ -65,8 +65,8 @@ export default function Footer() {
     },
   ];
   return (
-    <footer className="relative border-t border-white/10 bg-gray-400/10 text-gray-500">
-      <div className="max-w-[2000px] mx-auto px-6 lg:px-12 py-20">
+    <footer className="sm:mx-10 mx-5 mb-5 rounded-4xl relative border-t border-white/10 bg-gray-400/10 text-gray-500">
+      <div className="max-w-[2000px] mx-auto px-6 lg:px-12 pt-20 pb-10">
         <div className="grid lg:grid-cols-3 grid-cols-1 lg:gap-15 gap-y-10 mb-16">
           {/* company */}
           <div className="">
@@ -77,7 +77,7 @@ export default function Footer() {
                 loading="lazy"
                 className="h-10 m-2"
               />
-              <div className=" text-xl">ROOMIE FINDER</div>
+              <div className=" text-2xl font-semibold">ROOMIE FINDER</div>
             </div>
             <p className=" mb-6 leading-relaxed">
               Discover extraordinary properties through our curated collection

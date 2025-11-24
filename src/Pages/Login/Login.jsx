@@ -1,11 +1,13 @@
 import axios from "axios";
-import { useState } from "react";
+import { lazy, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { HomeIcon, ProfileIcon, RegisterIcon } from "../../Layout/Icons";
 import { Tab, TabGroup, TabList, TabPanels } from "@headlessui/react";
-import AnimatedNotification from "@/components/lightswind/animated-notification.js";
-import LoginForm from "./LoginForm";
-import SignupForm from "./SignupForm";
+let AnimatedNotification = lazy(() =>
+  import("@/components/lightswind/animated-notification.js")
+);
+let LoginForm = lazy(() => import("./LoginForm"));
+let SignupForm = lazy(() => import("./SignupForm"));
 
 export default function Login() {
   const navigate = useNavigate();
@@ -70,7 +72,7 @@ export default function Login() {
       let userdata = response.data;
       if (response.status === 200 || response.status === 201) {
         localStorage.setItem("user", JSON.stringify(userdata));
-        triggerNotification("User not found", "");
+        triggerNotification("Login successful", "low");
         navigate("/");
       } else {
         triggerNotification("User not found", "high");
@@ -96,22 +98,22 @@ export default function Login() {
         />
       </div>
 
-      <div className="flex justify-center items-center h-screen bg-gradient-to-r from-indigo-500 to-purple-400">
+      <div className="flex justify-center items-center h-screen  overflow-hidden bg-white/10 before:absolute before:inset-0 before:-z-10 before:bg-[url(https://res.cloudinary.com/dcdjrjgaq/image/upload/v1763302660/ProfileBack_dc03v9.webp)] before:bg-cover before:blur-xl ">
         <TabGroup
-          className="flex bg-white shadow-xl/30 rounded-2xl text-indigo-500 "
+          className="flex sm:bg-white/50 lg:bg-white  rounded-2xl text-sky-900 "
           selectedIndex={selectedIndex}
           onChange={handleTabChange}
         >
           <TabList className="hidden sm:flex flex-col justify-center shadow-lg xl:pe-12 rounded-s-xl *:data-selected:outline-none *:hover:cursor-pointer *:data-selected:border-l-10 *:data-selected:border-indigo-700 *:p-4  *:flex *:flex-col *:items-center">
-            <Tab className=" hover:scale-125 transition duration-500">
+            <Tab className=" ">
               <ProfileIcon />
               Login
             </Tab>
-            <Tab className=" hover:scale-125 transition duration-500">
+            <Tab className=" ">
               <RegisterIcon />
-              <p>Sign up</p>
+              Sign up
             </Tab>
-            <Link to="/" className=" hover:scale-125 transition duration-500">
+            <Link to="/" className="">
               <HomeIcon /> Home
             </Link>
           </TabList>

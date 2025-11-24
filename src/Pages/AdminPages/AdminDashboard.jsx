@@ -1,5 +1,5 @@
 import api from "../../api/axiosConfig";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, lazy } from "react";
 import { MdPeople, MdNotifications, MdAdd } from "react-icons/md";
 import {
   HiOutlineUserGroup,
@@ -7,11 +7,11 @@ import {
   HiOutlineHeart,
   HiOutlineChartBar,
 } from "react-icons/hi";
-import UserManagement from "./UserManagement";
-import ListingsManagement from "./ListingsManagement";
-import ReportsManagement from "./ReportsManagement";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+let UserManagement = lazy(() => import("./UserManagement"));
+let ListingsManagement = lazy(() => import("./ListingsManagement"));
+let ReportsManagement = lazy(() => import("./ReportsManagement"));
+let Header = lazy(() => import("./Header"));
+let Sidebar = lazy(() => import("./Sidebar"));
 
 const StatCard = ({ title, value, change, icon, iconBgColor }) => (
   <div className=" p-6 rounded-xl border border-gray-200 flex items-center space-x-4">

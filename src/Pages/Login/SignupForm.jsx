@@ -2,9 +2,11 @@ import axios from "axios";
 import { useState } from "react";
 import { Field, Input, Button } from "@headlessui/react";
 import { TabPanel } from "@headlessui/react";
+import { VscEyeClosed, VscEye } from "react-icons/vsc";
 
 export default function SignupForm({ handleTabChange, triggerNotification }) {
   let api = import.meta.env.VITE_BACKEND_URL;
+  let [show, setshow] = useState(false);
   const [signupState, setSignupState] = useState({
     name: "",
     username: "",
@@ -46,10 +48,13 @@ export default function SignupForm({ handleTabChange, triggerNotification }) {
         loading="lazy"
       />
       <form
-        className=" flex content-center justify-center p-20 "
+        className="flex content-center justify-center p-10"
         onSubmit={userSignUp}
       >
         <Field className=" flex flex-col justify-center items-center gap-10 ">
+          <h1 className="text-2xl text-shadow-lg  font-semibold pb-5">
+            SIGN UP{" "}
+          </h1>
           <Input
             placeholder="Enter your name"
             type="text"
@@ -60,7 +65,7 @@ export default function SignupForm({ handleTabChange, triggerNotification }) {
             required
           />
           <Input
-            placeholder="neon@gmail.com"
+            placeholder="username"
             type="text"
             className="rounded-full shadow-xl/10 border-1 border-gray-100  p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
             name="username"
@@ -68,18 +73,31 @@ export default function SignupForm({ handleTabChange, triggerNotification }) {
             onChange={handleSignupChange}
             required
           />
-          <Input
-            placeholder="password"
-            className="rounded-full shadow-xl/10 border-1 border-gray-100  p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
-            name="password"
-            type="password"
-            value={signupState.password}
-            onChange={handleSignupChange}
-            required
-          />
+          <div className="relative">
+            <Input
+              placeholder="password"
+              className="rounded-full shadow-xl/10 border-1 border-gray-100  p-3 px-8 focus:border-none outline-none focus:bg-indigo-100 col-span-4 w-80"
+              name="password"
+              type={show ? "text" : "password"}
+              value={signupState.password}
+              onChange={handleSignupChange}
+              required
+            />
+            {show ? (
+              <VscEye
+                className="absolute right-5 bottom-4 "
+                onClick={() => setshow(false)}
+              />
+            ) : (
+              <VscEyeClosed
+                className="absolute right-5 bottom-4 "
+                onClick={() => setshow(true)}
+              />
+            )}
+          </div>
           <Button
             type="submit"
-            className=" text-white rounded-full bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 hover:bg-gradient-to-r hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 active:opacity-75 p-3 px-8 w-full shadow-xl/20"
+            className=" text-white rounded-full bg-gradient-to-r from-[#09203F] to-[#537895] bg-gradient-to-r from-[#09203F] to-[#537895] hover:from-[#537895] hover:to-[#09203F] active:opacity-75 p-3 px-8 w-full shadow-xl/20"
           >
             Sign up
           </Button>
@@ -87,7 +105,7 @@ export default function SignupForm({ handleTabChange, triggerNotification }) {
             Already have an account ?
             <button
               type="button"
-              className="text-indigo-700"
+              className="font-semibold"
               onClick={() => handleTabChange(0)}
             >
               login
