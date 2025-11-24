@@ -104,17 +104,18 @@ export default function Login() {
           selectedIndex={selectedIndex}
           onChange={handleTabChange}
         >
-          <TabList className="hidden sm:flex flex-col justify-center shadow-lg xl:pe-12 rounded-s-xl *:data-selected:outline-none *:hover:cursor-pointer *:data-selected:border-l-10 *:data-selected:border-indigo-700 *:p-4  *:flex *:flex-col *:items-center">
-            <Tab className=" ">
+          <TabList className="w-24 xl:w-35 hidden *:p-5 *:ps-1  *:flex *:flex-col *:items-center sm:flex flex-col justify-center shadow-lg xl:pe-12 rounded-s-xl *:data-selected:outline-none *:hover:cursor-pointer *:data-selected:border-l-10 *:data-selected:border-indigo-700 ">
+            <Tab className="hover:ps-8 transition-all duration-500 ">
               <ProfileIcon />
-              Login
+              <p className="text-nowrap">Login</p>
             </Tab>
-            <Tab className=" ">
+            <Tab className="hover:ps-8 transition-all duration-300">
               <RegisterIcon />
-              Sign up
+              <p className="text-nowrap"> Sign up</p>
             </Tab>
-            <Link to="/" className="">
-              <HomeIcon /> Home
+            <Link to="/" className="hover:ps-8 transition-all duration-800">
+              <HomeIcon />
+              <p className="text-nowrap">Home</p>
             </Link>
           </TabList>
 

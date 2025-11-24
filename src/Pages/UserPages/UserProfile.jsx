@@ -36,7 +36,7 @@ export default function UserProfile() {
         setUser(newuser.data);
         setuserRooms(rooms.data);
       } catch (e) {
-        alert("error occured while fetching user...");
+        alert("Please login !!");
         navigate("/room");
       } finally {
         setLoading(false);

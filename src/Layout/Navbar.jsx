@@ -114,7 +114,7 @@ export default function Navbar() {
   }
 
   return (
-    <div className="flex justify-center top-10 sticky z-100 h-20 mt-10">
+    <div className="flex justify-center top-10 sticky  h-20 mt-10 z-100">
       <Dock
         items={dockItems}
         activeIndex={activeIndex}

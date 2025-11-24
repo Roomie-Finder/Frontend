@@ -264,7 +264,7 @@ export default function RoomInfo() {
       </div>
 
       <div className="right-side flex flex-col gap-5 *:p-3 *:rounded-xl *:outline-2 *:outline-gray-400/30 ">
-        <div className="sticky top-10 backdrop-blur-sm w-full text-center *:rounded-lg">
+        <div className="sticky top-25 backdrop-blur-sm w-full text-center *:rounded-lg">
           {room?.owner?.id == user?.id ? (
             <Link
               to={`/room/${room.id}/edit`}
